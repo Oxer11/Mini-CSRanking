@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	<title>miniCSRanking</title> 
+	{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+	<script>
+		$(document).ready(function(){
+			$("#search").on("click",function(event){
+				event.preventDefault();
+				var key=$("#key").val();
+				var type=$('input:radio:checked').val();
+				$.post("",{"key":key,"type":type},function(data){
+					$("#search_r").html(data.search_r);
+				});
+			});
+		});
+		$(document).ready(function(){
+			$(".sch_href").on("click",function(event){
+				event.preventDefault();
+				var scholar=this.innerHTML;
+				alert(scholar);
+				$.post("scholar",{"scholar":scholar});
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="title" class="container-fluid">
+		<h1 style="display:inline-block;float:left;margin:30px;color:white;font-weight:bold;">miniCSRanking</h1>
+		<div style="display:inline-block;float:right;margin:30px;">
+			<form style="margin-bottom:5px;">
+				<input type="text" name="key" id="key" style="border:none;">
+				<input type="submit" value="Search" id="search" style="border:none;">
+			</form>
+			<form id="type">
+				<input type="radio" name="type" value="scholar">Scholar
+				<input type="radio" name="type" value="paper">Paper
+				<input type="radio" name="type" value="institution">Institution
+				<input type="radio" name="type" value="conference">Conference
+				<input type="radio" name="type" value="area">Area
+			</form> 
+		</div>
+	</div>
+	
+	{% block mainbody %}
+	{% endblock %}
+</body>
+<script>
+</script>
+</html>
