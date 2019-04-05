@@ -71,7 +71,7 @@ def Add_Paper():
         line = line.decode("utf-8")
         papers.append(line.strip().split("***"))
     print(len(papers))
-    papers = papers[0:5000]
+    #papers = papers[0:5000]
     cnt = 0
     for paper in papers:
         cnt += 1
@@ -90,7 +90,7 @@ def Add_Paper_Author():
         line = line.decode("utf-8")
         paper_authors.append(line.strip().split("***"))
     print(len(paper_authors))
-    paper_authors = paper_authors[0:10000]
+    #paper_authors = paper_authors[0:10000]
     cnt = 0
     for item in paper_authors:
         cnt += 1
