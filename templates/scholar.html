@@ -8,7 +8,7 @@
 		<p>Affiliation: <a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
 		<p>Areas:
 		{% for a in areas %}
-			<pre>{{a.name}}	</pre>
+			<p><a href="/area/?name={{a.name}}">{{a.name}}</a></p>
 		{% endfor %}
 		</p>
 		<p>DBLP: <a href={{scholar.DBLP}}>{{scholar.DBLP}}</a></p>

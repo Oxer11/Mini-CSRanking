@@ -53,7 +53,10 @@ def Add_Scholar():
         line = line.decode("utf-8")
         scholars.append(line.strip().split(","))
     #scholars = scholars[0:1000]
+    cnt = 0
     for scholar in scholars:
+        cnt += 1
+        if cnt % 1000 == 0: print(cnt)
         affiliation = Institution.objects.filter(name=scholar[1])
         if affiliation.exists():
             Scholar.objects.get_or_create(name=scholar[0], homepage=scholar[2],
@@ -67,7 +70,7 @@ def Add_Paper():
     for line in f:
         line = line.decode("utf-8")
         papers.append(line.strip().split("***"))
-    #papers = papers[0:5000]
+    papers = papers[0:5000]
     cnt = 0
     for paper in papers:
         cnt += 1
@@ -114,11 +117,11 @@ def Add_Scholar_Area():
     print("Add_Scholar_Area Complete!")
 
 if __name__ == "__main__":
-    #Add_Area()
-    #Add_Conference()
-    #Add_Conference_Area()
-    #Add_Institution()
-    #Add_Scholar()
+    Add_Area()
+    Add_Conference()
+    Add_Conference_Area()
+    Add_Institution()
+    Add_Scholar()
     Add_Paper()
-    #Add_Paper_Author()
-    #Add_Scholar_Area()
+    Add_Paper_Author()
+    Add_Scholar_Area()

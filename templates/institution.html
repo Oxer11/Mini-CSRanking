@@ -24,7 +24,7 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 			<h4><a href="/scholar/?name={{ s.name }}">{{s.name}}</a></h4>
 			<p>Areas:
 			{% for a in area_list|index:forloop.counter0 %}
-				<pre>{{a.name}}	</pre>
+				<p><a href="/area/?name={{a.name}}">{{a.name}}</a></p>
 			{% endfor %}
 			</p>
 			<p>DBLP: <a href={{s.DBLP}}>{{s.DBLP}}</a></p>

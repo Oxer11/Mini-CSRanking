@@ -6,4 +6,5 @@ urlpatterns = [
 	url(r'scholar', views.scholar, name='scholar'),
 	url(r'conference', views.conference, name='conference'),
 	url(r'institution', views.institution, name='institution'),
+	url(r'area', views.area, name='area'),
 ]
