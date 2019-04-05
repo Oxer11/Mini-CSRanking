@@ -10,6 +10,7 @@ response：
 author_list是一个列表，第i个元素是Scholar类构成的列表，表示第i篇论文的作者们
 -->
 {% extends "base.html" %}
+{% load index %}
 
 {% block mainbody %} 
 	<div>
@@ -19,7 +20,7 @@ author_list是一个列表，第i个元素是Scholar类构成的列表，表示�
 		<h2>{{conf.abbr}}</h2>
 		<p>Areas:
 		{% for a in area_list %}
-			<pre>{{a}}	</pre>
+			<pre>{{a.name}}	</pre>
 		{% endfor %}
 		</p>
 		<p><a href={{conf.DBLP}}>DBLP:{{conf.DBLP}}</a></p>
@@ -30,13 +31,12 @@ author_list是一个列表，第i个元素是Scholar类构成的列表，表示�
 		{% for p in paper_list %}
 		<div class="publication">
 			<p class="pub_year">{{p.year}}</p>
-			<h2>{{p.title}}</h2>
+			<h4><a href="{{p.href}}">{{p.title}}</a></h4>
 			<p>
-			{% for au in author_list.{{forloop.counter0}} %}
-				<pre>au.name	</pre>
+			{% for au in author_list|index:forloop.counter0 %}
+				<a href="/scholar/?name={{ au.name }}">{{ au.name }}</a>
 			{% endfor %}
 			</p>
-			<p>{{p.conference}}</p>
 		</div>
 		{% endfor %}
 	</div>

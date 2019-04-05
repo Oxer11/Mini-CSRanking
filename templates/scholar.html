@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load index %}
 
 {% block mainbody %} 
 	<div>
@@ -21,7 +22,7 @@
 			<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
 			<h4><a href="{{p.href}}">{{p.title}}</a></h4>
 			<p>
-			{% for sch in author_list.0 %}
+			{% for sch in author_list|index:forloop.counter0 %}
 				<a href="?name={{ sch.name }}">{{ sch.name }}</a>
 			{% endfor %}
 			</p>
