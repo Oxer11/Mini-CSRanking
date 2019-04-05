@@ -57,4 +57,6 @@ DataProcess/dblp.dtd
 DataProcess/dblp.out
 DataProcess/dblp.xml.gz
 DataProcess/dblp2.xml
-
+db.sqlite3-journal
+miniCSRanking/__pycache__
+CSRanking/__pycache__
