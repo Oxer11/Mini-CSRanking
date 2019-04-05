@@ -4,19 +4,19 @@ from django.http import JsonResponse
 
 from CSRanking.models import Scholar, Institution, Paper, Conference, Area
 
+class paper(object):
+	def __init__(self,p_year,title):
+		self.p_year = p_year
+		self.title = title
+
 def main(request):
-	if request.POST:
-		ctx = {}
-		ctx["search_r"] = '''<div>
-			<p class="paper_year">2018</p>
-			<h2>Title</h2>
-			<p><a class="sch_href" href="main">zzb</a></p>
-			<p><pre>conference's name	year	DBLP	Href</pre></p>
-		</div>
-		'''
-		return JsonResponse(ctx)
-	else:
-		return render(request,"main.html",{})
+	ctx = {}
+	print(request.GET)
+	if request.GET and 'key' in request.GET:
+		p1 = paper('2018','ABC')
+		p2 = paper('2019','DEF')
+		ctx = {'p_lst':[p1,p2]}
+	return render(request,"main.html",ctx)
 	
 def scholar(request):
 	if request.POST:

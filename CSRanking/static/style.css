@@ -8,14 +8,6 @@
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#type input{
-	display:inline-block;
-	margin-left:7px;
-}
-	#type input:first-child{
-		margin-left:0px;
-	}
-
 #search_r{
 	display:block;
 	z-index:-1;
