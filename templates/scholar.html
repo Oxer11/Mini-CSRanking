@@ -2,7 +2,7 @@
 
 {% block mainbody %} 
 	<div>
-	<div class="scholar" class="container-fluid">
+	<div class="basic_info" class="container-fluid">
 		<h1>{{scholar.name}}</h1>
 		<p>Affiliation: <a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
 		<p>Areas:
@@ -17,8 +17,8 @@
 	<div class="basic_info" class="container-fluid">
 		<h1 style="display:inline-block;margin-bottom:25px;">Publication:</h1>
 		{% for p in paper_list %}
-		<div class="scholar_paper">
-			<p class="paper_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
+		<div class="publication">
+			<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
 			<h4><a href="{{p.href}}">{{p.title}}</a></h4>
 			<p>
 			{% for sch in author_list.0 %}
