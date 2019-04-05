@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 
 {% block mainbody %} 
-	{% if p_lst %}
+	{% if type %}
 	<div id="search_r" class="container-fluid">
-	{%for p in p_lst %}
-		<div>
-			<p class="paper_year">{{p.p_year}}</p>
-			<h2>{{p.title}}</h2>
-			<!--<p><a class="sch_href" href={{scholar_href}}>{{p.scholar}}</a></p>
-			<p><pre>{{p.c_name}}	{{p.c_year}}	{{p.c_DBLP}}	{{p.c_Href}}</pre></p>-->
-		</div>
-	{% endfor %}
+		{% ifequal type "scholar" %}
+			{%for sch in sch_lst %}
+				<div>
+					<h2>{{sch.name}}</h2>
+					<p>{{sch.affiliation}}</p>
+					<p><a class="sch_href" href={{scholar_href}}>{{sch.homepage}}</a></p>
+					<p><a href={{sch.DBLP}}>{{sch.DBLP}}</a></p>
+				</div>
+			{% empty %}
+				<h1>No scholars found.</h1>
+			{% endfor %}
+		{% endifequal %}
 	</div>
 	{% else %}
 	{% endif %}
