@@ -6,9 +6,9 @@
 		{% ifequal type "scholar" %}
 			{%for sch in sch_lst %}
 				<div>
-					<h2>{{sch.name}}</h2>
+					<h2><a class="sch_href" href="/scholar/?name={{ sch.name }}">{{sch.name}}</a></h2>
 					<p>{{sch.affiliation}}</p>
-					<p><a class="sch_href" href={{scholar_href}}>{{sch.homepage}}</a></p>
+					<p><a href={{ sch.homepage }}>{{sch.homepage}}</a></p>
 					<p><a href={{sch.DBLP}}>{{sch.DBLP}}</a></p>
 				</div>
 			{% empty %}
