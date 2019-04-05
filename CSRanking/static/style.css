@@ -35,12 +35,12 @@
 		margin-bottom:0px;
 	}
 	
-.paper_year{
+.pub_year{
 	display:inline-block;
 	float:right;
 }
 	
-.scholar{
+.basic_info{
 	display:block;
 	z-index:-1;
 	position:relative;
@@ -54,14 +54,14 @@
 	margin-top:50px;
 	margin-bottom:0px;
 }
-	.scholar:first-child{
+	.basic_info:first-child{
 		margin-top:150px;
 	}
-	.scholar:last-child{
+	.basic_info:last-child{
 		margin-bottom:50px;
 	}
 
-.scholar_paper{
+.publication{
 	display:block;
 	z-index:-1;
 	position:relative;
