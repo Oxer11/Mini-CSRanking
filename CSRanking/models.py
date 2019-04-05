@@ -7,7 +7,7 @@ class Institution(models.Model):
     homepage = models.URLField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return u"%s"%self.name
 
     class Meta:
         db_table = 'institution'
@@ -18,11 +18,12 @@ class Institution(models.Model):
 class Scholar(models.Model):
     name = models.CharField(primary_key=True, max_length=30)
     homepage = models.URLField(blank=True, null=True)
+    GoogleScholar = models.URLField(blank=True, null=True)
     DBLP = models.URLField(blank=True, null=True)
     affiliation = models.ForeignKey(Institution, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return u"Name: %s\nAffiliation: %s\nHomepage: %s\nGoogleScholar: %s\n"%(self.name, self.affiliation.name, self.homepage, self.GoogleScholar)
 
     class Meta:
         db_table = 'scholar'
@@ -31,7 +32,6 @@ class Scholar(models.Model):
         ordering = ['name']
 
 class Conference(models.Model):
-    cid = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=50)
     abbr = models.CharField(max_length=10)
     year = models.PositiveIntegerField(null=False)
@@ -39,7 +39,7 @@ class Conference(models.Model):
     Href = models.URLField(blank=True, null=True)
 
     def __str__(self):
-        return u"%s%d"%(self.abbr, self.year)
+        return u"%s %d"%(self.abbr, self.year)
 
     class Meta:
         db_table = 'conference'
@@ -54,7 +54,7 @@ class Paper(models.Model):
     conf_id = models.ForeignKey(Conference, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return u"Title: %s\nYear: %d\nHref: %s\nConference: %s\n"%(self.title, self.year, self.href, self.conf_id.abbr)
 
     class Meta:
         db_table = 'paper'
@@ -63,11 +63,11 @@ class Paper(models.Model):
         ordering = ['title']
 
 class Area(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(primary_key=True, max_length=50)
     direction = models.CharField(max_length=50)
 
     def __str__(self):
-        return u"%s %s"%(self.name, direction)
+        return u"%s %s"%(self.name, self.direction)
 
     class Meta:
         db_table = 'area'
@@ -80,7 +80,7 @@ class Scholar_Paper(models.Model):
     paper_title = models.ForeignKey(Paper, on_delete=models.CASCADE)
 
     def __str__(self):
-        return u"%s %s"%(self.scholar_name, self.paper_title)
+        return u"%s %s"%(self.scholar_name.name, self.paper_title.title)
 
     class Meta:
         db_table = 'scholar_paper'
@@ -89,11 +89,11 @@ class Scholar_Paper(models.Model):
         ordering = ['scholar_name']
 
 class Scholar_Area(models.Model):
-    scholar_name = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    scholar_name = models.ForeignKey(Scholar, on_delete=models.CASCADE)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
 
     def __str__(self):
-        return u"%s %s"%(self.scholar_name, self.area)
+        return u"%s %s"%(self.scholar_name.name, self.area.name)
 
     class Meta:
         db_table = 'scholar_area'
@@ -106,7 +106,7 @@ class Conference_Area(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
 
     def __str__(self):
-        return u"%s %s"%(self.conf_name, self.area_name)
+        return u"%s %d %s"%(self.conf_id.abbr, self.conf_id.year, self.area.name)
 
     class Meta:
         db_table = 'conference_area'

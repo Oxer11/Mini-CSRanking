@@ -1,0 +1,78 @@
+AAAI,Artificial intelligence
+IJCAI,Artificial intelligence
+CVPR,Computer vision
+ECCV,Computer vision
+ICCV,Computer vision
+ICML,Machine learning
+COLT,Machine learning
+NeurIPS,Machine learning
+NIPS,Machine learning
+KDD,Data mining
+ACL,Natural language processing
+EMNLP,Natural language processing
+NAACL,Natural language processing
+SIGIR,The Web & information retrieval
+WWW,The Web & information retrieval
+ASPLOS,Computer architecture
+ISCA,Computer architecture
+MICRO,Computer architecture
+HPCA,Computer architecture
+SIGCOMM,Computer networks
+NSDI,Computer networks
+CCS,Computer security
+IEEE S&P,Computer security
+USENIX Security,Computer security
+NDSS,Computer security
+SIGMOD,Databases
+VLDB,Databases
+ICDE,Databases
+PODS,Databases
+DAC,Design automation
+ICCAD,Design automation
+EMSOFT,Embedded & real-time systems
+RTAS,Embedded & real-time systems
+RTSS,Embedded & real-time systems
+HPDC,High-performance computing
+ICS,High-performance computing
+SC,High-performance computing
+MobiCom,Mobile computing
+MobiSys,Mobile computing
+SenSys,Mobile computing
+IMC,Measurement & perf. analysis
+SIGMETRICS,Measurement & perf. analysis
+OSDI,Operating systems
+SOSP,Operating systems
+EuroSys,Operating systems
+FAST,Operating systems
+USENIX ATC,Operating systems
+PLDI,Programming languages
+POPL,Programming languages
+ICFP,Programming languages
+OOPSLA,Programming languages
+FSE,Software engineering
+ICSE,Software engineering
+ASE,Software engineering
+ISSTA,Software engineering
+FOCS,Algorithms & complexity
+SODA,Algorithms & complexity
+STOC,Algorithms & complexity
+CRYPTO,Cryptography
+EuroCrypt,Cryptography
+CAV,Logic & verification
+LICS,Logic & verification
+ISMB,Comp. bio & bioinformatics
+RECOMB,Comp. bio & bioinformatics
+SIGGRAPH,Computer graphics
+SIGGRAPH Asia,Computer graphics
+EC,Economics & computation
+WINE,Economics & computation
+CHI,Human-computer interaction
+UbiComp,Human-computer interaction
+Pervasive,Human-computer interaction
+IMWUT,Human-computer interaction
+UIST,Human-computer interaction
+ICRA,Robotics
+IROS,Robotics
+RSS,Robotics
+VIS,Visualization
+VR,Visualization
