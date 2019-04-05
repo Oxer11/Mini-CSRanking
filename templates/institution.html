@@ -9,6 +9,7 @@ response：
 paper_list是一个列表，第i个元素是第i位老师的近年论文（不超过5篇）-->
 
 {% extends "base.html" %}
+{% load index %}
 
 {% block mainbody %} 
 	<div>
@@ -22,7 +23,7 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 		<div class="publication">
 			<h4><a href="/scholar/?name={{ s.name }}">{{s.name}}</a></h4>
 			<p>Areas:
-			{% for a in area_list.{{forloop.counter0}} %}
+			{% for a in area_list|index:forloop.counter0 %}
 				<pre>{{a.name}}	</pre>
 			{% endfor %}
 			</p>
@@ -31,7 +32,7 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 			<p>Google Scholar: <a href={{s.GoogleScholar}}>{{s.GoogleScholar}}</a></p>
 			<p>Publications:</p>
 			<ul>
-			{% for p in paper_list.{{forloop.conter0}} %}
+			{% for p in paper_list|index:forloop.counter0 %}
 				<li>{{ p.title }}</li>
 			{% endfor %}
 			</ul>
