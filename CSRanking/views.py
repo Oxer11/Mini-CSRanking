@@ -1,22 +1,49 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 # Create your views here.
 
-from CSRanking.models import Scholar, Institution, Paper, Conference, Area
+from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper
 
 def main(request):
-	ctx = {}
-	if request.GET and 'key' in request.GET and request.GET['key'] != request.GET['key'].strip() and  request.GET['type'] != request.GET['type'].strip():
-		ctx['type'] = 'scholar'
-		if ctx['type'] == 'scholar':
-			ctx['sch_lst']=[]
-	return render(request,"main.html",ctx)
-	
-def scholar(request):
+	scholar = Scholar.objects.get(name="Xipeng Qiu")
+	return render(request, "main.html", {'scholar': scholar})
 	if request.POST:
 		ctx = {}
-		ctx["scholar_page"] = 
-		print(ctx)
-		return render(request,"scholar.html",ctx)
+		ctx["search_r"] = '''<div>
+			<p class="paper_year">2018</p>
+			<h2>Title</h2>
+			<p><a class="sch_href" href="main">zzb</a></p>
+			<p><pre>conference's name	year	DBLP	Href</pre></p>
+		</div>
+		'''
+		return JsonResponse(ctx)
 	else:
-		return render(request,"scholar.html",{})
+		return render(request,"main.html",{})
+	
+def scholar(request):
+	person_name = request.GET.get('name')
+	try:
+		person = Scholar.objects.get(name=person_name)
+	except Scholar.DoesNotExist:
+		return HttpResponse("This person does not exist!")
+	areas = Scholar_Area.objects.filter(scholar_name=person)
+	areas = [x.area for x in areas]
+	print(areas[0].name)
+	paper_list = Scholar_Paper.objects.filter(scholar_name=person)
+	paper_list = [x.paper_title for x in paper_list]
+	author_list = []
+	for paper in paper_list:
+		authors = Scholar_Paper.objects.filter(paper_title=paper)
+		authors = [x.scholar_name for x in authors]
+		author_list.append(authors)
+	#print(paper_list[0].conf_id)
+	context = {
+		'scholar': person,
+		'areas': areas,
+		'paper_list': paper_list,
+		'author_list': author_list,
+	}
+	return render(request, "scholar.html", context)
+
+def affiliation():
+	pass

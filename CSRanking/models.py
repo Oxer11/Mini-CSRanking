@@ -19,6 +19,7 @@ class Scholar(models.Model):
     name = models.CharField(primary_key=True, max_length=30)
     homepage = models.URLField(blank=True, null=True)
     DBLP = models.URLField(blank=True, null=True)
+    GoogleScholar = models.URLField(blank=True, null=True)
     affiliation = models.ForeignKey(Institution, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -31,7 +32,6 @@ class Scholar(models.Model):
         ordering = ['name']
 
 class Conference(models.Model):
-    cid = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=50)
     abbr = models.CharField(max_length=10)
     year = models.PositiveIntegerField(null=False)
@@ -54,7 +54,7 @@ class Paper(models.Model):
     conf_id = models.ForeignKey(Conference, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return u"%s %s%d"%(self.title, self.conf_id.abbr, self.year)
 
     class Meta:
         db_table = 'paper'
@@ -67,7 +67,7 @@ class Area(models.Model):
     direction = models.CharField(max_length=50)
 
     def __str__(self):
-        return u"%s %s"%(self.name, direction)
+        return u"%s %s"%(self.name, self.direction)
 
     class Meta:
         db_table = 'area'
@@ -89,11 +89,11 @@ class Scholar_Paper(models.Model):
         ordering = ['scholar_name']
 
 class Scholar_Area(models.Model):
-    scholar_name = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    scholar_name = models.ForeignKey(Scholar, on_delete=models.CASCADE)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
 
     def __str__(self):
-        return u"%s %s"%(self.scholar_name, self.area)
+        return u"%s %s"%(self.scholar_name.name, self.area.name)
 
     class Meta:
         db_table = 'scholar_area'
