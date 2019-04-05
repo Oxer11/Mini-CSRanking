@@ -3,30 +3,31 @@
 {% block mainbody %} 
 	<div>
 	<div class="scholar" class="container-fluid">
-		<h1>ZZB</h1>			
-		<p>DBLP</p>
-		<p>affiliation</p>
+		<h1>{{scholar.name}}</h1>	
+		<p>Affiliation:{{scholar.affiliation}}</p>
+		<p>Areas:
+		{% for a in area_list %}
+			<pre>a	</pre>
+		{% endfor %}
+		</p>
+		<p><a href={{scholar.DBLP}}>DBLP:{{scholar.DBLP}}</a></p>
+		<p><a href={{scholar.homepage}}>Homepage:{{scholar.homepage}}</a></p>
+		<p><a href={{scholar.Google_Scholar}}>Google Scholar:{{scholar.Google_Scholar}}</a></p>			
 	</div>
 	<div class="scholar" class="container-fluid">
-		<h1 style="display:inline-block;margin-bottom:25px;">Papers</h1>
+		<h1 style="display:inline-block;margin-bottom:25px;">Publication:</h1>
+		{% for p in paper_list %}
 		<div class="scholar_paper">
-			<p class="paper_year">paper's year</p>
-			<h2>paper title</h2>
-			<p><pre>scholar</pre></p>
-			<p><pre>conference's name	year	DBLP	Href</pre></p>
+			<p class="paper_year">{{p.year}}</p>
+			<h2>{{p.title}}</h2>
+			<p>
+			{% for sch in scholar_list[{{forloop.counter0}}] %}
+				<pre>sch.name	</pre>
+			{% endfor %}
+			</p>
+			<p>{{conference}}</p>
 		</div>
-		<div class="scholar_paper">
-			<p class="paper_year">paper's year</p>
-			<h2>paper title</h2>
-			<p><pre>scholar</pre></p>
-			<p><pre>conference's name	year	DBLP	Href</pre></p>
-		</div>
-		<div class="scholar_paper">
-			<p class="paper_year">paper's year</p>
-			<h2>paper title</h2>
-			<p><pre>scholar</pre></p>
-			<p><pre>conference's name	year	DBLP	Href</pre></p>
-		</div>
+		{% endfor %}
 	</div>
 	</div>
 {% endblock %}
