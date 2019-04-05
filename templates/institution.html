@@ -33,7 +33,7 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 			<p>Publications:</p>
 			<ul>
 			{% for p in paper_list|index:forloop.counter0 %}
-				<li>{{ p.title }}</li>
+				<li><a href="{{p.href}}">{{p.title}}</a></li>
 			{% endfor %}
 			</ul>
 		</div>

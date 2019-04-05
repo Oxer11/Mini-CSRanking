@@ -65,5 +65,29 @@ def conference(request):
 	}
 	return render(request, "conference.html", context)
 
-def institution():
-	pass
+def institution(request):
+	name = request.GET.get("name", "NONE")
+	try:
+		Ins = Institution.objects.get(name=name)
+	except Institution.DoesNotExist:
+		return HttpResponse("This institution does not exist!")
+	scholar_list = Scholar.objects.filter(affiliation=Ins)
+	area_list = []
+	paper_list = []
+	for scholar in scholar_list:
+		areas = Scholar_Area.objects.filter(scholar_name=scholar)
+		areas = [x.area for x in areas]
+		area_list.append(areas)
+		papers = Scholar_Paper.objects.filter(scholar_name=scholar)
+		papers = [x.paper_title for x in papers]
+		if len(papers)>=5: papers = papers[0:5]
+		paper_list.append(papers)
+	print(area_list)
+	print(paper_list)
+	context = {
+		"ins": Ins,
+		"area_list": area_list,
+		"scholar_list": scholar_list,
+		"paper_list": paper_list,
+	}
+	return render(request, "institution.html", context)
