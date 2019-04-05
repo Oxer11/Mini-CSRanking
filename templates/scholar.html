@@ -2,7 +2,7 @@
 
 {% block mainbody %} 
 	<div>
-	<div class="scholar" class="container-fluid">
+	<div class="basic_info" class="container-fluid">
 		<h1>{{scholar.name}}</h1>	
 		<p>Affiliation:{{scholar.affiliation}}</p>
 		<p>Areas:
@@ -14,11 +14,11 @@
 		<p><a href={{scholar.homepage}}>Homepage:{{scholar.homepage}}</a></p>
 		<p><a href={{scholar.Google_Scholar}}>Google Scholar:{{scholar.Google_Scholar}}</a></p>			
 	</div>
-	<div class="scholar" class="container-fluid">
+	<div class="basic_info" class="container-fluid">
 		<h1 style="display:inline-block;margin-bottom:25px;">Publication:</h1>
 		{% for p in paper_list %}
-		<div class="scholar_paper">
-			<p class="paper_year">{{p.year}}</p>
+		<div class="publication">
+			<p class="pub_year">{{p.year}}</p>
 			<h2>{{p.title}}</h2>
 			<p>
 			{% for sch in scholar_list[{{forloop.counter0}}] %}

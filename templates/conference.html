@@ -1,0 +1,44 @@
+<!--
+会议主页
+URL：/conference/?name={会议简称}&year={年份}
+显示：
+会议全称、简称、所属领域、DBLP网址、官方网址
+所有论文
+response：
+一个Conference类的变量conf
+一个Paper类的列表paper_list
+author_list是一个列表，第i个元素是Scholar类构成的列表，表示第i篇论文的作者们
+-->
+{% extends "base.html" %}
+
+{% block mainbody %} 
+	<div>
+	<div class="basic_info" class="container-fluid">
+		<p class="pub_year">{{conf.year}}</p>
+		<h1>{{conf.name}}</h1>	
+		<h2>{{conf.abbr}}</h2>
+		<p>Areas:
+		{% for a in area_list %}
+			<pre>{{a}}	</pre>
+		{% endfor %}
+		</p>
+		<p><a href={{conf.DBLP}}>DBLP:{{conf.DBLP}}</a></p>
+		<p><a href={{conf.Href}}>Homepage:{{conf.Href}}</a></p>
+	</div>
+	<div class="basic_info" class="container-fluid">
+		<h1 style="display:inline-block;margin-bottom:25px;">Publication:</h1>
+		{% for p in paper_list %}
+		<div class="publication">
+			<p class="pub_year">{{p.year}}</p>
+			<h2>{{p.title}}</h2>
+			<p>
+			{% for au in author_list.{{forloop.counter0}} %}
+				<pre>au.name	</pre>
+			{% endfor %}
+			</p>
+			<p>{{p.conference}}</p>
+		</div>
+		{% endfor %}
+	</div>
+	</div>
+{% endblock %}
