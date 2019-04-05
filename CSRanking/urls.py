@@ -1,5 +1,7 @@
-from django.urls import path
+from django.conf.urls import url
 import CSRanking.views as views
+
 urlpatterns = [
-    path('', views.index, name='index'),
+	url(r'^$', views.main, name='main'),
+	url(r'^scholar$',views.scholar,name='scholar'),
 ]
