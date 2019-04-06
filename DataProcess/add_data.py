@@ -103,7 +103,6 @@ def Add_Paper_Author():
     print("Add_Paper_Author Complete!")
 
 def Add_Scholar_Area():
-    Scholar_Area.objects.all().delete()
     Scholar_list = Scholar.objects.all()
     cnt = 0
     for scholar in Scholar_list:
