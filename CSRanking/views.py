@@ -5,23 +5,44 @@ from django.http import HttpResponse, JsonResponse
 from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper
 
 def main(request):
-	scholar = Scholar.objects.get(name="Xipeng Qiu")
-	return render(request, "main.html", {'scholar': scholar})
-	if request.POST:
-		ctx = {}
-		ctx["search_r"] = '''<div>
-			<p class="paper_year">2018</p>
-			<h2>Title</h2>
-			<p><a class="sch_href" href="main">zzb</a></p>
-			<p><pre>conference's name	year	DBLP	Href</pre></p>
-		</div>
-		'''
-		return JsonResponse(ctx)
+	if 'key' in request.GET and 'type' in request.GET:
+		key = request.GET.get('key')
+		if key.strip() == '':
+			return render(request,"main.html",{})
+		else:
+			type = request.GET.get('type')
+			ctx = {}
+			ctx['type'] = type
+			if type == 'scholar':
+				sch_lst = Scholar.objects.filter(name__contains=key)
+				ctx['sch_lst'] = sch_lst
+			elif type == 'paper':
+				paper_lst = Paper.objects.filter(title__contains=key)
+				ctx['paper_lst'] = paper_lst
+				author_lst = []
+				for paper in paper_lst:
+					authors = Scholar_Paper.objects.filter(paper_title=paper)
+					authors = [x.scholar_name for x in authors]
+					author_lst.append(authors)
+				ctx['author_lst'] = author_lst
+			elif type == 'institution':
+				ins_lst = Institution.objects.filter(name__contains=key)
+				ctx['ins_lst'] = ins_lst
+			elif type == 'conference':
+				conf_lst = Conference.objects.filter(name__contains=key)
+				conf_lst = conf_lst|Conference.objects.filter(abbr__contains=key)
+				conf_lst = list(set(conf_lst))
+				ctx['conf_lst'] = conf_lst
+			else:
+				area_lst = Area.objects.filter(name__contains=key)
+				ctx['area_lst'] = area_lst
+			return render(request,"main.html",ctx)
 	else:
 		return render(request,"main.html",{})
 	
 def scholar(request):
 	person_name = request.GET.get('name', "NONE")
+	print(person_name)
 	try:
 		person = Scholar.objects.get(name=person_name)
 	except Scholar.DoesNotExist:
@@ -45,10 +66,10 @@ def scholar(request):
 
 def conference(request):
 	abbr, year = request.GET.get("name", "NONE"), request.GET.get("year", 0)
-	try:
-		conf = Conference.objects.get(abbr=abbr, year=year)
-	except Conference.DoesNotExist:
-		return HttpResponse("This conference does not exist!")
+	#try:
+	conf = Conference.objects.get(abbr=abbr, year=year)
+	#except Conference.DoesNotExist:
+		#return HttpResponse("This conference does not exist!")
 	areas = Conference_Area.objects.filter(conf_id=conf)
 	areas = [x.area for x in areas]
 	paper_list = Paper.objects.filter(conf_id=conf)
@@ -82,6 +103,8 @@ def institution(request):
 		papers = [x.paper_title for x in papers]
 		if len(papers)>=5: papers = papers[0:5]
 		paper_list.append(papers)
+	print(area_list)
+	print(paper_list)
 	context = {
 		"ins": Ins,
 		"area_list": area_list,
@@ -91,20 +114,20 @@ def institution(request):
 	return render(request, "institution.html", context)
 
 def area(request):
-	name = request.GET.get("name", "NONE")
+	name  = request.GET.get("name","NONE")
 	try:
 		area = Area.objects.get(name=name)
-	except Area.DoesNotExist:
-		return HttpResponse("This area does not exist!")
+	except Are.DoesNotExist:
+		return HttpResponse("This institution does not exist!")
 	conf_list = Conference_Area.objects.filter(area=area)
-	conf_list = [x.conf_id for x in conf_list]
+	conf_list = [c.conf_id for c in conf_list] 
 	scholar_list = Scholar_Area.objects.filter(area=area)
-	scholar_list = [x.scholar_name for x in scholar_list]
+	scholar_list = [s.scholar_name for s in scholar_list]
 	paper_list = []
 	for scholar in scholar_list:
 		papers = Scholar_Paper.objects.filter(scholar_name=scholar)
 		papers = [x.paper_title for x in papers]
-		if len(papers) >= 5: papers = papers[0:5]
+		if len(papers)>=5: papers = papers[0:5]
 		paper_list.append(papers)
 	context = {
 		"area": area,
