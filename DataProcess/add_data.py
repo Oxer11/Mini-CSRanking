@@ -90,7 +90,7 @@ def Add_Paper_Author():
         line = line.decode("utf-8")
         paper_authors.append(line.strip().split("***"))
     print(len(paper_authors))
-    #paper_authors = paper_authors[0:10000]
+    paper_authors = paper_authors[48000:-1]
     cnt = 0
     for item in paper_authors:
         cnt += 1
@@ -103,8 +103,12 @@ def Add_Paper_Author():
     print("Add_Paper_Author Complete!")
 
 def Add_Scholar_Area():
+    Scholar_Area.objects.all().delete()
     Scholar_list = Scholar.objects.all()
+    cnt = 0
     for scholar in Scholar_list:
+        cnt += 1
+        if cnt % 1000 == 0: print(cnt)
         scholar_area = set()
         Paper_list = Scholar_Paper.objects.filter(scholar_name=scholar)
         Conference_list = set()
@@ -115,15 +119,15 @@ def Add_Scholar_Area():
             for area in Area_list:
                 scholar_area.add(area.area)
         for area in scholar_area:
-            Scholar_Area.objects.create(scholar_name=scholar, area=area)
+            Scholar_Area.objects.get_or_create(scholar_name=scholar, area=area)
     print("Add_Scholar_Area Complete!")
 
 if __name__ == "__main__":
-    Add_Area()
-    Add_Conference()
-    Add_Conference_Area()
-    Add_Institution()
-    Add_Scholar()
-    Add_Paper()
-    Add_Paper_Author()
+    #Add_Area()
+    #Add_Conference()
+    #Add_Conference_Area()
+    #Add_Institution()
+    #Add_Scholar()
+    #Add_Paper()
+    #Add_Paper_Author()
     Add_Scholar_Area()
