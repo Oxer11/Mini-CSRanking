@@ -20,7 +20,7 @@ author_list是一个列表，第i个元素是Scholar类构成的列表，表示�
 		<h2>{{conf.abbr}}</h2>
 		<p>Areas:
 		{% for a in area_list %}
-			<p><a href="/area/?name={{a.name}}">{{a.name}}</a></p>
+			<pre><a href="/area/?name={{a.name}}">{{a.name}}</a></pre>
 		{% endfor %}
 		</p>
 		<p><a href={{conf.DBLP}}>DBLP:{{conf.DBLP}}</a></p>

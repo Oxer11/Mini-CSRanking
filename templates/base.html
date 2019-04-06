@@ -10,34 +10,14 @@
 	<title>miniCSRanking</title> 
 	{% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-	<script>
-		/*$(document).ready(function(){
-			$("#search").on("click",function(event){
-				event.preventDefault();
-				var key=$("#key").val();
-				var type=$('input:radio:checked').val();
-				$.post("",{"key":key,"type":type},function(data){
-					$("#search_r").html(data.search_r);
-				});
-			});
-		});*/
-		$(document).ready(function(){
-			$(".sch_href").on("click",function(event){
-				event.preventDefault();
-				var scholar=this.innerHTML;
-				alert(scholar);
-				$.post("scholar",{"scholar":scholar});
-			});
-		});
-	</script>
 </head>
 <body>
 	<div id="title" class="container-fluid">
 		<h1 style="display:inline-block;float:left;margin:30px;color:white;font-weight:bold;">miniCSRanking</h1>
 		<div style="display:inline-block;float:right;margin:30px;">
-			<form style="margin-bottom:5px;" method="get" action="">
-				<input type="text" name="key" id="key" style="border:none;">
-				<input type="submit" value="Search" id="search" style="border:none;">
+			<form style="margin-bottom:5px;" method="get" action="/main/">
+				<input type="text" name="key" style="border:none;">
+				<input type="submit" value="Search" style="border:none;">
 				</br>
 				<input type="radio" name="type" value="scholar">Scholar
 				<input type="radio" name="type" value="paper">Paper

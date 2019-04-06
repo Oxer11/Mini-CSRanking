@@ -8,7 +8,7 @@
 		<p>Affiliation: <a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
 		<p>Areas:
 		{% for a in areas %}
-			<p><a href="/area/?name={{a.name}}">{{a.name}}</a></p>
+			<pre><a href="/area/?name={{a.name}}">{{a.name}}</a></pre>
 		{% endfor %}
 		</p>
 		<p>DBLP: <a href={{scholar.DBLP}}>{{scholar.DBLP}}</a></p>
@@ -23,7 +23,7 @@
 			<h4><a href="{{p.href}}">{{p.title}}</a></h4>
 			<p>
 			{% for sch in author_list|index:forloop.counter0 %}
-				<a href="?name={{ sch.name }}">{{ sch.name }}</a>
+				{{ sch.name }}
 			{% endfor %}
 			</p>
 		</div>

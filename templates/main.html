@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load index %}
 
 {% block mainbody %} 
 	{% if type %}
@@ -6,13 +7,61 @@
 		{% ifequal type "scholar" %}
 			{%for sch in sch_lst %}
 				<div>
-					<h2><a class="sch_href" href="/scholar/?name={{ sch.name }}">{{sch.name}}</a></h2>
-					<p>{{sch.affiliation}}</p>
+					<h2><a href="/scholar/?name={{ sch.name }}">{{sch.name}}</a></h2>
+					<p><a href="/institution/?name={{sch.affiliation.name}}">{{sch.affiliation}}</a></p>
 					<p><a href={{ sch.homepage }}>{{sch.homepage}}</a></p>
 					<p><a href={{sch.DBLP}}>{{sch.DBLP}}</a></p>
 				</div>
 			{% empty %}
-				<h1>No scholars found.</h1>
+				<div><h1>No scholars found.</h1></div>
+			{% endfor %}
+		{% endifequal %}
+		{% ifequal type "paper" %}
+			{% for p in paper_lst %}
+				<div>
+					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
+					<h4><a href="{{p.href}}">{{p.title}}</a></h4>
+					<p>
+					{% for sch in author_lst|index:forloop.counter0 %}
+						<a href="/scholar/?name={{ sch.name }}">{{ sch.name }}</a>
+					{% endfor %}
+					</p>
+				</div>
+			{% empty %}
+				<div><h1>No papers found.</h1></div>
+			{% endfor %}
+		{% endifequal %}
+		{% ifequal type "institution" %}
+			{% for ins in ins_lst %}
+				<div>
+					<h1><a href="/institution/?name={{ins.name}}">{{ins.name}}</a></h1>
+					<p>Homepage: <a href={{ins.homepage}}>{{ins.homepage}}</a></p>
+				</div>
+			{% empty %}
+				<div><h1>No institutions found.</h1></div>	
+			{% endfor %}
+		{% endifequal %}
+		{% ifequal type "conference" %}
+			{% for conf in conf_lst %}
+				<div>
+					<p class="pub_year">{{conf.year}}</p>
+					<h1><a href="/conference/?name={{conf.abbr}}&year={{conf.year}}">{{conf.name}}</a></h1>	
+					<h2>{{conf.abbr}}</h2>
+					<p><a href={{conf.DBLP}}>DBLP:{{conf.DBLP}}</a></p>
+					<p><a href={{conf.Href}}>Homepage:{{conf.Href}}</a></p>
+				</div>
+			{% empty %}
+				<div><h1>No conferences found.</h1></div>	
+			{% endfor %}
+		{% endifequal %}
+		{% ifequal type "area" %}
+			{% for a in area_lst %}
+				<div>
+					<h1><a href="/area/?name={{a.name}}">{{a.name}}</a></h1>
+					<p>Direction:{{a.direction}}</p>
+				</div>
+			{% empty %}
+				<div><h1>No institutions found.</h1></div>	
 			{% endfor %}
 		{% endifequal %}
 	</div>
