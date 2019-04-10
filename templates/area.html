@@ -12,39 +12,48 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 {% extends "base.html" %}
 {% load index %}
 
-{% block mainbody %} 
-	<div>
-	<div class="basic_info" class="container-fluid">
-		<h1>{{area.name}}</h1>
-		<p>Direction:{{area.direction}}</p>
+{% block aside %}
+	<div class="basic_info" class="container-fluid" style="display:inline-block;float:right;position:fixed;right:40px;margin-right:0;margin-top:10px;background-color:#FFC1C1;width:25%;height:20%;z-index:999;text-align:center">
+		<h2 class="sch_name"><b>{{area.name}}</b></h2>
+		<h5><b>Direction: {{area.direction}}</b></h5>
 	</div>
-	<div class="basic_info" class="container-fluid">
-		<h1 style="display:inline-block;margin-bottom:25px;">Conferences:</h1>
+{% endblock %}
+
+{% block mainbody %} 
+	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
+
+	<div class="basic_info" class="container-fluid" style="float:right;text-align:left;margin-left:0;margin-right:0;margin-top:20px;display:inline-block;">
+		<h1 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Conferences:</b></h1>
 		{% for conf in conf_list %}
 		<div class="publication">
-			<p class="pub_year">{{conf.year}}</p>
-			<h4><a href="/conference/?name={{conf.abbr}}&year={{conf.year}}">{{conf.name}}</a></h4>
-			<h2>{{conf.abbr}}</h2>
-			<p><a href={{conf.DBLP}}>DBLP:{{conf.DBLP}}</a></p>
-			<p><a href={{conf.Href}}>Homepage:{{conf.Href}}</a></p>
+			<div style="margin-top:10px;margin-bottom:10px;">
+			<h2><b>{{conf.abbr}} {{conf.year}}</b></h2>
+			<h6><a href="/conference/?name={{conf.abbr}}&year={{conf.year}}">{{conf.name}}</a></h6>
+			<h6><b><a href={{scholar.Href}}>Homepage</a>
+			<a href={{scholar.DBLP}}>DBLP</a></b></h6>
+			</div>
 		</div>
 		{% endfor %}
     </div>
-	<div class="basic_info" class="container-fluid">
-		<h1 style="display:inline-block;margin-bottom:25px;">Scholars:</h1>
+	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-right:0;margin-top:20px;width:28%;height:50%;text-align:center;display:inline-block;">
+		<h1 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Scholars</b></h1>
 		{% for s in scholar_list %}
-		<div class="publication">
-			<h4><a href="/scholar/?name={{ s.name }}">{{s.name}}</a></h4>
-			<p>Affiliation: <a href="/institution/?name={{scholar.affiliation}}">{{s.affiliation}}</a></p>
-			<p>DBLP: <a href={{s.DBLP}}>{{s.DBLP}}</a></p>
-			<p>Homepage: <a href={{s.homepage}}>{{s.homepage}}</a></p>
-			<p>Google Scholar: <a href={{s.GoogleScholar}}>{{s.GoogleScholar}}</a></p>
-			<p>Publications:</p>
-			<ul>
+		<div class="publication" style="margin-left:30px;">
+			<div style="margin-top:10px;margin-bottom:10px;">
+			<h4><b><a href="/scholar/?name={{ s.name }}" class="sch_name">{{s.name}}</a></b></h4>
+			<h5><b><a href="/institution/?name={{s.affiliation}}" class="sch_aff">{{s.affiliation}}</a></b></h5>
+			<h6><b><a href={{s.homepage}} class="sch_url">Homepage</a>
+					<a href={{s.DBLP}} class="sch_url">DBLP</a>
+					<a href={{s.GoogleScholar}} class="sch_url">GoogleScholar</a></b></h6>
+			<h5 style="text-align:left;"><b>Publications:</b></h5>
+			<ul style="padding-left:15px;text-align:left;">
 			{% for p in paper_list|index:forloop.counter0 %}
-				<li>{{ p.title }}</li>
+				<li style="margin-top: 3px;"><a href="{{p.href}}">{{p.title}}</a></li>
+			{% empty %}
+				<h6><b>No Recent Publication!</b></h6>
 			{% endfor %}
 			</ul>
+			</div>
 		</div>
 		{% endfor %}
     </div>

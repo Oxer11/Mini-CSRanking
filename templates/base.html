@@ -7,29 +7,56 @@
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-	<title>miniCSRanking</title> 
+	<title>CS Ranking</title>
 	{% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+	<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" media="screen" type="text/css" href="{% static 'style_base.css' %}">
 </head>
 <body>
-	<div id="title" class="container-fluid">
-		<h1 style="display:inline-block;float:left;margin:30px;color:white;font-weight:bold;">miniCSRanking</h1>
-		<div style="display:inline-block;float:right;margin:30px;">
-			<form style="margin-bottom:5px;" method="get" action="/main/">
-				<input type="text" name="key" style="border:none;">
-				<input type="submit" value="Search" style="border:none;">
-				</br>
-				<input type="radio" name="type" value="scholar">Scholar
-				<input type="radio" name="type" value="paper">Paper
-				<input type="radio" name="type" value="institution">Institution
-				<input type="radio" name="type" value="conference">Conference
-				<input type="radio" name="type" value="area">Area
-			</form> 
+<div style="position:relative">
+	<div id="particles-js"></div>
+	<script src="{% static 'particles.js' %}"></script>
+	<script src="{% static 'app.js' %}"></script>
+
+	<div id="title" class="container-fluid;" style="z-index:999;">
+		<!--<h1 style="display:block;margin:30px;color:white;font-weight:bold;">miniCSRanking</h1>-->
+		<img src="{% static 'logo.png' %}"  alt="CS Ranking" style="float:left;margin:0;border:none;width:20%;height:90%;display:inline"/>
+		<div style="display:inline;float:left;margin:10px;width:70%;height:100%;">
+			<form style="margin-top:10px;margin-bottom:5px;width:auto;height:100%;" method="get" action="/main/">
+				<div class="input" style="height:35%">
+					<input id="email" class="button" type="text" name="key" style="border:none;height:90%;">
+                	<input id="submit" class="button" type="submit" value="Search" style="border:none;height:90%">
+				</div>
+				<div class="cntr">
+  				  <label for="opt1" class="radio">
+  				  	<input type="radio" name="type" id="opt1" class="hidden" value="scholar"/>
+					  <span class="label"></span><b>Scholar</b>
+				  </label>
+				  <label for="opt2" class="radio">
+    				<input type="radio" name="type" id="opt2" class="hidden" value="paper"/>
+					  <span class="label"></span><b>Paper</b>
+				  </label>
+				  <label for="opt3" class="radio">
+    				<input type="radio" name="type" id="opt3" class="hidden" value="institution"/>
+					  <span class="label"></span><b>Institution</b>
+				  </label>
+  				  <label for="opt4" class="radio">
+    				<input type="radio" name="type" id="opt4" class="hidden" value="conference"/>
+					  <span class="label"></span><b>Conference</b>
+				  </label>
+				  <label for="opt5" class="radio">
+    				<input type="radio" name="type" id="opt5" class="hidden" value="area"/>
+					  <span class="label"></span><b>Area</b>
+				  </label>
+				</div>
+			</form>
 		</div>
 	</div>
-	
+	{% block aside %}
+	{% endblock %}
 	{% block mainbody %}
 	{% endblock %}
+	</div>
 </body>
 <script>
 </script>

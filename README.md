@@ -12,3 +12,7 @@ Project for Database 2019 Spring
 - Scholar的DBLP链接
 - Institution的首页链接
 - 别名的处理
+- Ranklist
+- Co-author list
+- logo的选择
+- 字体、颜色的选择

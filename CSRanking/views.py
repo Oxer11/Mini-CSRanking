@@ -1,14 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 # Create your views here.
 
 from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper
+
+def index(request):
+	return render(request, "index.html", {})
 
 def main(request):
 	if 'key' in request.GET and 'type' in request.GET:
 		key = request.GET.get('key')
 		if key.strip() == '':
-			return render(request,"main.html",{})
+			return HttpResponseRedirect(reverse('index'))
 		else:
 			type = request.GET.get('type')
 			ctx = {}
@@ -38,11 +42,10 @@ def main(request):
 				ctx['area_lst'] = area_lst
 			return render(request,"main.html",ctx)
 	else:
-		return render(request,"main.html",{})
+		return HttpResponseRedirect(reverse('index'))
 	
 def scholar(request):
 	person_name = request.GET.get('name', "NONE")
-	print(person_name)
 	try:
 		person = Scholar.objects.get(name=person_name)
 	except Scholar.DoesNotExist:
@@ -114,15 +117,15 @@ def institution(request):
 	return render(request, "institution.html", context)
 
 def area(request):
-	name  = request.GET.get("name","NONE")
+	name = request.GET.get("name", "NONE")
 	try:
 		area = Area.objects.get(name=name)
-	except Are.DoesNotExist:
+	except Area.DoesNotExist:
 		return HttpResponse("This institution does not exist!")
 	conf_list = Conference_Area.objects.filter(area=area)
-	conf_list = [c.conf_id for c in conf_list] 
+	conf_list = [c.conf_id for c in conf_list]
 	scholar_list = Scholar_Area.objects.filter(area=area)
-	scholar_list = [s.scholar_name for s in scholar_list]
+	scholar_list = [s.scholar_name for s in scholar_list][0:5]
 	paper_list = []
 	for scholar in scholar_list:
 		papers = Scholar_Paper.objects.filter(scholar_name=scholar)
