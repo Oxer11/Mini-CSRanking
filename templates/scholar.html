@@ -3,32 +3,34 @@
 
 {% block mainbody %} 
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
-	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;height:50%;text-align:center">
-		<h2 class="sch_name"><b>{{scholar.name}}</b></h2>
-		<h5><b><a href="/institution/?name={{scholar.affiliation}}" class="sch_aff">{{scholar.affiliation}}</a></b></h5>
-		<h6><b><a href={{scholar.homepage}}>Homepage</a></b></h6>
-		<h6><b><a href={{scholar.DBLP}}>DBLP</a>
-			<a href={{scholar.GoogleScholar}}>GoogleScholar</a></b></h6>
-		<h5><b>Areas:</b></h5>
-		<p>
+	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;">
+		<h2 style="text-align:center;margin-bottom:20px;"><b>{{scholar.name}}</b></h2>
+		<p><a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
+		<p><a href="{{scholar.homepage}}">Homepage</a></p>
+		<p class="enum"><a href="{{scholar.DBLP}}">DBLP</a><a href="{{scholar.GoogleScholar}}">GoogleScholar</a></p>
+		<p><b>Areas:</b></p>
+		<p class="enum">
 		{% for a in areas %}
-			<pre><a href="/area/?name={{a.name}}">{{a.name}}</a></pre>
+			<a href="/area/?name={{a.name}}">{{a.name}}</a>
+		{% empty %}
+			None
 		{% endfor %}
 		</p>
 	</div>
-	<div class="basic_info" class="container-fluid" style="float:right;text-align:left;margin-right:0;margin-top:20px;">
-		<h1 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Publication:</b></h1>
+	<div class="basic_info" class="container-fluid" style="float:right;text-align:left;margin-right:0;margin-top:20px;width:70%;">
+		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Publication:</b></h2>
 		{% for p in paper_list %}
 		<div class="publication">
 			<div style="margin-top:10px;margin-bottom:10px;">
-			<h6 class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></h6>
+			<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
 			<h4><a href="{{p.href}}">{{p.title}}</a></h4>
-			<h6><b>
+			<p class="enum">
 			{% for sch in author_list|index:forloop.counter0 %}
-				<a href="/scholar/?name={{ sch.name }}" class="sch_name">{{sch.name}}</a>
+				<a href="/scholar/?name={{ sch.name }}">{{sch.name}}</a>
+			{% empty %}
+				None
 			{% endfor %}
-			</b>
-			</h6>
+			</p>
 			</div>
 		</div>
 		{% endfor %}
