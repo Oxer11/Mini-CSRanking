@@ -139,3 +139,6 @@ def area(request):
 		"paper_list": paper_list,
 	}
 	return render(request, "area.html", context)
+	
+def login(request):
+	return render(request,'login.html',{})
