@@ -8,5 +8,6 @@ urlpatterns = [
 	url(r'conference', views.conference, name='conference'),
 	url(r'institution', views.institution, name='institution'),
 	url(r'area', views.area, name='area'),
-	url(r'login',views.login,name='login'),
+	url(r'login',views.Login,name='login'),
+	url(r'profile',views.profile,name='profile'),
 ]

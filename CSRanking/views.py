@@ -2,9 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.contrib.auth.models import Permission, User
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import *
 # Create your views here.
 
-from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper
+from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile
 
 def paginate(page, out_list, num):
     paginator = Paginator(out_list, num)
@@ -157,5 +161,35 @@ def area(request):
 	}
 	return render(request, "area.html", context)
 	
-def login(request):
-	return render(request,'login.html',{})
+def Login(request):	
+	if 'submit' in request.GET and request.GET.get('submit')=='signup':
+		username = request.GET.get('username')
+		email = request.GET.get('email')
+		password = request.GET.get('password')
+		if username.strip()=='' or email.strip()=='' or password.strip()=='':
+			return render(request,'login.html',{})
+		user = User.objects.create_user(username,email,password)
+		print("Successfully create user:")
+		print(user.profile)
+		return HttpResponseRedirect(reverse('index'))
+	elif 'submit' in request.GET and request.GET.get('submit')=='signin':
+		username = request.GET.get('username')
+		password = request.GET.get('password')
+		if username.strip()=='' or password.strip()=='':
+			return render(request,'login.html',{})
+		user = authenticate(username=username,password=password)
+		if user is not None:
+			login(request, user)
+			print('Successfully log in:')
+			print(user.profile)
+			return HttpResponseRedirect(reverse('index'))
+		else:
+			return HttpResponseRedirect(reverse('login'))
+	else:
+		return render(request,'login.html',{})
+
+@login_required
+def profile(request):
+	name = request.user.username
+	email = request.user.email
+	return render(request,'profile.html',{'name':name,'email':email})
