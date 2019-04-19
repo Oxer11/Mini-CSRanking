@@ -121,7 +121,7 @@ canvas{
 	border-radius:5px 5px 5px 5px;
 }
 
-#search_r{
+.search_r{
 	display:block;
 	z-index:-1;
 	position:relative;
@@ -135,7 +135,7 @@ canvas{
 	margin-bottom:20px;
 	padding:0px;
 }
-	#search_r div{
+	.search_r div{
 		display:block;
 		position:relative;
 		width:100%;
@@ -144,7 +144,7 @@ canvas{
 		padding:10px;
 		margin-bottom:20px;
 	}
-	#search_r div:last-child{
+	.search_r div:last-child{
 		margin-bottom:0px;
 	}
 	

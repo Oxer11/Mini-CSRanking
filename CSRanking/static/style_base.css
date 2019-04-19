@@ -128,7 +128,7 @@ a{
   display: block;
 }
 
-#search_r{
+.search_r{
 	display:block;
 	z-index:5;
 	position:relative;
@@ -140,7 +140,7 @@ a{
 	margin-bottom:20px;
 	padding:0px;
 }
-	#search_r div{
+	.search_r div{
 		display:block;
 		position:relative;
 		width:100%;
@@ -152,19 +152,19 @@ a{
 		background-color:#FFFAFA;
 		border-radius:5px 5px 5px 5px;
 	}
-	#search_r div:last-child{
+	.search_r div:last-child{
 		margin-bottom:0px;
 	}
-	#search_r div h3 a{
+	.search_r div h3 a{
 		color:#E86C8D;
 	}
-	#search_r div h2 a{
+	.search_r div h2 a{
 		color:#E86C8D;
 	}
-	#search_r div h2{
+	.search_r div h2{
 		color:#E86C8D;
 	}
-	#search_r div p{
+	.search_r div p{
 		font-size:17px;
 	}
 
@@ -285,12 +285,45 @@ form {
   background: #d45d7d;
 }
 
+#save {
+  width: 15%;
+  height: 40px;
+  background: #32CD32;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 17px;
+  color:white;
+  letter-spacing: 1px;
+  border-radius: 5px 5px 5px 5px;
+  transition: background .3s ease-in-out;
+  position:relative;
+  margin-top:30px;
+  left:400px;
+}
+
+
+#save:hover {
+  background: #228B22;
+}
+
 
 input:focus {
   outline: none;
   outline: 2px solid #E86C8D;
   box-shadow: 0 0 2px #E86C8D;
 }
+
+.search_r input {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+	.search_r input:focus {
+		outline: 2px solid #E86C8D;
+		box-shadow: 0 0 2px #E86C8D;
+	}
 
 
 body {
