@@ -274,19 +274,43 @@ def Login(request):
 @login_required
 def profile(request):
 	user = request.user
-	sch = User_Scholar.objects.filter(user=user)
-	schs = [s.sch for s in sch]
-	ins = User_Institution.objects.filter(user=user)
-	inss = [s.ins for s in ins]
-	area = User_Area.objects.filter(user=user)
-	areas = [s.area for s in area]
-	conf = User_Conference.objects.filter(user=user)
-	confs = [s.conf for s in conf]
-	context = {
-		'user': user,
-		'sch': schs,
-		'ins': inss,
-		'area': areas,
-		'conf': confs,
-	}
-	return render(request, 'profile.html', context)
+	return render(request,'profile.html',{'user':user})
+	
+@login_required
+def pro_edit(request):
+	user = request.user
+	if 'submit' in request.GET and request.GET.get('submit')=='save':
+		old_pw = request.GET.get('old_pw')
+		user_ = authenticate(username=user.username,password=old_pw)
+		if user_ is not None:
+			new_pw = request.GET.get('new_pw')
+			cfm_pw = request.GET.get('cfm_pw')
+			if new_pw != cfm_pw:
+				return render(request,'pro_edit.html',{'user':user})
+			else:
+				user.set_password(new_pw)
+		else:
+			return render(request,'pro_edit.html',{'user':user})
+				
+		identity = request.GET.get('identity')
+		if identity.strip()!='':
+			print(identity)
+			user.profile.identity = identity
+		
+		gender = request.GET.get('gender')
+		if gender.strip()!='':
+			print(gender)
+			user.profile.gender = gender
+			
+		email = request.GET.get('email')
+		if email.strip()!='':
+			user.email = email
+		
+		institution = request.GET.get('institution')
+		if institution.strip()!='':
+			user.profile.institution = institution
+		
+		user.save()
+		login(request,user)
+		return HttpResponseRedirect(reverse('profile'))
+	return render(request,'pro_edit.html',{'user':user})
