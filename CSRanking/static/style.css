@@ -94,6 +94,19 @@ canvas{
   background-repeat: no-repeat;
 }
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right:10px;
+  background-color: #f9f9f9;
+  min-width: 80px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding-top:20px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 #title{
 	background-color:#FFFAFA;
 	display:block;
