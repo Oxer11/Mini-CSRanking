@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load index %}
+
+{% block mainbody %} 
+<div class="container-fluid">
+	<form method="get" action="/pro_edit/" class="search_r">
+	<div style="margin-bottom:30px;">
+		<h2 style="text-align:center;"><b>{{user.username}}</b></h2>
+		<p><b>Identity:</b>
+		<span class="cntr" style="display:inline-block;position:absolute;top:42px;left:65px;">
+			<label for="opt8" class="radio">
+				<input type="radio" name="identity" id="opt8" class="hidden" value="P"/>
+				<span class="label"></span><b>Professor</b>
+			</label>
+			<label for="opt9" class="radio">
+				<input type="radio" name="identity" id="opt9" class="hidden" value="S"/>
+				<span class="label"></span><b>Student</b>
+			</label>
+		</span>
+		</p>
+		<p><b>Gender:</b></p>
+		<span class="cntr" style="display:inline-block;position:absolute;top:78px;left:65px;">
+			<label for="opt6" class="radio">
+				<input type="radio" name="gender" id="opt6" class="hidden" value="M"/>
+				<span class="label"></span><b>Male</b>
+			</label>
+			<label for="opt7" class="radio">
+				<input type="radio" name="gender" id="opt7" class="hidden" value="F"/>
+				<span class="label"></span><b>Female</b>
+			</label>
+		</span>
+		<p><b>Email:</b>
+		{% ifnotequal user.email None %}
+		<input type="email" name="email" placeholder="{{user.email}}"/>
+		{% else %}
+		<input type="email" name="email" placeholder="Undefined"/>
+		{% endifnotequal %}
+		</p>
+		<p><b>Institution:</b>
+		{% ifnotequal user.institution None %}
+		<input type="text" name="intitution" placeholder="{{user.institution}}"/>
+		{% else %}
+		<input type="text" name="institution" placeholder="Undefined"/>
+		{% endifnotequal %}
+		</p>
+		<p><b>Password:</b></p>
+		<input type="password" name="old_pw" placeholder="Password"/>
+		<input type="password" name="new_pw" placeholder="New Password"/>
+		<input type="password" name="cfm_pw" placeholder="Confirm Password"/>
+		<button id="save" type="submit" name="submit" value="save">Save</button>
+	</div>
+	</form>
+</div>
+{% endblock %}

@@ -35,7 +35,7 @@
 	</div>
 	<div class="form-container sign-in-container">
 		<a href="/main/"><img src="{% static 'home_arrow.png' %}" alt="Home" style="height:35px;width:35px;position:relative;top:7px;left:7px;"/></a>
-		<form action="#">
+		<form method="get" action="/login/">
 			<h1 style="display:inline-block;margin-bottom:30px;">Sign In</h1>
 			<input type="text" name="username" placeholder="Name" />
 			<input type="password" name="password" placeholder="Password" />
