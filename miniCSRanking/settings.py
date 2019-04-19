@@ -51,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'miniCSRanking.urls'
+LOGIN_URL = '/login/'
 
 TEMPLATES = [
     {
