@@ -5,7 +5,7 @@
 	{% if type %}
 	<div id="search_r" class="container-fluid">
 		{% ifequal type "scholar" %}
-			{%for sch in sch_lst %}
+			{%for sch in out_lst %}
 				<div>
 					<h2><a href="/scholar/?name={{ sch.name }}" class="sch_name">{{sch.name}}</a></h2>
 					<p><a href="/institution/?name={{sch.affiliation.name}}" class="sch_aff">{{sch.affiliation}}</a></p>
@@ -17,7 +17,7 @@
 			{% endfor %}
 		{% endifequal %}
 		{% ifequal type "paper" %}
-			{% for p in paper_lst %}
+			{% for p in out_lst %}
 				<div>
 					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
 					<h3><a href="{{p.href}}">{{p.title}}</a></h3>
@@ -34,7 +34,7 @@
 			{% endfor %}
 		{% endifequal %}
 		{% ifequal type "institution" %}
-			{% for ins in ins_lst %}
+			{% for ins in out_lst %}
 				<div>
 					<h2><a href="/institution/?name={{ins.name}}">{{ins.name}}</a></h2>
 					<p><a href="{{ins.homepage}}">Homepage</a></p>
@@ -44,7 +44,7 @@
 			{% endfor %}
 		{% endifequal %}
 		{% ifequal type "conference" %}
-			{% for conf in conf_lst %}
+			{% for conf in out_lst %}
 				<div>
 					<h2><a href="/conference/?name={{conf.abbr}}&year={{conf.year}}">{{conf.abbr}} {{conf.year}}</a></h2>
 					<p>{{conf.name}}</p>
@@ -55,7 +55,7 @@
 			{% endfor %}
 		{% endifequal %}
 		{% ifequal type "area" %}
-			{% for a in area_lst %}
+			{% for a in out_lst %}
 				<div>
 					<h2><a href="/area/?name={{a.name}}">{{a.name}}</a></h2>
 					<p>Direction: {{a.direction}}<p>
@@ -64,6 +64,27 @@
 				<div><h2>No areas found.</h2></div>
 			{% endfor %}
 		{% endifequal %}
+		<!-- Start Pagination -->
+		<ul class="pagination">
+			{% if out_lst.has_previous %}
+				<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ ins_lst.previous_page_number }}">&lt;</a></li>
+			{% else %}
+				<li><a href="#0">&lt;</a></li>
+			{% endif %}
+  			{% for page_number in page_range %}
+    			{% ifequal page_number  out_lst.number %}
+					<li><a class="active" href="#remark">{{ page_number }}</a></li>
+    			{% else %}
+					<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ page_number }}">{{ page_number }}</a></li>
+    			{% endifequal %}
+  			{% endfor %}
+			{% if out_lst.has_next %}
+				<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ ins_lst.next_page_number }}">&gt;</a></li>
+			{% else %}
+				<li><a href="#0">&gt;</a></li>
+			{% endif %}
+		</ul>
+		<!-- End Pagination -->
 	</div>
 	{% else %}
 	{% endif %}

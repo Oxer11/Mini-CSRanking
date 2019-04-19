@@ -1,9 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper
+
+def paginate(page, out_list, num):
+    paginator = Paginator(out_list, num)
+    try:
+        out_list = paginator.page(page)
+    except PageNotAnInteger:
+        out_list = paginator.page(1)
+    except EmptyPage:
+        out_list = paginator.page(paginator.num_pages)
+    return out_list
 
 def index(request):
 	return render(request, "index.html", {})
@@ -17,12 +28,14 @@ def main(request):
 			type = request.GET.get('type')
 			ctx = {}
 			ctx['type'] = type
+			ctx['key'] = key
+			pagenum = request.GET.get('page')
 			if type == 'scholar':
-				sch_lst = Scholar.objects.filter(name__contains=key)
-				ctx['sch_lst'] = sch_lst
+				sch_lst = paginate(pagenum, Scholar.objects.filter(name__contains=key), 10)
+				ctx['out_lst'] = sch_lst
 			elif type == 'paper':
-				paper_lst = Paper.objects.filter(title__contains=key)
-				ctx['paper_lst'] = paper_lst
+				paper_lst = paginate(pagenum, Paper.objects.filter(title__contains=key), 20)
+				ctx['out_lst'] = paper_lst
 				author_lst = []
 				for paper in paper_lst:
 					authors = Scholar_Paper.objects.filter(paper_title=paper)
@@ -30,16 +43,21 @@ def main(request):
 					author_lst.append(authors)
 				ctx['author_lst'] = author_lst
 			elif type == 'institution':
-				ins_lst = Institution.objects.filter(name__contains=key)
-				ctx['ins_lst'] = ins_lst
+				ins_lst = paginate(pagenum, Institution.objects.filter(name__contains=key), 10)
+				ctx['out_lst'] = ins_lst
 			elif type == 'conference':
 				conf_lst = Conference.objects.filter(name__contains=key)
 				conf_lst = conf_lst|Conference.objects.filter(abbr__contains=key)
 				conf_lst = list(set(conf_lst))
-				ctx['conf_lst'] = conf_lst
+				conf_lst = paginate(pagenum, conf_lst, 10)
+				ctx['out_lst'] = conf_lst
 			else:
 				area_lst = Area.objects.filter(name__contains=key)
-				ctx['area_lst'] = area_lst
+				area_lst = paginate(pagenum, area_lst, 10)
+				ctx['out_lst'] = area_lst
+			P = ctx['out_lst']
+			page_range = range(max(P.number - 3, 1), min(P.number + 3, P.paginator.num_pages) + 1)
+			ctx['page_range'] = page_range
 			return render(request,"main.html",ctx)
 	else:
 		return HttpResponseRedirect(reverse('index'))
@@ -106,8 +124,6 @@ def institution(request):
 		papers = [x.paper_title for x in papers]
 		if len(papers)>=5: papers = papers[0:5]
 		paper_list.append(papers)
-	print(area_list)
-	print(paper_list)
 	context = {
 		"ins": Ins,
 		"area_list": area_list,

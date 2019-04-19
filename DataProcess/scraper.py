@@ -41,7 +41,7 @@ def main(base_url, fin, fout):
     print("学校信息已保存完毕！")
 
 base_url = "https://www.google.com.hk/search?q="
-institution = open("institution.csv", "rb")
+paper = open("paper.csv", "rb")
 
 if __name__ == '__main__':
-    main(base_url, institution, open("institution_homepage.csv","wb+"))
+    main(base_url, paper, open("paper_refer.csv","wb+"))
