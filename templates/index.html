@@ -19,7 +19,13 @@
 	<script src="{% static 'particles.js' %}"></script>
 	<script src="{% static 'app.js' %}"></script>
     <script src="{% static 'input.js' %}"></script>
-	<div style="position:fixed;top:15px;right:20px;"><a href="/profile/"><img src="{% static 'user_w.png' %}" alt="Home" style="height:30px;width:30px;"/></a></div>
+	<div class="dropdown" style="position:fixed;right:30px;top:20px;">
+		<img src="{% static 'user_w.png' %}" alt="Home" style="height:30px;width:30px;"/>
+		<div class="dropdown-content">
+			<p><a href="/profile/"style="color:black;">Profile</a></p>
+			<p><a href="/login/?submit=signout" style="color:black;">Sign Out</a></p>
+		</div>
+	</div>
 	<div id="title" class="container-fluid">
 		<!--<h1 style="display:block;margin:30px;color:white;font-weight:bold;">miniCSRanking</h1>-->
 		<img src="{% static 'logo.png' %}"  alt="CS Ranking" style="margin:0 auto;border:none;width:40%;height:65%"/>

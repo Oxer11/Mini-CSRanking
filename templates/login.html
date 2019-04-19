@@ -12,7 +12,6 @@
 <title>CS Ranking</title>
 {% load static %}
 <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-<!--<link rel="stylesheet" media="screen" type="text/css" href="{% static 'style.css' %}">-->
 <!--图标样式-->
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css'>
 <link rel="stylesheet" media="screen" type="text/css" href="{% static 'style_login.css' %}">
@@ -26,21 +25,21 @@
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<a href="/main/"><img src="{% static 'home_arrow.png' %}" alt="Home" style="height:35px;width:35px;position:relative;top:7px;left:7px;"/></a>
-		<form action="#">
+		<form method="get" action="/login/">
 			<h1 style="display:inline-block;margin-bottom:30px;">Sign Up</h1>
-			<input type="text" placeholder="Name" />
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button style="display:inline-block;margin-top:20px;">Sign Up</button>
+			<input type="text" name="username" placeholder="Name" />
+			<input type="email" name="email" placeholder="Email" />
+			<input type="password" name="password" placeholder="Password" />
+			<button style="display:inline-block;margin-top:20px;" type="submit" name="submit" value="signup">Sign Up</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
 		<a href="/main/"><img src="{% static 'home_arrow.png' %}" alt="Home" style="height:35px;width:35px;position:relative;top:7px;left:7px;"/></a>
 		<form action="#">
 			<h1 style="display:inline-block;margin-bottom:30px;">Sign In</h1>
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button style="display:inline-block;margin-top:20px;">Sign In</button>
+			<input type="text" name="username" placeholder="Name" />
+			<input type="password" name="password" placeholder="Password" />
+			<button style="display:inline-block;margin-top:20px;" type="submit" name="submit" value="signin">Sign In</button>
 		</form>
 	</div>
 	<div class="overlay-container">

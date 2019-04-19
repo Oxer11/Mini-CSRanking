@@ -23,7 +23,6 @@
 	<div id="title" class="container-fluid;" style="z-index:999;">
 		<!--<h1 style="display:block;margin:30px;color:white;font-weight:bold;">miniCSRanking</h1>-->
 		<img src="{% static 'logo.png' %}"  alt="CS Ranking" style="float:left;margin:0;border:none;width:13%;height:90%;display:inline"/>
-		<div style="position:fixed;top:15px;right:20px;"><a href="/profile/"><img src="{% static 'user.png' %}" alt="Home" style="height:30px;width:30px;"/></a></div>
 		<div style="display:inline;float:left;margin:10px;margin-left:180px;width:45%;height:100%;">
 			<form style="margin-top:10px;margin-bottom:5px;width:auto;height:100%;" method="get" action="/main/">
 				<div class="input" style="height:35%">
@@ -53,6 +52,13 @@
 				  </label>
 				</div>
 			</form>
+		</div>
+		<div class="dropdown" style="position:relative;float:right;right:30px;top:20px;">
+			<img src="{% static 'user.png' %}" alt="Home" style="height:30px;width:30px;"/>
+			<div class="dropdown-content">
+				<p><a href="/profile/">Profile</a></p>
+				<p><a href="/login/?submit=signout">Sign Out</a></p>
+			</div>
 		</div>
 	</div>
 	{% block aside %}
