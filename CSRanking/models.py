@@ -31,6 +31,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Institution(models.Model):
     name = models.CharField(primary_key=True, max_length=30)
     homepage = models.URLField(blank=True, null=True)
+    pub_cnt =models.IntegerField()
 
     def __str__(self):
         return self.name
@@ -39,7 +40,7 @@ class Institution(models.Model):
         db_table = 'institution'
         verbose_name = '机构信息'
         verbose_name_plural = '机构信息'
-        ordering = ['name']
+        ordering = ["-pub_cnt", 'name']
 
 class Scholar(models.Model):
     name = models.CharField(primary_key=True, max_length=30)
@@ -47,6 +48,7 @@ class Scholar(models.Model):
     DBLP = models.URLField(blank=True, null=True)
     GoogleScholar = models.URLField(blank=True, null=True)
     affiliation = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    pub_cnt = models.IntegerField()
 
     def __str__(self):
         return self.name
@@ -55,7 +57,7 @@ class Scholar(models.Model):
         db_table = 'scholar'
         verbose_name = '学者信息'
         verbose_name_plural = '学者信息'
-        ordering = ['name']
+        ordering = ['-pub_cnt', "name"]
 
 class Conference(models.Model):
     name = models.CharField(max_length=50)

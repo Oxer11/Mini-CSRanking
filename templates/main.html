@@ -11,6 +11,7 @@
 					<p><a href="/institution/?name={{sch.affiliation.name}}" class="sch_aff">{{sch.affiliation}}</a></p>
 					<p><a href="{{ sch.homepage }}" class="sch_url">Homepage</a></p>
 					<p class="enum"><a href="{{sch.DBLP}}">DBLP</a><a href={{sch.GoogleScholar}}>Google Scholar</a></p>
+					<p>Number of Publications: {{sch.pub_cnt}} </p>
 				</div>
 			{% empty %}
 				<div><h2>No scholars found.</h2></div>
@@ -38,6 +39,7 @@
 				<div>
 					<h2><a href="/institution/?name={{ins.name}}">{{ins.name}}</a></h2>
 					<p><a href="{{ins.homepage}}">Homepage</a></p>
+					<p>Number of Publications: {{ins.pub_cnt}}</p>
 				</div>
 			{% empty %}
 				<div><h2>No institutions found.</h2></div>	

@@ -143,7 +143,6 @@ def Add_Institution_homepage():
 def Add_DBLP():
     f = Scholar.objects.all()
     print(len(f))
-    f = f[9500:]
     cnt = 0
     for sch in f:
         cnt += 1
@@ -165,6 +164,23 @@ def Add_DBLP():
         #print(sch.name, sch.DBLP)
         sch.save()
 
+def Add_pub():
+    Scholar.objects.all().update(pub_cnt=0)
+    Institution.objects.all().update(pub_cnt=0)
+    schs = Scholar.objects.all()
+    print(len(schs))
+    cnt = 0
+    for sch in schs:
+        cnt += 1
+        if cnt % 500 == 0: print(cnt)
+        sch.pub_cnt = len(Scholar_Paper.objects.filter(scholar_name=sch))
+        sch.save()
+        ins = sch.affiliation
+        ins.pub_cnt += sch.pub_cnt
+        ins.save()
+        #print(sch.name, sch.pub_cnt, ins.name, ins.pub_cnt)
+    print("Add Publication Complete!")
+
 if __name__ == "__main__":
     #Add_Area()
     #Add_Conference()
@@ -175,4 +191,5 @@ if __name__ == "__main__":
     #Add_Paper_Author()
     #Add_Scholar_Area()
     #Add_Institution_homepage()
-    Add_DBLP()
+    #Add_DBLP()
+    Add_pub()
