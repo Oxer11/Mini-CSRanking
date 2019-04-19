@@ -274,7 +274,22 @@ def Login(request):
 @login_required
 def profile(request):
 	user = request.user
-	return render(request,'profile.html',{'user':user})
+	sch = User_Scholar.objects.filter(user=user)
+	schs = [s.sch for s in sch]
+	ins = User_Institution.objects.filter(user=user)
+	inss = [s.ins for s in ins]
+	area = User_Area.objects.filter(user=user)
+	areas = [s.area for s in area]
+	conf = User_Conference.objects.filter(user=user)
+	confs = [s.conf for s in conf]
+	context = {
+		'user': user,
+		'sch': schs,
+		'ins': inss,
+		'area': areas,
+		'conf': confs,
+	}
+	return render(request, 'profile.html', context)
 	
 @login_required
 def pro_edit(request):
