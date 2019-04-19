@@ -48,7 +48,6 @@ def main(request):
 				ctx['author_lst'] = author_lst
 			elif type == 'institution':
 				ins_lst = paginate(pagenum, Institution.objects.filter(name__contains=key), 10)
-				print(ins_lst[0].homepage)
 				ctx['out_lst'] = ins_lst
 			elif type == 'conference':
 				conf_lst = Conference.objects.filter(name__contains=key)
@@ -114,11 +113,29 @@ def scholar(request):
 	return render(request, "scholar.html", context)
 
 def conference(request):
+	user = request.user
 	abbr, year = request.GET.get("name", "NONE"), request.GET.get("year", 0)
-	#try:
-	conf = Conference.objects.get(abbr=abbr, year=year)
-	#except Conference.DoesNotExist:
-		#return HttpResponse("This conference does not exist!")
+	try:
+		conf = Conference.objects.get(abbr=abbr, year=year)
+	except Conference.DoesNotExist:
+		return HttpResponse("This conference does not exist!")
+	if request.method == "POST":
+		if user:
+			type = request.POST.get('type', "NONE")
+			if type == 'Follow':
+				User_Conference.objects.get_or_create(user=user, conf=conf)
+				print("Follow Successfully!")
+				return JsonResponse({"Type":"Unfollow"})
+			elif type == 'Unfollow':
+				User_Conference.objects.get(user=user, conf=conf).delete()
+				print("Unfollow Successfully!")
+				return JsonResponse({"Type": "Follow"})
+			else: print("Follow Type Error!")
+	Type = ""
+	if len(User_Conference.objects.filter(user=user, conf=conf)) >= 1:
+		Type = "Unfollow"
+	else:
+		Type = "Follow"
 	areas = Conference_Area.objects.filter(conf_id=conf)
 	areas = [x.area for x in areas]
 	paper_list = Paper.objects.filter(conf_id=conf)
@@ -132,15 +149,34 @@ def conference(request):
 		'area_list': areas,
 		'paper_list': paper_list,
 		'author_list': author_list,
+		"Type": Type,
 	}
 	return render(request, "conference.html", context)
 
 def institution(request):
+	user = request.user
 	name = request.GET.get("name", "NONE")
 	try:
 		Ins = Institution.objects.get(name=name)
 	except Institution.DoesNotExist:
 		return HttpResponse("This institution does not exist!")
+	if request.method == "POST":
+		if user:
+			type = request.POST.get('type', "NONE")
+			if type == 'Follow':
+				User_Institution.objects.get_or_create(user=user, ins=Ins)
+				print("Follow Successfully!")
+				return JsonResponse({"Type":"Unfollow"})
+			elif type == 'Unfollow':
+				User_Institution.objects.get(user=user, ins=Ins).delete()
+				print("Unfollow Successfully!")
+				return JsonResponse({"Type": "Follow"})
+			else: print("Follow Type Error!")
+	Type = ""
+	if len(User_Institution.objects.filter(user=user, ins=Ins)) >= 1:
+		Type = "Unfollow"
+	else:
+		Type = "Follow"
 	scholar_list = Scholar.objects.filter(affiliation=Ins)
 	area_list = []
 	paper_list = []
@@ -157,15 +193,34 @@ def institution(request):
 		"area_list": area_list,
 		"scholar_list": scholar_list,
 		"paper_list": paper_list,
+		"Type": Type,
 	}
 	return render(request, "institution.html", context)
 
 def area(request):
+	user = request.user
 	name = request.GET.get("name", "NONE")
 	try:
 		area = Area.objects.get(name=name)
 	except Area.DoesNotExist:
 		return HttpResponse("This institution does not exist!")
+	if request.method == "POST":
+		if user:
+			type = request.POST.get('type', "NONE")
+			if type == 'Follow':
+				User_Area.objects.get_or_create(user=user, area=area)
+				print("Follow Successfully!")
+				return JsonResponse({"Type":"Unfollow"})
+			elif type == 'Unfollow':
+				User_Area.objects.get(user=user, area=area).delete()
+				print("Unfollow Successfully!")
+				return JsonResponse({"Type": "Follow"})
+			else: print("Follow Type Error!")
+	Type = ""
+	if len(User_Area.objects.filter(user=user, area=area)) >= 1:
+		Type = "Unfollow"
+	else:
+		Type = "Follow"
 	conf_list = Conference_Area.objects.filter(area=area)
 	conf_list = [c.conf_id for c in conf_list]
 	scholar_list = Scholar_Area.objects.filter(area=area)
@@ -181,6 +236,7 @@ def area(request):
 		"conf_list": conf_list,
 		"scholar_list": scholar_list,
 		"paper_list": paper_list,
+		"Type": Type,
 	}
 	return render(request, "area.html", context)
 	
@@ -220,5 +276,17 @@ def profile(request):
 	user = request.user
 	sch = User_Scholar.objects.filter(user=user)
 	schs = [s.sch for s in sch]
-	print(len(schs))
-	return render(request,'profile.html',{'user':user, 'sch':schs})
+	ins = User_Institution.objects.filter(user=user)
+	inss = [s.ins for s in ins]
+	area = User_Area.objects.filter(user=user)
+	areas = [s.area for s in area]
+	conf = User_Conference.objects.filter(user=user)
+	confs = [s.conf for s in conf]
+	context = {
+		'user': user,
+		'sch': schs,
+		'ins': inss,
+		'area': areas,
+		'conf': confs,
+	}
+	return render(request, 'profile.html', context)

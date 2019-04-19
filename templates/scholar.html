@@ -2,16 +2,6 @@
 {% load index %}
 
 {% block mainbody %}
-	<script language="javascript" type="text/javascript">
-	$(document).ready(function(){
-		$("#follow_button").click(function(){
-  			$.post("",{'type':$("#follow_button").attr("data-title")},
-    			function(data,status){
-					$("#follow_button").attr("data-title", data.Type);
-  				});
-		});
-	});
-	</script>
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
 	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:70%;min-height:50%;">
 		<span style="width:100%">

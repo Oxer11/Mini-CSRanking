@@ -18,6 +18,28 @@
 			None
 		{% endfor %}
 		</p>
+		<br>
+		<p class="enum">
+		{% for s in ins %}
+			<a href="/institution/?name={{s.name}}"><p>{{s.name}}</p></a>
+		{% empty %}
+			None
+		{% endfor %}
+		</p>
+		<p class="enum">
+		{% for s in conf %}
+			<a href="/conference/?name={{s.name}}"><p>{{s.abbr}} {{s.year}}</p></a>
+		{% empty %}
+			None
+		{% endfor %}
+		</p>
+		<p class="enum">
+		{% for s in area %}
+			<a href="/area/?name={{s.name}}"><p>{{s.name}}</p></a>
+		{% empty %}
+			None
+		{% endfor %}
+		</p>
     </div>
 	</div>
 {% endblock %}

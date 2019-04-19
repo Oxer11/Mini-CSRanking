@@ -69,6 +69,14 @@
 	{% endblock %}
 	</div>
 </body>
-<script>
-</script>
+<script language="javascript" type="text/javascript">
+	$(document).ready(function(){
+		$("#follow_button").click(function(){
+  			$.post("",{'type':$("#follow_button").attr("data-title")},
+    			function(data,status){
+					$("#follow_button").attr("data-title", data.Type);
+  				});
+		});
+	});
+	</script>
 </html>
