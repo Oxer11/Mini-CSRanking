@@ -73,7 +73,7 @@ class Conference(models.Model):
         db_table = 'conference'
         verbose_name = '会议信息'
         verbose_name_plural = '会议信息'
-        ordering = ['name']
+        ordering = ['name', '-year']
 
 class Paper(models.Model):
     title = models.CharField(max_length=100)
@@ -88,7 +88,7 @@ class Paper(models.Model):
         db_table = 'paper'
         verbose_name = '论文信息'
         verbose_name_plural = '论文信息'
-        ordering = ['title']
+        ordering = ['-year']
 
 class Area(models.Model):
     name = models.CharField(max_length=50)
@@ -114,7 +114,7 @@ class Scholar_Paper(models.Model):
         db_table = 'scholar_paper'
         verbose_name = '作者-论文信息'
         verbose_name_plural = '作者-论文信息'
-        ordering = ['scholar_name']
+        ordering = ['paper_title', 'scholar_name']
 
 class Scholar_Area(models.Model):
     scholar_name = models.ForeignKey(Scholar, on_delete=models.CASCADE)
@@ -127,7 +127,7 @@ class Scholar_Area(models.Model):
         db_table = 'scholar_area'
         verbose_name = '作者-领域信息'
         verbose_name_plural = '作者-领域信息'
-        ordering = ['area']
+        ordering = ['area', 'scholar_name']
 
 class Conference_Area(models.Model):
     conf_id = models.ForeignKey(Conference, on_delete=models.CASCADE)
@@ -140,4 +140,4 @@ class Conference_Area(models.Model):
         db_table = 'conference_area'
         verbose_name = '会议-领域信息'
         verbose_name_plural = '会议-领域信息'
-        ordering = ['area']
+        ordering = ['area', 'conf_id']

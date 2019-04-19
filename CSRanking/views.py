@@ -78,15 +78,21 @@ def scholar(request):
 	paper_list = Scholar_Paper.objects.filter(scholar_name=person)
 	paper_list = [x.paper_title for x in paper_list]
 	author_list = []
+	co_authors = []
 	for paper in paper_list:
 		authors = Scholar_Paper.objects.filter(paper_title=paper)
 		authors = [x.scholar_name for x in authors]
+		co_authors += authors
 		author_list.append(authors)
+	co_authors = list(set(co_authors))
+	co_authors.remove(person)
+	co_authors.sort(key=lambda co_author: co_author.pub_cnt, reverse=True)
 	context = {
 		'scholar': person,
 		'areas': areas,
 		'paper_list': paper_list,
 		'author_list': author_list,
+		'co_authors': co_authors,
 	}
 	return render(request, "scholar.html", context)
 

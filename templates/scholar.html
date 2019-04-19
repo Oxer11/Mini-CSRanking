@@ -3,7 +3,7 @@
 
 {% block mainbody %} 
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
-	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;">
+	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:70%;min-height:50%;">
 		<h2 style="text-align:center;margin-bottom:20px;"><b>{{scholar.name}}</b></h2>
 		<p><a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
 		<p><a href="{{scholar.homepage}}">Homepage</a></p>
@@ -18,7 +18,7 @@
 		{% endfor %}
 		</p>
 	</div>
-	<div class="basic_info" class="container-fluid" style="float:right;text-align:left;margin-right:0;margin-top:20px;width:70%;">
+	<div class="basic_info" class="container-fluid" style="float:left;text-align:left;margin-right:0;margin-top:20px;width:60%;">
 		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Publication:</b></h2>
 		{% for p in paper_list %}
 		<div class="publication">
@@ -36,5 +36,22 @@
 		</div>
 		{% endfor %}
     </div>
+	<div id="coauthor" style="float:right;margin-right:20px;width:30%">
+		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Co-authors:</b></h2>
+  		<ul id="coauthor-ul">
+			{% for s in co_authors %}
+    		<li id="coauthor-li" >
+				{% load static %}
+				<a href="/scholar/?name={{ s.name }}">
+      			<img src="{% static 'avatar_scholar.png' %}" id="coauthor-img">
+      			<h3 id="coauthor-h3">{{ s.name }}</h3>
+      			<p id="coauthor-p">{{ s.affiliation }}</p>
+				<p id="coauthor-p" style="float:right">Pub: {{ s.pub_cnt }}</p>
+				</a>
+    		</li>
+			{% endfor %}
+  		</ul>
 	</div>
+	</div>
+
 {% endblock %}
