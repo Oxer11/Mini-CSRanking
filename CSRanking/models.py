@@ -6,7 +6,7 @@ from django.dispatch import receiver
 # Create your models here.
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	gender = models.CharField(max_length=10, choices=(("M", 'Male'), ("F", 'Female')), default='m')
+	gender = models.CharField(max_length=10, choices=(("M", 'Male'), ("F", 'Female')), default='M')
 	identity = models.CharField(max_length=10, choices=(("P", 'Professor'), ("S", u'Student')), default='S')
 	institution = models.CharField(max_length=100, blank=True, null=True)
 	
