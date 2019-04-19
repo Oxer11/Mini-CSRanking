@@ -92,6 +92,9 @@ def scholar(request):
 	areas = [x.area for x in areas]
 	paper_list = Scholar_Paper.objects.filter(scholar_name=person)
 	paper_list = [x.paper_title for x in paper_list]
+	pub_year_cnt = []
+	for i in range(2010, 2020):
+		pub_year_cnt.append((i, len(Scholar_Paper.objects.filter(scholar_name=person, paper_title__year=i))))
 	author_list = []
 	co_authors = []
 	for paper in paper_list:
@@ -109,6 +112,7 @@ def scholar(request):
 		'author_list': author_list,
 		'co_authors': co_authors,
 		'Type': Type,
+		'pub_year_cnt': pub_year_cnt,
 	}
 	return render(request, "scholar.html", context)
 

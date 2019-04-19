@@ -1,5 +1,5 @@
 const docStyle = document.documentElement.style;
-const aElem = document.querySelector('a');
+const aElem = document.getElementById('follow_button');
 const boundingClientRect = aElem.getBoundingClientRect();
 
 aElem.onmousemove = function (e) {
