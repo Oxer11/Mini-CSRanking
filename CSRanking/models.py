@@ -141,3 +141,55 @@ class Conference_Area(models.Model):
         verbose_name = '会议-领域信息'
         verbose_name_plural = '会议-领域信息'
         ordering = ['area', 'conf_id']
+
+class User_Institution(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ins = models.ForeignKey(Institution, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user + " " + self.ins
+
+    class Meta:
+        db_table = 'user_institution'
+        verbose_name = '用户关注学校'
+        verbose_name_plural = '用户关注学校信息'
+        ordering = ["user", 'ins']
+
+class User_Conference(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    conf = models.ForeignKey(Conference, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user + " " + self.conf
+
+    class Meta:
+        db_table = 'user_conference'
+        verbose_name = '用户关注会议'
+        verbose_name_plural = '用户关注会议信息'
+        ordering = ["user", 'conf']
+
+class User_Area(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user + " " + self.area
+
+    class Meta:
+        db_table = 'user_area'
+        verbose_name = '用户关注领域'
+        verbose_name_plural = '用户关注领域信息'
+        ordering = ["user", 'area']
+
+class User_Scholar(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    sch = models.ForeignKey(Scholar, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user + " " + self.sch
+
+    class Meta:
+        db_table = 'user_scholar'
+        verbose_name = '用户关注学者'
+        verbose_name_plural = '用户关注学者信息'
+        ordering = ["user", 'sch']

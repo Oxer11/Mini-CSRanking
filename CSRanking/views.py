@@ -8,7 +8,7 @@ from django.contrib.auth import *
 from django.contrib.auth.decorators import *
 # Create your views here.
 
-from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile
+from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile, User_Scholar, User_Area, User_Institution, User_Conference
 
 def paginate(page, out_list, num):
     paginator = Paginator(out_list, num)
@@ -68,11 +68,27 @@ def main(request):
 		return HttpResponseRedirect(reverse('index'))
 	
 def scholar(request):
+	user = request.user
 	person_name = request.GET.get('name', "NONE")
 	try:
 		person = Scholar.objects.get(name=person_name)
 	except Scholar.DoesNotExist:
 		return HttpResponse("This person does not exist!")
+	if request.method == "POST":
+		if user:
+			type = request.POST.get('type', "NONE")
+			if type == 'Follow':
+				User_Scholar.objects.get_or_create(user=user, sch=person)
+				print("Follow Successfully!")
+				return JsonResponse({"Type":"Unfollow"})
+			elif type == 'Unfollow':
+				User_Scholar.objects.get(user=user, sch=person).delete()
+				print("Unfollow Successfully!")
+				return JsonResponse({"Type": "Follow"})
+			else: print("Follow Type Error!")
+	Type = ""
+	if len(User_Scholar.objects.filter(user=user, sch=person))>=1: Type = "Unfollow"
+	else: Type = "Follow"
 	areas = Scholar_Area.objects.filter(scholar_name=person)
 	areas = [x.area for x in areas]
 	paper_list = Scholar_Paper.objects.filter(scholar_name=person)
@@ -85,7 +101,7 @@ def scholar(request):
 		co_authors += authors
 		author_list.append(authors)
 	co_authors = list(set(co_authors))
-	co_authors.remove(person)
+	if len(co_authors)>=1: co_authors.remove(person)
 	co_authors.sort(key=lambda co_author: co_author.pub_cnt, reverse=True)
 	context = {
 		'scholar': person,
@@ -93,6 +109,7 @@ def scholar(request):
 		'paper_list': paper_list,
 		'author_list': author_list,
 		'co_authors': co_authors,
+		'Type': Type,
 	}
 	return render(request, "scholar.html", context)
 
@@ -201,4 +218,7 @@ def Login(request):
 @login_required
 def profile(request):
 	user = request.user
-	return render(request,'profile.html',{'user':user})
+	sch = User_Scholar.objects.filter(user=user)
+	schs = [s.sch for s in sch]
+	print(len(schs))
+	return render(request,'profile.html',{'user':user, 'sch':schs})

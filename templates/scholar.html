@@ -1,10 +1,23 @@
 {% extends "base.html" %}
 {% load index %}
 
-{% block mainbody %} 
+{% block mainbody %}
+	<script language="javascript" type="text/javascript">
+	$(document).ready(function(){
+		$("#follow_button").click(function(){
+  			$.post("",{'type':$("#follow_button").attr("data-title")},
+    			function(data,status){
+					$("#follow_button").attr("data-title", data.Type);
+  				});
+		});
+	});
+	</script>
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
 	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:70%;min-height:50%;">
-		<h2 style="text-align:center;margin-bottom:20px;"><b>{{scholar.name}}</b></h2>
+		<span style="width:100%">
+			<h2 style="display:inline;text-align:center;margin-bottom:20px;"><b>{{scholar.name}}</b></h2>
+			<a type="submit" id="follow_button" style="float:right" data-title="{{ Type }}"></a>
+		</span>
 		<p><a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
 		<p><a href="{{scholar.homepage}}">Homepage</a></p>
 		<p class="enum"><a href="{{scholar.DBLP}}">DBLP</a><a href="{{scholar.GoogleScholar}}">GoogleScholar</a></p>
