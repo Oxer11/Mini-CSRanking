@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.models import Permission, User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import *
 from django.contrib.auth.decorators import *
 # Create your views here.
 
@@ -175,6 +175,7 @@ def Login(request):
 		if username.strip()=='' or email.strip()=='' or password.strip()=='':
 			return render(request,'login.html',{})
 		user = User.objects.create_user(username,email,password)
+		login(request,user)
 		print("Successfully create user:")
 		print(user.profile)
 		return HttpResponseRedirect(reverse('index'))
@@ -191,11 +192,13 @@ def Login(request):
 			return HttpResponseRedirect(reverse('index'))
 		else:
 			return HttpResponseRedirect(reverse('login'))
+	elif 'submit' in request.GET and request.GET.get('submit')=='signout':
+		logout(request)
+		return HttpResponseRedirect(reverse('index'))
 	else:
 		return render(request,'login.html',{})
 
 @login_required
 def profile(request):
-	name = request.user.username
-	email = request.user.email
-	return render(request,'profile.html',{'name':name,'email':email})
+	user = request.user
+	return render(request,'profile.html',{'user':user})
