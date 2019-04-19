@@ -44,6 +44,7 @@ def main(request):
 				ctx['author_lst'] = author_lst
 			elif type == 'institution':
 				ins_lst = paginate(pagenum, Institution.objects.filter(name__contains=key), 10)
+				print(ins_lst[0].homepage)
 				ctx['out_lst'] = ins_lst
 			elif type == 'conference':
 				conf_lst = Conference.objects.filter(name__contains=key)

@@ -121,6 +121,50 @@ def Add_Scholar_Area():
             Scholar_Area.objects.get_or_create(scholar_name=scholar, area=area)
     print("Add_Scholar_Area Complete!")
 
+def Add_Institution_homepage():
+    f = open("institution_homepage.csv", "rb")
+    institutions = []
+    for line in f:
+        line = line.decode("utf-8")
+        institutions.append(line.strip().split(","))
+    print(len(institutions))
+    cnt = 0
+    for ins in institutions:
+        cnt += 1
+        if cnt % 1000 == 0: print(cnt)
+        a = Institution.objects.get(name=ins[0])
+        if ins[1][0:8]!="https://" and ins[1][0:7]!="http://":
+            ins[1] = "http://" + ins[1]
+        a.homepage = ins[1]
+        a.save()
+        print(a.name, a.homepage)
+    print("Add_Institution_homepage Complete!")
+
+def Add_DBLP():
+    f = Scholar.objects.all()
+    print(len(f))
+    f = f[9500:]
+    cnt = 0
+    for sch in f:
+        cnt += 1
+        if cnt % 500 ==0: print(cnt)
+        name = sch.name.strip().rsplit(' ', 1)
+        if len(name) == 1:
+            last_name = name[0]
+            first_name = ""
+        else:
+            last_name = name[1]
+            first_name = name[0].replace(".", "=").replace(" ", "_")
+        #print(last_name, first_name)
+        if last_name[0] >= "0" and last_name[0] <= "9":
+            name = sch.name.strip().rsplit(' ', 2)
+            last_name = name[1] + "_" + name[2]
+            first_name = name[0].replace(".", "=").replace(" ", "_")
+        #print(name)
+        sch.DBLP = "https://dblp.uni-trier.de/pers/hd/" + last_name[0].lower() + "/" + last_name + ":" + first_name
+        #print(sch.name, sch.DBLP)
+        sch.save()
+
 if __name__ == "__main__":
     #Add_Area()
     #Add_Conference()
@@ -129,4 +173,6 @@ if __name__ == "__main__":
     #Add_Scholar()
     #Add_Paper()
     #Add_Paper_Author()
-    Add_Scholar_Area()
+    #Add_Scholar_Area()
+    #Add_Institution_homepage()
+    Add_DBLP()

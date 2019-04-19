@@ -22,25 +22,28 @@ def getHtmlText(url):
 def getContent(url):
     html = getHtmlText(url)
     soup = BeautifulSoup(html, 'lxml')
-    li = soup.find('div', attrs={'id':'ires'})
-    cite = li.find('cite')
-    cite = re.sub(r"</?cite>|</?b>", "", str(cite))
-    return cite
+    print(soup.prettify())
+    li = soup.find('div', attrs={'class':'gs_ri'})
+    print(li)
+    #cite = li.find('cite')
+    #cite = re.sub(r"</?cite>|</?b>", "", str(cite))
+    #return cite
 
 def main(base_url, fin, fout):
     cnt = 0
     for line in fin:
         cnt += 1
+        if cnt > 1: break
         if cnt % 50 == 0: print(cnt)
         line = line.decode("utf-8")
-        url = base_url + 'CS ' + line.strip() + '&num=1'
+        url = base_url + line.strip().split("***")[0] + '&btn='
         print(url)
         content = getContent(url)
-        print(content)
-        fout.write((line.strip() + ',' + content + '\n').encode("utf-8"))
-    print("学校信息已保存完毕！")
+        #print(content)
+        #fout.write((line.strip() + ',' + content + '\n').encode("utf-8"))
+    print("论文信息已保存完毕！")
 
-base_url = "https://www.google.com.hk/search?q="
+base_url = "https://scholar.google.com/scholar?&hl=en&num=1&q="
 paper = open("paper.csv", "rb")
 
 if __name__ == '__main__':
