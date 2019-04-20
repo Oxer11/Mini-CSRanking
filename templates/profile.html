@@ -2,73 +2,67 @@
 {% load index %}
 {% load static %}
 
-{% block mainbody %} 
-	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
-	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;">
-		<a href="/pro_edit/" style="display:inline-block;position:fixed;right:990px;"><img src="{% static 'edit.png' %}" alt="edit" style="height:25px;width:25px;"/></a>
-		<h2 style="text-align:center;"><b>{{user.username}}</b></h2>
-		<h6 style="text-align:center;margin-bottom:20px;">
-		{% ifnotequal user.profile.identity None %}
-			{% ifequal user.profile.identity 'P' %}
-			Professor
-			{% else %}
-			Student
-			{% endifequal %}
-		{% else %}
-		Undefined
-		{% endifnotequal %}
-		</h6>
-		<p>Gender:
-		{% ifnotequal user.profile.gender None %}
-			{% ifequal user.profile.gender 'M' %}
-			Male
-			{% else %}
-			Female
-			{% endifequal %}
-		{% else %}
-		Undefined
-		{% endifnotequal %}
-		</p>
-		<p>Email:{{user.email}}</p>
-		<p>Institution:
-		{% ifnotequal user.profile.institution None %}
-		{{user.profile.institution}}
-		{% else %}
-		Undefined
-		{% endifnotequal %}
-		</p>
-	</div>
-	<div class="basic_info" class="container-fluid" style="float:right;text-align:left;margin-right:0;margin-top:20px;width:70%;">
-		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Following:</b></h2>
-		<p class="enum">
-		{% for s in sch %}
-			<a href="/scholar/?name={{s.name}}"><p>{{s.name}}</p></a>
-		{% empty %}
-			None
-		{% endfor %}
-		</p>
-		<br>
-		<p class="enum">
-		{% for s in ins %}
-			<a href="/institution/?name={{s.name}}"><p>{{s.name}}</p></a>
-		{% empty %}
-			None
-		{% endfor %}
-		</p>
-		<p class="enum">
-		{% for s in conf %}
-			<a href="/conference/?name={{s.name}}"><p>{{s.abbr}} {{s.year}}</p></a>
-		{% empty %}
-			None
-		{% endfor %}
-		</p>
-		<p class="enum">
-		{% for s in area %}
-			<a href="/area/?name={{s.name}}"><p>{{s.name}}</p></a>
-		{% empty %}
-			None
-		{% endfor %}
-		</p>
-    </div>
-	</div>
+{% block mainbody %}
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'pro_iconfont.css' %}">
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'pro_style.css' %}">
+
+<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
+		<div class="main w1200">
+			<div class="left">
+				<ul>
+					<li>
+						<a class="active">
+							<i class="icon iconfont icon-geren"></i>
+							Profile
+						</a>
+					</li>
+					<li>
+						<a href="/follow/">
+							<i class="icon iconfont icon-jilu"></i>
+							Following
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="right">
+				<div class="tap">
+					<span>Profile</span>
+				</div>
+				<div class="container">
+					<a href="/pro_edit/" style="display:inline-block;position:fixed;right:120px;"><img src="{% static 'edit.png' %}" alt="edit" style="height:25px;width:25px;"/></a>
+					<h2 style="text-align:center;"><b>{{user.username}}</b></h2>
+					<h6 style="text-align:center;margin-bottom:20px;">
+					{% ifnotequal user.profile.identity None %}
+						{% ifequal user.profile.identity 'P' %}
+						Professor
+						{% else %}
+						Student
+						{% endifequal %}
+					{% else %}
+					Undefined
+					{% endifnotequal %}
+					</h6>
+					<p>Gender:
+					{% ifnotequal user.profile.gender None %}
+							{% ifequal user.profile.gender 'M' %}
+							Male
+							{% else %}
+							Female
+							{% endifequal %}
+					{% else %}
+					Undefined
+					{% endifnotequal %}
+					</p>
+					<p>Email:{{user.email}}</p>
+					<p>Institution:
+					{% ifnotequal user.profile.institution None %}
+					{{user.profile.institution}}
+					{% else %}
+					Undefined
+					{% endifnotequal %}
+					</p>
+				</div>
+			</div>
+		</div>
+</div>
 {% endblock %}

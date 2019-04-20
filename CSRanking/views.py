@@ -241,31 +241,29 @@ def area(request):
 	return render(request, "area.html", context)
 	
 def Login(request):	
-	if 'submit' in request.GET and request.GET.get('submit')=='signup':
-		username = request.GET.get('username')
-		email = request.GET.get('email')
-		password = request.GET.get('password')
+	if 'submit' in request.POST and request.POST.get('submit')=='signup':
+		username = request.POST.get('username')
+		email = request.POST.get('email')
+		password = request.POST.get('password')
 		if username.strip()=='' or email.strip()=='' or password.strip()=='':
-			return render(request,'login.html',{})
+			return render(request,'login.html',{'signup_error':'Incomplete form'})
+		if len(User.objects.filter(username=username))>=1:
+			return render(request,'login.html',{'signup_error':'Username already exits'})
 		user = User.objects.create_user(username,email,password)
 		login(request,user)
-		print("Successfully create user:")
-		print(user.profile)
 		return HttpResponseRedirect(reverse('index'))
-	elif 'submit' in request.GET and request.GET.get('submit')=='signin':
-		username = request.GET.get('username')
-		password = request.GET.get('password')
+	elif 'submit' in request.POST and request.POST.get('submit')=='signin':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
 		if username.strip()=='' or password.strip()=='':
-			return render(request,'login.html',{})
+			return render(request,'login.html',{'signin_error':'Incomplete form'})
 		user = authenticate(username=username,password=password)
 		if user is not None:
 			login(request, user)
-			print('Successfully log in:')
-			print(user.profile)
 			return HttpResponseRedirect(reverse('index'))
 		else:
-			return HttpResponseRedirect(reverse('login'))
-	elif 'submit' in request.GET and request.GET.get('submit')=='signout':
+			return render(request,'login.html',{'signin_error':'Wrong username or password'})
+	elif 'submit' in request.POST and request.POST.get('submit')=='signout':
 		logout(request)
 		return HttpResponseRedirect(reverse('index'))
 	else:
@@ -274,22 +272,7 @@ def Login(request):
 @login_required
 def profile(request):
 	user = request.user
-	sch = User_Scholar.objects.filter(user=user)
-	schs = [s.sch for s in sch]
-	ins = User_Institution.objects.filter(user=user)
-	inss = [s.ins for s in ins]
-	area = User_Area.objects.filter(user=user)
-	areas = [s.area for s in area]
-	conf = User_Conference.objects.filter(user=user)
-	confs = [s.conf for s in conf]
-	context = {
-		'user': user,
-		'sch': schs,
-		'ins': inss,
-		'area': areas,
-		'conf': confs,
-	}
-	return render(request, 'profile.html', context)
+	return render(request, 'profile.html', {'user':user})
 	
 @login_required
 def pro_edit(request):
@@ -329,3 +312,22 @@ def pro_edit(request):
 		login(request,user)
 		return HttpResponseRedirect(reverse('profile'))
 	return render(request,'pro_edit.html',{'user':user})
+
+@login_required
+def follow(request):
+	user = request.user
+	sch = User_Scholar.objects.filter(user=user)
+	schs = [s.sch for s in sch]
+	ins = User_Institution.objects.filter(user=user)
+	inss = [s.ins for s in ins]
+	area = User_Area.objects.filter(user=user)
+	areas = [s.area for s in area]
+	conf = User_Conference.objects.filter(user=user)
+	confs = [s.conf for s in conf]
+	context = {
+		'sch': schs,
+		'ins': inss,
+		'area': areas,
+		'conf': confs,
+	}
+	return render(request,'follow.html',context)

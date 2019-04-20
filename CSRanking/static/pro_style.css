@@ -1,0 +1,16 @@
+*{font-family: "microsoft yahei";box-sizing: border-box;padding: 0;margin: 0;color: inherit;}
+img{border: none;}
+ul{list-style: none;}
+a{text-decoration: none;}
+a:hover{text-decoration:none;}
+.w1200{width: 1200px;height: auto;margin: 0 auto;overflow: hidden;font-size: 16px;}
+.main .left{float: left;width: 200px;height:100px;overflow: hidden;margin-right: 20px;background: #fff;border-radius: 5px 5px 5px 5px;}
+.main .left ul li{width: 100%;height: 50px;line-height: 50px;color: #666666;}
+.main .left ul li a{display: block;width: 100%;height: 100%;padding-left: 20px;}
+.main .left ul li a i{font-size: 20px;padding-right: 5px;}
+.main .left ul li a.active{border-left: 3px solid #d45d7d;background: #f3f7ed;color: #d45d7d;}
+.main .left ul li a:hover{border-left: 3px solid #E86C8D;background: #f3f7ed;color: #E86C8D;}
+.main .right{float: left;width: 980px;height: auto;overflow: hidden;border-radius: 5px 5px 5px 5px;}
+.main .right .tap{width: 100%;height: 45px;border-bottom: 2px solid #E86C8D;background: #f9fafa;}
+.main .right .tap span{font-size:25px;display: block;width: 130px;height: 100%;line-height: 40px;color: #fff;text-align: center;background: #E86C8D;}
+.main .right .container{width: 100%;min-height: 400px;overflow: hidden;background: #fff;}

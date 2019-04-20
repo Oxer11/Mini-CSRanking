@@ -25,7 +25,11 @@
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<a href="/main/"><img src="{% static 'home_arrow.png' %}" alt="Home" style="height:35px;width:35px;position:relative;top:7px;left:7px;"/></a>
-		<form method="get" action="/login/">
+		{% if signup_error %}
+		<p style="position:absolute;color:gray;left:50px;top:50px;"><img src="{% static 'error.png' %}" alt='' style="height:15px;width:15px;display:inlinr-block;margin-right:5px;">{{ signup_error }}</p>
+		{% else %}
+		{% endif %}
+		<form method="post" action="/login/">
 			<h1 style="display:inline-block;margin-bottom:30px;">Sign Up</h1>
 			<input type="text" name="username" placeholder="Name" />
 			<input type="email" name="email" placeholder="Email" />
@@ -35,7 +39,11 @@
 	</div>
 	<div class="form-container sign-in-container">
 		<a href="/main/"><img src="{% static 'home_arrow.png' %}" alt="Home" style="height:35px;width:35px;position:relative;top:7px;left:7px;"/></a>
-		<form method="get" action="/login/">
+		{% if signin_error %}
+		<p style="position:absolute;color:gray;left:50px;top:50px;"><img src="{% static 'error.png' %}" alt='' style="height:15px;width:15px;display:inline-block;margin-right:5px;">{{ signin_error }}</p>
+		{% else %}
+		{% endif %}
+		<form method="post" action="/login/">
 			<h1 style="display:inline-block;margin-bottom:30px;">Sign In</h1>
 			<input type="text" name="username" placeholder="Name" />
 			<input type="password" name="password" placeholder="Password" />

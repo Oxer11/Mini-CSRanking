@@ -26,7 +26,7 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 			<div style="margin-top:10px;margin-bottom:10px;">
 			<h4><a href="/scholar/?name={{ s.name }}"><b>{{s.name}}</b></a></h4>
 			<p class="enum"><a href="{{s.homepage}}">Homepage</a><a href="{{s.DBLP}}">DBLP</a><a href="{{s.GoogleScholar}}">GoogleScholar</a></p>
-				<p>Number of Publications: {{s.pub_cnt}}</p>>
+				<p>Number of Publications: {{s.pub_cnt}}</p>
 				<p class="enum"><b>Areas</b>:
 			{% for a in area_list|index:forloop.counter0 %}
 				<a href="/area/?name={{a.name}}">{{a.name}}</a>
