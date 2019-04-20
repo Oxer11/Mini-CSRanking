@@ -1,5 +1,5 @@
 # Mini-CS Ranking
-![homepage](README.asset\homepage.png)
+![homepage](README.asset/homepage.png)
 
 Mini-CS Ranking for Database 2019 Spring @ Fudan University, by [**Xinyi Zhou**](<https://github.com/veghen>) and [**Zuobai Zhang**](<https://oxer11.github.io/>)
 
@@ -7,7 +7,7 @@ Mini-CS Ranking for Database 2019 Spring @ Fudan University, by [**Xinyi Zhou**]
 
 ## What's This
 
-This is the mid-term project of our database course. In this project, we are required to implement a DB-based application in a practical scenario. Here are the detailed [requirements](doc\project01.pdf) and our [reports](doc\report.pdf). 
+This is the mid-term project of our database course. In this project, we are required to implement a DB-based application in a practical scenario. Here are the detailed [requirements](doc/project01.pdf) and our [reports](doc/report.pdf). 
 
 
 
