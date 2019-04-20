@@ -10,6 +10,36 @@ from django.contrib.auth.decorators import *
 
 from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile, User_Scholar, User_Area, User_Institution, User_Conference
 
+dict = {
+	'Artificial intelligence': 'AI',
+	'Computer vision': 'Vision',
+	'Machine learning': 'ML',
+	'Data mining': 'DM',
+	'Natural language processing': 'NLP',
+	'The Web & information retrieval': 'Web+IR',
+	'Computer architecture': 'Arch',
+	'Computer networks': 'Networks',
+	'Computer security': 'Security',
+	'Databases': 'DB',
+	'Design automation': 'EDA',
+	'Embedded & real-time systems': 'Embedded',
+	'High-performance computing': 'HPC',
+	'Mobile computing': 'Mobile',
+	'Measurement & perf. analysis': 'Metrics',
+	'Operating systems': 'OS',
+	'Programming languages': 'PL',
+	'Software engineering': 'SE',
+	'Algorithms & complexity': 'Theory',
+	'Cryptography': 'Crypto',
+	'Logic & verification': 'Logic',
+	'Comp. bio & bioinformatics': 'Comp. Bio',
+	'Computer graphics': 'Graphics',
+	'Economics & computation': 'ECom',
+	'Human-computer interaction': 'HCI',
+	'Robotics': 'Robotics',
+	'Visualization': 'Visualization',
+}
+
 def paginate(page, out_list, num):
     paginator = Paginator(out_list, num)
     try:
@@ -74,24 +104,25 @@ def scholar(request):
 	except Scholar.DoesNotExist:
 		return HttpResponse("This person does not exist!")
 	if request.method == "POST":
-		if user:
+		if request.user.is_authenticated:
 			type = request.POST.get('type', "NONE")
 			if type == 'Follow':
 				User_Scholar.objects.get_or_create(user=user, sch=person)
-				print("Follow Successfully!")
 				return JsonResponse({"Type":"Unfollow"})
 			elif type == 'Unfollow':
 				User_Scholar.objects.get(user=user, sch=person).delete()
-				print("Unfollow Successfully!")
 				return JsonResponse({"Type": "Follow"})
 			else: print("Follow Type Error!")
-	Type = ""
-	if len(User_Scholar.objects.filter(user=user, sch=person))>=1: Type = "Unfollow"
-	else: Type = "Follow"
+	Type = "Follow"
+	if request.user.is_authenticated:
+		if len(User_Scholar.objects.filter(user=user, sch=person))>=1: Type = "Unfollow"
 	areas = Scholar_Area.objects.filter(scholar_name=person)
 	areas = [x.area for x in areas]
 	paper_list = Scholar_Paper.objects.filter(scholar_name=person)
 	paper_list = [x.paper_title for x in paper_list]
+	pub_year_cnt = []
+	for i in range(2010, 2020):
+		pub_year_cnt.append((i, len(Scholar_Paper.objects.filter(scholar_name=person, paper_title__year=i))))
 	author_list = []
 	co_authors = []
 	for paper in paper_list:
@@ -109,6 +140,7 @@ def scholar(request):
 		'author_list': author_list,
 		'co_authors': co_authors,
 		'Type': Type,
+		'pub_year_cnt': pub_year_cnt,
 	}
 	return render(request, "scholar.html", context)
 
@@ -120,22 +152,19 @@ def conference(request):
 	except Conference.DoesNotExist:
 		return HttpResponse("This conference does not exist!")
 	if request.method == "POST":
-		if user:
+		if request.user.is_authenticated:
 			type = request.POST.get('type', "NONE")
 			if type == 'Follow':
 				User_Conference.objects.get_or_create(user=user, conf=conf)
-				print("Follow Successfully!")
 				return JsonResponse({"Type":"Unfollow"})
 			elif type == 'Unfollow':
 				User_Conference.objects.get(user=user, conf=conf).delete()
-				print("Unfollow Successfully!")
 				return JsonResponse({"Type": "Follow"})
 			else: print("Follow Type Error!")
-	Type = ""
-	if len(User_Conference.objects.filter(user=user, conf=conf)) >= 1:
-		Type = "Unfollow"
-	else:
-		Type = "Follow"
+	Type = "Follow"
+	if request.user.is_authenticated:
+		if len(User_Conference.objects.filter(user=user, conf=conf)) >= 1:
+			Type = "Unfollow"
 	areas = Conference_Area.objects.filter(conf_id=conf)
 	areas = [x.area for x in areas]
 	paper_list = Paper.objects.filter(conf_id=conf)
@@ -161,22 +190,19 @@ def institution(request):
 	except Institution.DoesNotExist:
 		return HttpResponse("This institution does not exist!")
 	if request.method == "POST":
-		if user:
+		if request.user.is_authenticated:
 			type = request.POST.get('type', "NONE")
 			if type == 'Follow':
 				User_Institution.objects.get_or_create(user=user, ins=Ins)
-				print("Follow Successfully!")
 				return JsonResponse({"Type":"Unfollow"})
 			elif type == 'Unfollow':
 				User_Institution.objects.get(user=user, ins=Ins).delete()
-				print("Unfollow Successfully!")
 				return JsonResponse({"Type": "Follow"})
 			else: print("Follow Type Error!")
-	Type = ""
-	if len(User_Institution.objects.filter(user=user, ins=Ins)) >= 1:
-		Type = "Unfollow"
-	else:
-		Type = "Follow"
+	Type = "Follow"
+	if request.user.is_authenticated:
+		if len(User_Institution.objects.filter(user=user, ins=Ins)) >= 1:
+			Type = "Unfollow"
 	scholar_list = Scholar.objects.filter(affiliation=Ins)
 	area_list = []
 	paper_list = []
@@ -188,12 +214,23 @@ def institution(request):
 		papers = [x.paper_title for x in papers]
 		if len(papers)>=5: papers = papers[0:5]
 		paper_list.append(papers)
+	area_papers = []
+	for area in Area.objects.all():
+		cnt = 0
+		for conf in Conference_Area.objects.filter(area=area):
+			conf = conf.conf_id
+			papers = Scholar_Paper.objects.filter(scholar_name__in=scholar_list, paper_title__conf_id=conf)
+			papers = [x.paper_title for x in papers]
+			papers = list(set(papers))
+			cnt += len(papers)
+		area_papers.append((dict[area.name], cnt))
 	context = {
 		"ins": Ins,
 		"area_list": area_list,
 		"scholar_list": scholar_list,
 		"paper_list": paper_list,
 		"Type": Type,
+		"area_papers":area_papers,
 	}
 	return render(request, "institution.html", context)
 
@@ -205,22 +242,19 @@ def area(request):
 	except Area.DoesNotExist:
 		return HttpResponse("This institution does not exist!")
 	if request.method == "POST":
-		if user:
+		if request.user.is_authenticated:
 			type = request.POST.get('type', "NONE")
 			if type == 'Follow':
 				User_Area.objects.get_or_create(user=user, area=area)
-				print("Follow Successfully!")
 				return JsonResponse({"Type":"Unfollow"})
 			elif type == 'Unfollow':
 				User_Area.objects.get(user=user, area=area).delete()
-				print("Unfollow Successfully!")
 				return JsonResponse({"Type": "Follow"})
 			else: print("Follow Type Error!")
-	Type = ""
-	if len(User_Area.objects.filter(user=user, area=area)) >= 1:
-		Type = "Unfollow"
-	else:
-		Type = "Follow"
+	Type = "Follow"
+	if request.user.is_authenticated:
+		if len(User_Area.objects.filter(user=user, area=area)) >= 1:
+			Type = "Unfollow"
 	conf_list = Conference_Area.objects.filter(area=area)
 	conf_list = [c.conf_id for c in conf_list]
 	scholar_list = Scholar_Area.objects.filter(area=area)

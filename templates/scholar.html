@@ -21,7 +21,25 @@
 		{% endfor %}
 		</p>
 	</div>
-	<div class="basic_info" class="container-fluid" style="float:left;text-align:left;margin-right:0;margin-top:20px;margin-bottom:30px;width:60%;">
+
+	<div id="container" style="float:right; width: 35%; height: 40%; margin-top: 20px"></div>
+	<table id="datatable" style="display:none">
+		<thead>
+			<tr>
+				<th></th>
+				<th>{{ scholar.name }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for p in pub_year_cnt %}
+				<tr>
+					<th>{{ p.0 }}</th>
+					<td>{{ p.1 }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="basic_info" class="container-fluid" style="float:left;text-align:left;margin-right:0;margin-top:20px;width:60%;">
 		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Publication:</b></h2>
 		{% for p in paper_list %}
 		<div class="publication">
@@ -56,5 +74,9 @@
   		</ul>
 	</div>
 	</div>
-
+	{% load static %}
+	<script src="{% static 'highcharts.js' %}"></script>
+	<script src="{% static 'data.js' %}"></script>
+	<script src="{% static 'exporting.js' %}"></script>
+	<script src="{% static 'pub_chart.js' %}"></script>
 {% endblock %}

@@ -13,12 +13,15 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 
 {% block mainbody %} 
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%">
-	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;">
-		<h2 style="text-align:center;margin-bottom:20px;"><b>{{ins.name}}</b></h2>
+	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:0px;width:25%;height:27%;">
+		<span>
+			<h2 style="display:inline;text-align:center;margin-bottom:20px;"><b>{{ins.name}}</b></h2>
+			<a type="submit" id="follow_button" style="float:right" data-title="{{ Type }}"></a>
+		</span>
 		<p><a href="{{ins.homepage}}">Homepage</a></p>
 		<p>Number of Publications: {{ins.pub_cnt}} </p>
-		<a type="submit" id="follow_button" style="float:right" data-title="{{ Type }}"></a>
 	</div>
+	<div id="container" style="float:left;position:fixed;margin-left:0;margin-top:14%;width:25%;min-height:40%;"></div>
 	<div class="basic_info" class="container-fluid" style="float:right;text-align:left;margin-right:0;margin-top:20px;width:70%;">
 		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Scholars:</b></h2>
 		{% for s in scholar_list %}
@@ -47,4 +50,47 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 		{% endfor %}
     </div>
 	</div>
+{% load static %}
+<script src="{% static 'highcharts.js' %}"></script>
+<script src="{% static 'exporting.js' %}"></script>
+<script>
+	Highcharts.chart('container', {
+	chart: {
+		plotBackgroundColor: null,
+		plotBorderWidth: null,
+		plotShadow: false,
+		type: 'pie'
+	},
+	title: {
+		text: 'Area Distribution'
+	},
+	tooltip: {
+		pointFormat: '{series.name}: <b>{point.y}</b>'
+	},
+	plotOptions: {
+		pie: {
+			allowPointSelect: true,
+			cursor: 'pointer',
+			dataLabels: {
+				enabled: true,
+				format: '<b>{point.name}</b>',
+				style: {
+					color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+				}
+			}
+		}
+	},
+	series: [{
+		name: 'Pub',
+		colorByPoint: true,
+		data: [
+		{% for a in area_papers %}
+		{
+			name: '{{ a.0 }}',
+			y: {{ a.1 }}
+		},
+		{% endfor %}]
+	}]
+});
+</script>
 {% endblock %}
