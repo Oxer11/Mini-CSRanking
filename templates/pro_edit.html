@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% load index %}
+{% load static %}
 
 {% block mainbody %} 
 <div class="container-fluid">
-	<form method="get" action="/pro_edit/" class="search_r">
+	<form method="post" action="/pro_edit/" class="search_r">
 	<div style="margin-bottom:30px;">
 		<h2 style="text-align:center;"><b>{{user.username}}</b></h2>
 		<p><b>Identity:</b>
@@ -47,6 +48,10 @@
 		<input type="password" name="old_pw" placeholder="Password"/>
 		<input type="password" name="new_pw" placeholder="New Password"/>
 		<input type="password" name="cfm_pw" placeholder="Confirm Password"/>
+		{% if error %}
+		<p style="position:absolute;color:gray;left:18px;bottom:48px;"><img src="{% static 'error.png' %}" alt='' style="height:15px;width:15px;display:inlinr-block;margin-right:5px;">{{ error }}</p>
+		{% else %}
+		{% endif %}
 		<button id="save" type="submit" name="submit" value="save">Save</button>
 	</div>
 	</form>

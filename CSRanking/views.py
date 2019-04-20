@@ -240,7 +240,7 @@ def area(request):
 	try:
 		area = Area.objects.get(name=name)
 	except Area.DoesNotExist:
-		return HttpResponse("This institution does not exist!")
+		return HttpResponse("This Area does not exist!")
 	if request.method == "POST":
 		if request.user.is_authenticated:
 			type = request.POST.get('type', "NONE")
@@ -311,34 +311,34 @@ def profile(request):
 @login_required
 def pro_edit(request):
 	user = request.user
-	if 'submit' in request.GET and request.GET.get('submit')=='save':
-		old_pw = request.GET.get('old_pw')
+	if 'submit' in request.POST and request.POST.get('submit')=='save':
+		old_pw = request.POST.get('old_pw')
 		user_ = authenticate(username=user.username,password=old_pw)
 		if user_ is not None:
-			new_pw = request.GET.get('new_pw')
-			cfm_pw = request.GET.get('cfm_pw')
+			new_pw = request.POST.get('new_pw')
+			cfm_pw = request.POST.get('cfm_pw')
 			if new_pw != cfm_pw:
-				return render(request,'pro_edit.html',{'user':user})
+				return render(request,'pro_edit.html',{'user':user,'error':'Passwords do not match'})
 			else:
 				user.set_password(new_pw)
 		else:
-			return render(request,'pro_edit.html',{'user':user})
+			return render(request,'pro_edit.html',{'user':user,'error':'Wrong password'})
 				
-		identity = request.GET.get('identity')
+		identity = request.POST.get('identity')
 		if identity.strip()!='':
 			print(identity)
 			user.profile.identity = identity
 		
-		gender = request.GET.get('gender')
+		gender = request.POST.get('gender')
 		if gender.strip()!='':
 			print(gender)
 			user.profile.gender = gender
 			
-		email = request.GET.get('email')
+		email = request.POST.get('email')
 		if email.strip()!='':
 			user.email = email
 		
-		institution = request.GET.get('institution')
+		institution = request.POST.get('institution')
 		if institution.strip()!='':
 			user.profile.institution = institution
 		

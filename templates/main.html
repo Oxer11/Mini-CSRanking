@@ -7,10 +7,10 @@
 		{% ifequal type "scholar" %}
 			{%for sch in out_lst %}
 				<div>
-					<h2><a href="/scholar/?name={{ sch.name }}" class="sch_name">{{sch.name}}</a></h2>
-					<p><a href="/institution/?name={{sch.affiliation.name}}" class="sch_aff">{{sch.affiliation}}</a></p>
+					<h2><a href="/scholar/?name={{ sch.name|urlencode }}" class="sch_name">{{sch.name}}</a></h2>
+					<p><a href="/institution/?name={{sch.affiliation.name|urlencode}}" class="sch_aff">{{sch.affiliation}}</a></p>
 					<p><a href="{{ sch.homepage }}" class="sch_url">Homepage</a></p>
-					<p class="enum"><a href="{{sch.DBLP}}">DBLP</a><a href={{sch.GoogleScholar}}>Google Scholar</a></p>
+					<p class="enum"><a href="{{sch.DBLP}}">DBLP</a><a href="{{sch.GoogleScholar}}">Google Scholar</a></p>
 					<p>Number of Publications: {{sch.pub_cnt}} </p>
 				</div>
 			{% empty %}
@@ -20,11 +20,11 @@
 		{% ifequal type "paper" %}
 			{% for p in out_lst %}
 				<div>
-					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
+					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr|urlencode}}&year={{p.year|urlencode}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
 					<h3><a href="{{p.href}}">{{p.title}}</a></h3>
 					<p class="enum">
 					{% for sch in author_lst|index:forloop.counter0 %}
-						<a href="/scholar/?name={{ sch.name }}">{{sch.name}}</a>
+						<a href="/scholar/?name={{ sch.name|urlencode }}">{{sch.name}}</a>
 					{% empty %}
 						None
 					{% endfor %}
@@ -37,7 +37,7 @@
 		{% ifequal type "institution" %}
 			{% for ins in out_lst %}
 				<div>
-					<h2><a href="/institution/?name={{ins.name}}">{{ins.name}}</a></h2>
+					<h2><a href="/institution/?name={{ins.name|urlencode}}">{{ins.name}}</a></h2>
 					<p><a href="{{ins.homepage}}">Homepage</a></p>
 					<p>Number of Publications: {{ins.pub_cnt}}</p>
 				</div>
@@ -48,7 +48,7 @@
 		{% ifequal type "conference" %}
 			{% for conf in out_lst %}
 				<div>
-					<h2><a href="/conference/?name={{conf.abbr}}&year={{conf.year}}">{{conf.abbr}} {{conf.year}}</a></h2>
+					<h2><a href="/conference/?name={{conf.abbr|urlencode}}&year={{conf.year|urlencode}}">{{conf.abbr}} {{conf.year}}</a></h2>
 					<p>{{conf.name}}</p>
 					<p class="enum"><a href="{{conf.Href}}">Homepage</a><a href="{{conf.DBLP}}">DBLP</a></p>
 				</div>
@@ -59,14 +59,14 @@
 		{% ifequal type "area" %}
 			{% for a in out_lst %}
 				<div>
-					<h2><a href="/area/?name={{a.name}}">{{a.name}}</a></h2>
+					<h2><a href="/area/?name={{a.name|urlencode}}">{{a.name}}</a></h2>
 					<p>Direction: {{a.direction}}<p>
 				</div>
 			{% empty %}
 				<div><h2>No areas found.</h2></div>
 			{% endfor %}
 		{% endifequal %}
-		<!-- Start Pagination -->
+	<!-- Start Pagination -->
 		<ul class="pagination">
 			{% if out_lst.has_previous %}
 				<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ ins_lst.previous_page_number }}">&lt;</a></li>
@@ -86,7 +86,7 @@
 				<li><a href="#0">&gt;</a></li>
 			{% endif %}
 		</ul>
-		<!-- End Pagination -->
+	<!-- End Pagination -->
 	</div>
 	{% else %}
 	{% endif %}
