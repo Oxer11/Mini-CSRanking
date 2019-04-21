@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.conf import settings
+from django.shortcuts import redirect
 
 from django.contrib.auth.models import Permission, User
 from django.contrib.auth import *
 from django.contrib.auth.decorators import *
 # Create your views here.
 
-from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile, User_Scholar, User_Area, User_Institution, User_Conference
+from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile, User_Scholar, User_Area, User_Institution, User_Conference, Note, Remark
 
 dict = {
 	'Artificial intelligence': 'AI',
@@ -274,6 +276,15 @@ def area(request):
 	}
 	return render(request, "area.html", context)
 	
+def paper(request):
+	title = request.Get.get('paper')
+	try:
+		paper = Paper.objects.get(title=title)
+	except Paper.DoesNotExist:
+		return HttpResponse("This paper does not exist!")
+	note_lst = Note.objects.filter(paper=paper)
+	return render(request,'paper.html',{'paper':paper,'note_lst':note_lst})
+	
 def Login(request):	
 	if 'submit' in request.POST and request.POST.get('submit')=='signup':
 		username = request.POST.get('username')
@@ -365,3 +376,39 @@ def follow(request):
 		'conf': confs,
 	}
 	return render(request,'follow.html',context)
+	
+@login_required
+def edit_note(request):
+	user = request.user
+	if 'submit' in request.GET and request.GET.get('submit')=='save':
+		p = request.GET.get('paper')
+		try:
+			paper = Paper.objects.get(title=p)
+		except Paper.DoesNotExist:
+			return HttpResponse("This paper does not exist!")
+		title = request.GET.get('title')
+		content = request.GET.get('content')
+		Note.objects.create(title=title,content=content,author=user,paper=paper)
+		return HttpResponseRedirect(reverse('paper'))
+	else:
+		paper = request.GET.get('paper')
+		return render(request,'edit_note.html',{'paper':paper})
+		
+def note(request):
+	title = request.Get.get('note')
+	try:
+		note = Note.objects.get(title=note)
+	except Note.DoesNotExist:
+		return HttpResponse("This note does not exist!")
+	if 'submit' in request.GET:
+		if request.user.is_authenticated:
+			user = request.user
+			content = request.GET.get('content')
+			Remark.objects.create(content=content,author=user,note=note)
+			remark_lst = Remark.objects.filter(note=note)
+			return render(request,'note.html',{'note':note,'remark_lst':remark_lst})
+		else:
+			return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+	else:
+		remark_lst = Remark.objects.filter(note=note)
+		return render(request,'note.html',{'note':note,'remark_lst':remark_lst})

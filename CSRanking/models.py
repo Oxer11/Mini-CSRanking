@@ -193,3 +193,34 @@ class User_Scholar(models.Model):
         verbose_name = '用户关注学者'
         verbose_name_plural = '用户关注学者信息'
         ordering = ["user", 'sch']
+		
+class Note(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    date = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'note'
+        verbose_name = '论文笔记'
+        verbose_name_plural = '论文笔记'
+        ordering = ['title']
+		
+class Remark(models.Model):
+    content = models.TextField()
+    date = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.note+self.author
+
+    class Meta:
+        db_table = 'remark'
+        verbose_name = '笔记评论'
+        verbose_name_plural = '笔记评论'
+        ordering = ['content']
