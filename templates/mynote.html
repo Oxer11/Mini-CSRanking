@@ -21,17 +21,17 @@
 						</a>
 					</li>
 					<li>
-						<a class="active">
+						{% if my %}
+						<a href="/follow/">
+						{% else %}
+						<a href="/follow/?name={{user.username}}">
+						{% endif %}
 							<i class="icon iconfont icon-jilu"></i>
 							Following
 						</a>
 					</li>
 					<li>
-						{% if my %}
-						<a href="/mynote/">
-						{% else %}
-						<a href="/mynote/?name={{user.username}}">
-						{% endif %}
+						<a class="active">
 							<i class="icon iconfont icon-wenda"></i>
 							My Note
 						</a>
@@ -50,37 +50,21 @@
 			</div>
 			<div class="right">
 				<div class="tap">
-					<span>Following</span>
+					<span>My Note</span>
 				</div>
-				<div class="container">
-					<p style="font-size:25px;"><b>Scholar</b></p>
-					<p class="enum">
-					{% for s in sch %}
-						<a href="/scholar/?name={{s.name}}">{{s.name}}</a>
+				<div class="container" style="padding-top:30px;">
+					{% for n in note_lst %}
+					<div class="publication">
+						<div style="margin-top:10px;margin-bottom:10px;">
+							<p class="pub_year"> on {{n.date}}</p>
+							<h5><a href="/note/?note={{n.title|urlencode}}">{{n.title}}</a></h5>
+							<p style="color:gray;">
+							{{ n.content|truncatewords:"50" }}......
+							</p>
+						</div>
+					</div>
 					{% empty %}
 					{% endfor %}
-					</p><br>
-					<p style="font-size:25px;"><b>Institution</b></p>
-					<p class="enum">
-					{% for s in ins %}
-						<a href="/institution/?name={{s.name}}">{{s.name}}</a>
-					{% empty %}
-					{% endfor %}
-					</p><br>
-					<p style="font-size:25px;"><b>Conference</b></p>
-					<p class="enum">
-					{% for s in conf %}
-						<a href="/conference/?name={{s.name}}">{{s.abbr}} {{s.year}}</a>
-					{% empty %}
-					{% endfor %}
-					</p><br>
-					<p style="font-size:25px;"><b>Area</b></p>
-					<p class="enum">
-					{% for s in area %}
-						<a href="/area/?name={{s.name}}">{{s.name}}</a>
-					{% empty %}
-					{% endfor %}
-					</p>
 				</div>
 			</div>
 		</div>

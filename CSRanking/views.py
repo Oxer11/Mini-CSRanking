@@ -421,6 +421,58 @@ def follow(request):
 	}
 	return render(request,'follow.html',context)
 	
+def mynote(request):
+	if 'name' in request.GET:
+		name = request.GET.get('name')
+		try:
+			user = User.objects.get(username=name)
+		except User.DoesNotExist:
+			return HttpResponse("This user does not exist!")
+		if request.user.is_authenticated and request.user.username==name:
+			my = True
+		else:
+			my = False
+	else:
+		if not request.user.is_authenticated:
+			return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+		else:
+			user = request.user
+			my = True
+			
+	note_lst = Note.objects.filter(author=user)
+	ctx = {
+		'note_lst':note_lst,
+		'my':my,
+		'user':user,
+	}
+	return render(request,'mynote.html',ctx)
+	
+def myremark(request):
+	if 'name' in request.GET:
+		name = request.GET.get('name')
+		try:
+			user = User.objects.get(username=name)
+		except User.DoesNotExist:
+			return HttpResponse("This user does not exist!")
+		if request.user.is_authenticated and request.user.username==name:
+			my = True
+		else:
+			my = False
+	else:
+		if not request.user.is_authenticated:
+			return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+		else:
+			user = request.user
+			my = True
+			
+	remark_lst = Remark.objects.filter(author=user)
+	ctx = {
+		'remark_lst':remark_lst,
+		'my':my,
+		'user':user,
+	}
+	return render(request,'myremark.html',ctx)
+	
 @login_required
 def editnote(request):
 	user = request.user
@@ -433,8 +485,8 @@ def editnote(request):
 			return HttpResponse("This paper does not exist!")
 		title = request.GET.get('title')
 		content = request.GET.get('content')
+		print(content)
 		Note.objects.create(title=title,content=content,author=user,paper=paper)
-		print('create')
 		return redirect('/paper/?title=%s' % (paper.title))
 	else:
 		title = request.GET.get('paper')
@@ -451,6 +503,7 @@ def note(request):
 		note = Note.objects.get(title=title)
 	except Note.DoesNotExist:
 		return HttpResponse("This note does not exist!")
+	print(note.content)
 	if 'submit' in request.GET:
 		if request.user.is_authenticated:
 			user = request.user
