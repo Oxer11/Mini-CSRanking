@@ -11,7 +11,11 @@
 			<div class="left">
 				<ul>
 					<li>
+						{% if my %}
 						<a href="/profile/">
+						{% else %}
+						<a href="/profile/?name={{user.username}}">
+						{% endif %}
 							<i class="icon iconfont icon-geren"></i>
 							Profile
 						</a>

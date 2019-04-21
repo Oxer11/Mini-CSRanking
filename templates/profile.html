@@ -17,7 +17,11 @@
 						</a>
 					</li>
 					<li>
+						{% if my %}
 						<a href="/follow/">
+						{% else %}
+						<a href="/follow/?name={{user.username}}">
+						{% endif %}
 							<i class="icon iconfont icon-jilu"></i>
 							Following
 						</a>
@@ -29,7 +33,10 @@
 					<span>Profile</span>
 				</div>
 				<div class="container">
+					{% if my %}
 					<a href="/pro_edit/" style="display:inline-block;position:fixed;right:120px;"><img src="{% static 'edit.png' %}" alt="edit" style="height:25px;width:25px;"/></a>
+					{% else %}
+					{% endif %}
 					<h2 style="text-align:center;"><b>{{user.username}}</b></h2>
 					<h6 style="text-align:center;margin-bottom:20px;">
 					{% ifnotequal user.profile.identity None %}

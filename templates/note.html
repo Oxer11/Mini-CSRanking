@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load index %}
+{% load static %}
+
+{% block mainbody %}
+	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
+	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:60%;min-height:50%;">
+        <h2>{{ note.title }}</h2>
+        <p style="color:gray;font-size:13px;">by <a href="/profile/?name={{note.author}}" style="color:gray;">{{note.author}}</a> on {{note.date}}</p>
+		<p style="color:gray;font-size:13px;">Paper:<a href="/paper/?title={{note.paper.title|urlencode}}" style="color:gray;font-size:13px;">{{note.paper.title}}</a></p>
+        <p>{{note.content}}</p>
+	</div>
+	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:60%;min-height:50%;">
+        <h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Remarks:</b></h2>
+		{% for r in remark_lst %}
+		<div class="publication">
+			<div style="margin-top:10px;margin-bottom:10px;">
+			<p style="font-size:15px;"><a href="/profile/?name={{r.author.username|urlencode}}"> {{ r.author.username }}</a></br>{{r.date}}</p>
+			<p>
+			{{ r.content }}
+			</p>
+			</div>
+		</div>
+		{% empty %}
+		{% endfor %}
+		</br>
+		<p><b>My remarks</b></p>
+		<form method="get" action="/note/">
+			<input type="text" name="note" value="{{note.title}}" style="display:none"/>
+			<textarea rows="5" cols="90" name="content" placeholder="content of your remark" style="border-radius:5px 5px 5px 5px;position:relative;left:-120px;top:-110px;">
+			</textarea>
+			<button class="save" type="submit" name="submit" value="save" style="width:20%;top:-130px;left:480px;">Submit</button>
+		</form>
+	</div>
+{% endblock %}
