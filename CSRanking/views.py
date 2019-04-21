@@ -308,7 +308,7 @@ def Login(request):
 			return render(request,'login.html',{'signup_error':'Username already exits'})
 		user = User.objects.create_user(username,email,password)
 		login(request,user)
-		return HttpResponseRedirect(reverse('index'))
+		return redirect('/qualify/?name=%s' % (user.username))
 	elif 'submit' in request.POST and request.POST.get('submit')=='signin':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -326,6 +326,29 @@ def Login(request):
 		return HttpResponseRedirect(reverse('index'))
 	else:
 		return render(request,'login.html',{})
+		
+def qualify(request):
+	name = request.GET.get('name')
+	try:
+		user = User.objects.get(username=name)
+	except User.DoesNotExist:
+		return HttpResponse("This user does not exist")
+	if 'sch_name' in request.GET:
+		sch_name = request.GET.get('sch_name')
+		if sch_name == 'NONE':
+			return HttpResponseRedirect(reverse('index'))
+		else:
+			scholar = Scholar.objects.get(name=sch_name)
+			user.profile.scholar = scholar
+			user.profile.institution = scholar.affiliation.name
+			user.save()
+			return HttpResponseRedirect(reverse('index'))
+	else:
+		sch_lst = Scholar.objects.filter(name__contains=name).filter(profile=None)
+		if len(sch_lst)==0:
+			return HttpResponseRedirect(reverse('index'))
+		else:
+			return render(request,'qualify.html',{'user':user,'sch_lst':sch_lst})
 
 def profile(request):
 	if 'name' in request.GET:

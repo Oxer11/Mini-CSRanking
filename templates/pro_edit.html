@@ -38,8 +38,8 @@
 		{% endifnotequal %}
 		</p>
 		<p><b>Institution:</b>
-		{% ifnotequal user.institution None %}
-		<input type="text" name="intitution" placeholder="{{user.institution}}"/>
+		{% ifnotequal user.profile.institution None %}
+		<input type="text" name="intitution" placeholder="{{user.profile.institution}}"/>
 		{% else %}
 		<input type="text" name="institution" placeholder="Undefined"/>
 		{% endifnotequal %}

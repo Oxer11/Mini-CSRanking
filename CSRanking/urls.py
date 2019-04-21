@@ -19,4 +19,5 @@ urlpatterns = [
 	url(r'ranklist', ranklist.ranklist, name='ranklist'),
 	url(r'^note/',views.note,name='note'),
 	url(r'editnote/',views.editnote,name='editnote'),	
+	url(r'qualify',views.qualify,name='qualify'),
 ]

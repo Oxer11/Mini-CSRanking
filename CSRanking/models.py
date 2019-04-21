@@ -4,30 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 # Create your models here.
-class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	gender = models.CharField(max_length=10, choices=(("M", 'Male'), ("F", 'Female')), default='M')
-	identity = models.CharField(max_length=10, choices=(("P", 'Professor'), ("S", u'Student')), default='S')
-	institution = models.CharField(max_length=100, blank=True, null=True)
-	
-	def __str__(self):
-		return self.user.username
-
-	class Meta:
-		db_table = 'profile'
-		verbose_name = '用户信息'
-		verbose_name_plural = '用户信息'
-		ordering = ['user']
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-	if created:
-		Profile.objects.create(user = instance)
-		
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-	instance.profile.save()
-
 class Institution(models.Model):
     name = models.CharField(primary_key=True, max_length=30)
     homepage = models.URLField(blank=True, null=True)
@@ -58,6 +34,31 @@ class Scholar(models.Model):
         verbose_name = '学者信息'
         verbose_name_plural = '学者信息'
         ordering = ['-pub_cnt', "name"]
+		
+class Profile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	scholar = models.OneToOneField(Scholar, on_delete=models.CASCADE, null=True, blank=True)
+	gender = models.CharField(max_length=10, choices=(("M", 'Male'), ("F", 'Female')), default='M')
+	identity = models.CharField(max_length=10, choices=(("P", 'Professor'), ("S", u'Student')), default='S')
+	institution = models.CharField(max_length=100, blank=True, null=True)
+	
+	def __str__(self):
+		return self.user.username
+
+	class Meta:
+		db_table = 'profile'
+		verbose_name = '用户信息'
+		verbose_name_plural = '用户信息'
+		ordering = ['user']
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		Profile.objects.create(user = instance)
+		
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+	instance.profile.save()
 
 class Conference(models.Model):
     name = models.CharField(max_length=50)
