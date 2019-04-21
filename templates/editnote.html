@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load index %}
+{% load static %}
+
+{% block mainbody %} 
+<div class="container-fluid">
+	<form method="get" action="/editnote/" class="search_r">
+	<div style="margin-bottom:30px;">
+		<h2 style="text-align:center;"><b>{{paper.title}}</b></h2>
+		<input type="text" name="paper" value="{{paper.title}}" style="display:none"/>
+		<p><b>Title:</b>
+		<input type="text" name="title" placeholder="title of your note"/>
+		</p>
+		<p><b>Content:</b></p>
+		<textarea rows="100" cols="118" name="content" placeholder="content of your note" >
+		</textarea>
+		<button class="save" type="submit" name="submit" value="save">Save</button>
+	</div>
+	</form>
+</div>
+{% endblock %}

@@ -1,3 +1,5 @@
+import  urllib.parse
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
@@ -277,7 +279,6 @@ def area(request):
 	return render(request, "area.html", context)
 	
 def paper(request):
-	user = request.user
 	title = request.GET.get("title", "NONE")
 	try:
 		paper = Paper.objects.get(title=title)
@@ -287,10 +288,12 @@ def paper(request):
 	authors = [x.scholar_name for x in authors]
 	area = Conference_Area.objects.filter(conf_id=paper.conf_id)
 	area = area[0].area
+	note_lst = Note.objects.filter(paper=paper).order_by('-date')
 	context = {
 		"paper": paper,
 		"author_list": authors,
 		"area": area,
+		"note_lst":note_lst,
 	}
 	return render(request, "paper.html", context)
 
@@ -317,16 +320,31 @@ def Login(request):
 			return HttpResponseRedirect(reverse('index'))
 		else:
 			return render(request,'login.html',{'signin_error':'Wrong username or password'})
-	elif 'submit' in request.POST and request.POST.get('submit')=='signout':
+	elif 'submit' in request.GET and request.GET.get('submit')=='signout':
 		logout(request)
+		print('signout')
 		return HttpResponseRedirect(reverse('index'))
 	else:
 		return render(request,'login.html',{})
 
-@login_required
 def profile(request):
-	user = request.user
-	return render(request, 'profile.html', {'user':user})
+	if 'name' in request.GET:
+		name = request.GET.get('name')
+		try:
+			user = User.objects.get(username=name)
+		except User.DoesNotExist:
+			return HttpResponse("This user does not exist!")
+		if request.user.is_authenticated and request.user.username==name:
+			my = True
+		else:
+			my = False
+	else:
+		if not request.user.is_authenticated:
+			return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+		else:
+			user = request.user
+			my = True
+	return render(request, 'profile.html', {'user':user,'my':my})
 	
 @login_required
 def pro_edit(request):
@@ -367,9 +385,24 @@ def pro_edit(request):
 		return HttpResponseRedirect(reverse('profile'))
 	return render(request,'pro_edit.html',{'user':user})
 
-@login_required
 def follow(request):
-	user = request.user
+	if 'name' in request.GET:
+		name = request.GET.get('name')
+		try:
+			user = User.objects.get(username=name)
+		except User.DoesNotExist:
+			return HttpResponse("This user does not exist!")
+		if request.user.is_authenticated and request.user.username==name:
+			my = True
+		else:
+			my = False
+	else:
+		if not request.user.is_authenticated:
+			return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+		else:
+			user = request.user
+			my = True
+			
 	sch = User_Scholar.objects.filter(user=user)
 	schs = [s.sch for s in sch]
 	ins = User_Institution.objects.filter(user=user)
@@ -379,18 +412,21 @@ def follow(request):
 	conf = User_Conference.objects.filter(user=user)
 	confs = [s.conf for s in conf]
 	context = {
+		'user':user,
 		'sch': schs,
 		'ins': inss,
 		'area': areas,
 		'conf': confs,
+		'my':my,
 	}
 	return render(request,'follow.html',context)
 	
 @login_required
-def edit_note(request):
+def editnote(request):
 	user = request.user
 	if 'submit' in request.GET and request.GET.get('submit')=='save':
 		p = request.GET.get('paper')
+		p = urllib.parse.unquote(p).strip()
 		try:
 			paper = Paper.objects.get(title=p)
 		except Paper.DoesNotExist:
@@ -398,15 +434,21 @@ def edit_note(request):
 		title = request.GET.get('title')
 		content = request.GET.get('content')
 		Note.objects.create(title=title,content=content,author=user,paper=paper)
-		return HttpResponseRedirect(reverse('paper'))
+		print('create')
+		return redirect('/paper/?title=%s' % (paper.title))
 	else:
-		paper = request.GET.get('paper')
-		return render(request,'edit_note.html',{'paper':paper})
+		title = request.GET.get('paper')
+		try:
+			paper = Paper.objects.get(title=title)
+		except Paper.DoesNotExist:
+			return HttpResponse("This paper does not exist!")
+		return render(request,'editnote.html',{'paper':paper})
 		
 def note(request):
-	title = request.Get.get('note')
+	title = request.GET.get('note')
+	title = urllib.parse.unquote(title).strip()
 	try:
-		note = Note.objects.get(title=note)
+		note = Note.objects.get(title=title)
 	except Note.DoesNotExist:
 		return HttpResponse("This note does not exist!")
 	if 'submit' in request.GET:
@@ -414,10 +456,9 @@ def note(request):
 			user = request.user
 			content = request.GET.get('content')
 			Remark.objects.create(content=content,author=user,note=note)
-			remark_lst = Remark.objects.filter(note=note)
-			return render(request,'note.html',{'note':note,'remark_lst':remark_lst})
+			return redirect('/note/?note=%s' % (title))
 		else:
 			return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 	else:
-		remark_lst = Remark.objects.filter(note=note)
+		remark_lst = Remark.objects.filter(note=note).order_by('-date')
 		return render(request,'note.html',{'note':note,'remark_lst':remark_lst})

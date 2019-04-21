@@ -21,7 +21,7 @@
 			{% for p in out_lst %}
 				<div>
 					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr|urlencode}}&year={{p.year|urlencode}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
-					<h3><a href="{{p.href}}">{{p.title}}</a></h3>
+					<h3><a href="/paper/?title={{p.title|urlencode}}">{{p.title}}</a></h3>
 					<p class="enum">
 					{% for sch in author_lst|index:forloop.counter0 %}
 						<a href="/scholar/?name={{ sch.name|urlencode }}">{{sch.name}}</a>
