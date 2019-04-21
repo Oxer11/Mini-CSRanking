@@ -180,7 +180,7 @@ a{
 	background-color:#FFFAFA;
 	border-radius:5px 5px 5px 5px;
 }
-	.basic_info h2{
+	.basic_info h3{
 		color:#E86C8D;
 	}
 	.basic_info p{
@@ -196,7 +196,7 @@ a{
 	width:85%;
 	border-top:1px solid rgb(240,128,128);
 	border-bottom:1px solid rgb(240,128,128);
-	margin-left:70px;
+	margin-left:30px;
 }
 	.publication:last-child{
 		margin-bottom:30px;
