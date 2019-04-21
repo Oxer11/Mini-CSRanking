@@ -86,63 +86,144 @@
       src: local('News Cycle Bold'), local('NewsCycle-Bold'), url(https://fonts.gstatic.com/s/newscycle/v13/G28Ny31cr5orMqEQy6ljt2aVI6zN22yiurzcBKxPjFE.woff2) format('woff2');
       unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
       }
-
     </style>
 
 <div style="position:absolute;top:150px;left:250px;margin:0;z-index:888;float:left;width:60%;">
 
     {% include "area-select.html" %}
+	<style>
+		* {
+    margin: 0;
+    padding: 0;
+  	-moz-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
 
+#rank_button {
+   font-family: "helvetica neue", helvetica, arial, sans-serif;
+		font-size: 13px;
+		text-align: center;
+		margin: 30px auto;
+		text-align: center;
+	}
+
+	#rank_button_li {
+		list-style: none;
+		position: relative;
+		display: inline-block;
+		width: 100px;
+		height: 100px;
+	}
+
+	@-moz-keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	@-webkit-keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	@-o-keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	@keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	.round {
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		padding-top: 30px;
+		text-decoration: none;
+		text-align: center;
+		font-size: 25px;
+		text-shadow: 0 1px 0 rgba(255,255,255,.7);
+		letter-spacing: -.065em;
+		font-family: "Hammersmith One", sans-serif;
+		-webkit-transition: all .25s ease-in-out;
+		-o-transition: all .25s ease-in-out;
+		-moz-transition: all .25s ease-in-out;
+		transition: all .25s ease-in-out;
+		box-shadow: 2px 2px 7px rgba(0,0,0,.2);
+		border-radius: 300px;
+		z-index: 1;
+		border-width: 4px;
+		border-style: solid;
+	}
+
+	.round:hover {
+		width: 130%;
+		height: 130%;
+		left: -15%;
+		top: -15%;
+		font-size: 33px;
+		padding-top: 38px;
+		-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		-o-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		-moz-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		z-index: 2;
+		border-size: 10px;
+		-webkit-transform: rotate(-360deg);
+		-moz-transform: rotate(-360deg);
+		-o-transform: rotate(-360deg);
+		transform: rotate(-360deg);
+	}
+
+	a.green {
+		background-color: rgba(1,151,171,1);
+		color: rgba(0,63,71,1);
+		border-color: rgba(0,63,71,.2);
+	}
+
+	a.green:hover {
+		color: rgba(1,151,171,1);
+	}
+
+
+	.round span.round {
+		display: block;
+		opacity: 0;
+		-webkit-transition: all .5s ease-in-out;
+		-moz-transition: all .5s ease-in-out;
+		-o-transition: all .5s ease-in-out;
+		transition: all .5s ease-in-out;
+		font-size: 1px;
+		border: none;
+		padding: 40% 20% 0 20%;
+		color: #fff;
+	}
+
+	.round span:hover {
+		opacity: .85;
+		font-size: 16px;
+		-webkit-text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		-moz-text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		-o-text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		text-shadow: 0 1px 1px rgba(0,0,0,.5);
+	}
+
+	.green span {
+		background: rgba(0,63,71,.7);
+	}
+	</style>
+	<ul id="rank_button">
+  		<li id="rank_button_li"><a href="#" class="round green">Rank
+			<span class="round">Select Ranking Areas.</span></a></li>
+	</ul>
 	<div id="ranklist">
-    <table style="float:right;width:50%">
-        <tr>
-            <th style="text-align:right;width:10px"> # </th>
-            <th> Institution </th>
-            <th style="text-align:right;width:50px"> # Pubs </th>
-            <th style="text-align:right;width:60px"> # Faculty </th>
-        </tr>
-        {% for ins in Ins_list %}
-        <tr>
-            <td align="right"> {{ forloop.counter }} </td>
-            <td>
-				<span class="hovertip"> <font color="blue">&#9658;</font></span>
-				<a href="/institution/?name={{ ins.0.name }}">{{ ins.0.name }}</a>
-				<div class="table-responsive" style="display:none;">
-			        <table class="table-sm" style="width:100%">
-			            <tbody>
-			                <tr style="width:100%">
-				                <td style="width:100%">
-				                    <table class="table-sm" style="width:100%;">
-										<tr>
-											<th>Faculty</th>
-											<th width="50px"># Pubs</th>
-										</tr>
-										{% for sch in ins.2 %}
-				                        <tr>
-				                            <td>
-					                            <a href="/scholar/?name={{ sch.name }}">{{ sch.name }}</a>
-												{% load static %}
-												<a href="{{ sch.homepage }}"><img src="{% static 'asset/house.png' %}"></a>
-												<a href="{{ sch.GoogleScholar }}"><img src="{% static 'asset/scholar.ico' %}" width="10px" height="10px"></a>
-												<a href="{{ sch.DBLP }}"><img src="{% static 'asset/dblp.png' %}"></a>
-				                            </td>
-											<td style="float:right" align="right">
-												<a href="{{ sch.DBLP }}">{{ sch.pub_cnt }}</a>
-											</td>
-				                        </tr>
-										{% endfor %}
-				  					</table>
-								</td>
-			      			</tr>
-			    		</tbody>
-			  		</table>
-				</div>
-			</td>
-            <td align="right"> {{ ins.0.pub_cnt}} </td>
-            <td align="right"> {{ ins.1 }} </td>
-        </tr>
-        {% endfor %}
-    </table>
+        {% include "rank.html" %}
 	</div>
 </div>
 	{% load static %}
@@ -150,5 +231,67 @@
 	<script src="{% static 'data.js' %}"></script>
 	<script src="{% static 'exporting.js' %}"></script>
 	<script src="{% static 'pub_chart.js' %}"></script>
-
+    <script src="{% static 'new_pagi.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("body").on("click",".hovertip",function(event){
+    $(this).nextAll(".table-responsive").toggle();
+  });
+});
+</script>
+<script>
+$(document).ready(function(){
+	$('input[type="checkbox"]').attr("checked", true);
+	$('#ai_areas_on').click(function(){
+		$('#ai_areas input').each(function(){
+			$(this).prop("checked", true);
+		});
+	});
+	$('#ai_areas_off').click(function(){
+		$('#ai_areas input').each(function(){
+			$(this).prop("checked", false);
+		});
+	});
+	$('#systems_areas_on').click(function(){
+		$('#systems_areas input').each(function(){
+			$(this).prop("checked", true);
+		});
+	});
+	$('#systems_areas_off').click(function(){
+		$('#systems_areas input').each(function(){
+			$(this).prop("checked", false);
+		});
+	});
+	$('#theory_areas_on').click(function(){
+		$('#theory_areas input').each(function(){
+			$(this).prop("checked", true);
+		});
+	});
+	$('#theory_areas_off').click(function(){
+		$('#theory_areas input').each(function(){
+			$(this).prop("checked", false);
+		});
+	});
+	$('#other_areas_on').click(function(){
+		$('#other_areas input').each(function(){
+			$(this).prop("checked", true);
+		});
+	});
+	$('#other_areas_off').click(function(){
+		$('#other_areas input').each(function(){
+			$(this).prop("checked", false);
+		});
+	});
+	$("#rank_button").click(function(){
+		var checkID = [];//定义一个空数组
+        $('input[type="checkbox"]:checked').each(function(i){//把所有被选中的复选框的值存入数组
+            checkID[i] =$(this).attr("name");
+        });
+	    $.post("", {'checkID':checkID},
+    		function(data,status){
+			    $("#ranklist").html(data);
+  			});
+	});
+});
+</script>
 {% endblock %}

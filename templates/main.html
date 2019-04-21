@@ -69,7 +69,7 @@
 	<!-- Start Pagination -->
 		<ul class="pagination">
 			{% if out_lst.has_previous %}
-				<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ ins_lst.previous_page_number }}">&lt;</a></li>
+				<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ out_lst.previous_page_number }}">&lt;</a></li>
 			{% else %}
 				<li><a href="#0">&lt;</a></li>
 			{% endif %}
@@ -81,7 +81,7 @@
     			{% endifequal %}
   			{% endfor %}
 			{% if out_lst.has_next %}
-				<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ ins_lst.next_page_number }}">&gt;</a></li>
+				<li><a href="/main/?type={{ type }}&key={{ key }}&page={{ out_lst.next_page_number }}">&gt;</a></li>
 			{% else %}
 				<li><a href="#0">&gt;</a></li>
 			{% endif %}

@@ -1,10 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function(){
-  $(".hovertip").click(function(event){
-    $(this).nextAll(".table-responsive").toggle();
-  });
-});
-</script>
 <div id="area-select">
 	<table style="float:left">
 		<thead>
@@ -17,7 +10,7 @@ $(document).ready(function(){
 		      </th>
 		    </tr>
 		  </thead>
-        <tbody>
+        <tbody id="ai_areas">
         <tr>
         	<td>
 			    <span class="hovertip" id="ai-widget"> <font color="blue">&#9658;</font></span>
@@ -46,7 +39,7 @@ $(document).ready(function(){
 				</div>
 			</td>
 		    <td width="40px">
-				<input type="checkbox" class="parent" name="ai" id="ai" value="1.0"/>
+				<input type="checkbox" class="parent" name="AI" id="ai" value="1.0"/>
 			</td>
 		</tr>
         <tr>
@@ -84,16 +77,16 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" class="parent" name="vision" id="vision" value="1.0"/>
+			<input type="checkbox" class="parent" name="Vision" id="vision" value="1.0"/>
 		      </td>
 		    </tr>
-		    <tr>
+				    <tr>
 		      <td>
-			<span class="hovertip" id="mlmining-widget">
+			<span class="hovertip" id="ml-widget">
 			  <font color="blue">&#9658;</font>
 			</span>
-			Machine learning &amp; data mining
-			<div class="table-responsive" style="display:none;" id="mlmining-conferences">
+			Machine learning
+			<div class="table-responsive" style="display:none;" id="ml-conferences">
 			  <table class="table-sm" style="width:100%">
 			    <tbody>
 			      <tr style="width:100%">
@@ -106,7 +99,7 @@ $(document).ready(function(){
 				    </tr>
 				    <tr>
 				      <td>
-					<a href="http://dblp.org/db/conf/kdd/index.html">KDD</a>
+					<a href="http://dblp.org/db/conf/colt/index.html">COLT</a>
 				      </td>
 				    </tr>
 				    <tr>
@@ -122,7 +115,38 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="mlmining" id="mlmining" value="1.0"/>
+			<input type="checkbox" name="ML" id="ml" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="mining-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Data mining
+			<div class="table-responsive" style="display:none;" id="mining-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/kdd/index.html">KDD</a>
+				      </td>
+				    </tr>
+
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="DM" id="mining" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -161,7 +185,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="nlp" id="nlp" value="1.0"/>
+			<input type="checkbox" name="NLP" id="nlp" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -195,7 +219,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="ir" id="ir" value="1.0"/>
+			<input type="checkbox" name="Web+IR" id="ir" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -214,7 +238,7 @@ $(document).ready(function(){
 		    </tr>
 		  </thead>
 
-		  <tbody>
+		  <tbody id="systems_areas">
 
 		    <tr>
 		      <td>
@@ -244,11 +268,6 @@ $(document).ready(function(){
 				      </td>
 				    </tr>
 				    <tr>
-				      <td colspan="2">
-					<hr>
-				      </td>
-				    </tr>
-				    <tr>
 				      <td>
 					<a href="http://dblp.org/db/conf/hpca/index.html">HPCA</a>
 				      </td>
@@ -261,7 +280,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="arch" id="arch" value="1.0"/>
+			<input type="checkbox" name="Arch" id="arch" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -295,7 +314,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="comm" id="comm" value="1.0"/>
+			<input type="checkbox" name="Networks" id="comm" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -327,11 +346,6 @@ $(document).ready(function(){
 				      </td>
 				    </tr>
 				    <tr>
-				      <td colspan="2">
-					<hr>
-				      </td>
-				    </tr>
-				    <tr>
 				      <td>
 					<a href="http://dblp.org/db/conf/ndss/">NDSS</a>
 				      </td>
@@ -344,7 +358,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="sec" id="sec" value="1.0"/>
+			<input type="checkbox" name="Security" id="sec" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -371,11 +385,6 @@ $(document).ready(function(){
 				      </td>
 				    </tr>
 				    <tr>
-				      <td colspan="2">
-					<hr>
-				      </td>
-				    </tr>
-				    <tr>
 				      <td>
 					<a href="http://dblp.org/db/conf/icde/">ICDE</a>
 				      </td>
@@ -394,7 +403,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="mod" id="mod" value="1.0"/>
+			<input type="checkbox" name="DB" id="mod" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -428,7 +437,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="da" id="da" value="1.0"/>
+			<input type="checkbox" name="EDA" id="da" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -467,7 +476,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="bed" id="bed" value="1.0"/>
+			<input type="checkbox" name="Embedded" id="bed" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -506,7 +515,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="hpc" id="hpc" value="1.0"/>
+			<input type="checkbox" name="HPC" id="hpc" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -545,7 +554,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="mobile" id="mobile" value="1.0"/>
+			<input type="checkbox" name="Mobile" id="mobile" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -579,7 +588,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="metrics" id="metrics" value="1.0"/>
+			<input type="checkbox" name="Metrics" id="metrics" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -628,7 +637,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="ops" id="ops" value="1.0"/>
+			<input type="checkbox" name="OS" id="ops" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -672,7 +681,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="plan" id="plan" value="1.0"/>
+			<input type="checkbox" name="PL" id="plan" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -717,7 +726,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="soft" id="soft" value="1.0"/>
+			<input type="checkbox" name="SE" id="soft" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -734,7 +743,7 @@ $(document).ready(function(){
 		    </tr>
 		  </thead>
 
-		  <tbody>
+		  <tbody id="theory_areas">
 
 		    <tr>
 		      <td>
@@ -771,7 +780,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="act" id="act" value="1.0"/>
+			<input type="checkbox" name="Theory" id="act" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -805,7 +814,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="crypt" id="crypt" value="1.0"/>
+			<input type="checkbox" name="Crypto" id="crypt" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -839,7 +848,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="log" id="log" value="1.0"/>
+			<input type="checkbox" name="Logic" id="log" value="1.0"/>
 		      </td>
 		    </tr>
 		  </tbody>
@@ -855,7 +864,7 @@ $(document).ready(function(){
 		    </tr>
 		  </thead>
 
-		  <tbody>
+		  <tbody id="other_areas">
 
 		    <tr>
 		      <td>
@@ -887,7 +896,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="bio" id="bio" value="1.0"/>
+			<input type="checkbox" name="Comp. Bio" id="bio" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -921,7 +930,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="graph" id="graph" value="1.0"/>
+			<input type="checkbox" name="Graphics" id="graph" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -956,7 +965,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="ecom" id="ecom" value="1.0"/>
+			<input type="checkbox" name="ECom" id="ecom" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -995,7 +1004,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="chi" id="chi" value="1.0"/>
+			<input type="checkbox" name="HCI" id="chi" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -1033,7 +1042,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="robotics" id="robotics" value="1.0"/>
+			<input type="checkbox" name="Robotics" id="robotics" value="1.0"/>
 		      </td>
 		    </tr>
 
@@ -1067,7 +1076,7 @@ $(document).ready(function(){
 			</div>
 		      </td>
 		      <td>
-			<input type="checkbox" name="visualization" id="visualization" value="1.0"/>
+			<input type="checkbox" name="Visualization" id="visualization" value="1.0"/>
 		      </td>
 		    </tr>
         </table>
