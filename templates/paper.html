@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load index %}
+
+{% block mainbody %}
+	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
+	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:60%;min-height:50%;">
+        <h3><a href="{{paper.href}}">{{ paper.title }}</a></h3>
+        <p><b>Authors</b>
+        <p class="enum">
+			{% for sch in author_list %}
+				<a href="/scholar/?name={{ sch.name }}">{{sch.name}}</a>
+			{% empty %}
+				None
+			{% endfor %}
+        </p>
+        </p>
+        <p><b>Publication Date</b> {{paper.year}} </p>
+        <p><b>Conference</b> {{paper.conf}} </p>
+        <p><b>Area</b> {{area}} </p>
+        <p><b>Notes</b></p>
+	</div>
+{% endblock %}
