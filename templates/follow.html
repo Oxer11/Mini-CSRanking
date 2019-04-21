@@ -26,11 +26,31 @@
 							Following
 						</a>
 					</li>
+					<li>
+						{% if my %}
+						<a href="/mynote/">
+						{% else %}
+						<a href="/mynote/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-wenda"></i>
+							My Note
+						</a>
+					</li>
+					<li>
+						{% if my %}
+						<a href="/myremark/">
+						{% else %}
+						<a href="/myremark/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-pinglun"></i>
+							My Remark
+						</a>
+					</li>
 				</ul>
 			</div>
 			<div class="right">
 				<div class="tap">
-					<span>Follow</span>
+					<span>Following</span>
 				</div>
 				<div class="container">
 					<p style="font-size:25px;"><b>Scholar</b></p>

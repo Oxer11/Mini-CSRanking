@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load index %}
+{% load static %}
+
+{% block mainbody %}
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'pro_iconfont.css' %}">
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'pro_style.css' %}">
+
+<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
+		<div class="main w1200">
+			<div class="left">
+				<ul>
+					<li>
+						{% if my %}
+						<a href="/profile/">
+						{% else %}
+						<a href="/profile/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-geren"></i>
+							Profile
+						</a>
+					</li>
+					<li>
+						{% if my %}
+						<a href="/follow/">
+						{% else %}
+						<a href="/follow/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-jilu"></i>
+							Following
+						</a>
+					</li>
+					<li>
+						{% if my %}
+						<a href="/mynote/">
+						{% else %}
+						<a href="/mynote/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-wenda"></i>
+							My Note
+						</a>
+					</li>
+					<li>
+						<a class="active">
+							<i class="icon iconfont icon-pinglun"></i>
+							My Remark
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="right">
+				<div class="tap">
+					<span>My Remark</span>
+				</div>
+				<div class="container" style="padding-top:30px;">
+					{% for r in remark_lst %}
+					<div class="publication">
+						<div style="margin-top:10px;margin-bottom:10px;">
+							<p style="font-size:15px;">on <a href="/note/?note={{r.note.title|urlencode}}">{{r.note.title}}</a><br/>{{r.date}}</p>
+							<p style="white-space:pre-wrap;">
+							{{ r.content }}
+							</p>
+						</div>
+					</div>
+					{% empty %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+</div>
+{% endblock %}
