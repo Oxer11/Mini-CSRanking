@@ -1,0 +1,101 @@
+<table style="float:right;width:60%">
+        <tr>
+            <th style="text-align:right;width:10px"> # </th>
+            <th> Institution </th>
+            <th style="text-align:right;width:50px"> # Pubs </th>
+            <th style="text-align:right;width:60px"> # Faculty </th>
+        </tr>
+        {% for ins in Ins_list %}
+        <tr>
+            <td align="right"> {{ ins.3 }} </td>
+            <td>
+				<span class="hovertip"> <font color="blue">&#9658;</font></span>
+				<a href="/institution/?name={{ ins.0.name }}">{{ ins.0.name }}</a>
+				<div class="table-responsive" style="display:none;">
+			        <table class="table-sm" style="width:100%">
+			            <tbody>
+			                <tr style="width:100%">
+				                <td style="width:100%">
+				                    <table class="table-sm" style="width:100%;">
+										<tr>
+											<th>Faculty</th>
+											<th width="50px"># Pubs</th>
+										</tr>
+										{% for sch in ins.2 %}
+				                        <tr>
+				                            <td>
+					                            <a href="/scholar/?name={{ sch.0.name }}">{{ sch.0.name }}</a>
+                                                {% for area in sch.1 %}
+                                                    {{ area }}
+                                                {% endfor %}
+												{% load static %}
+												<a href="{{ sch.0.homepage }}"><img src="{% static 'asset/house.png' %}"></a>
+												<a href="{{ sch.0.GoogleScholar }}"><img src="{% static 'asset/scholar.ico' %}" width="10px" height="10px"></a>
+												<a href="{{ sch.0.DBLP }}"><img src="{% static 'asset/dblp.png' %}"></a>
+				                            </td>
+											<td style="float:right" align="right">
+												<a href="{{ sch.0.DBLP }}">{{ sch.0.pub_cnt }}</a>
+											</td>
+				                        </tr>
+										{% endfor %}
+				  					</table>
+								</td>
+			      			</tr>
+			    		</tbody>
+			  		</table>
+				</div>
+			</td>
+            <td align="right"> {{ ins.0.pub_cnt}} </td>
+            <td align="right"> {{ ins.1 }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% load static %}
+    <link rel="stylesheet" media="screen" type="text/css" href="{% static 'new_pagi.css' %}">
+
+    <div class="pagination-wrapper" style="position:absolute;left:65%;">
+  <svg id="pre_page" class="btn btn--prev" height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/>
+    <path d="M0-.5h24v24H0z" fill="none"/>
+  </svg>
+
+  <div class="pagination-container">
+    <div class="little-dot  little-dot--first"></div>
+    <div class="little-dot">
+      <div class="big-dot-container">
+        <div class="big-dot"></div>
+      </div>
+    </div>
+    <div class="little-dot  little-dot--last"></div>
+  </div>
+
+  <svg id="next_page" class="btn btn--next" height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/>
+    <path d="M0-.25h24v24H0z" fill="none"/>
+  </svg>
+</div>
+
+<script>
+    $(document).ready(function(){
+		$("#pre_page").click(function(){
+		    var checkID = [];//定义一个空数组
+            $('input[type="checkbox"]:checked').each(function(i){//把所有被选中的复选框的值存入数组
+                checkID[i] =$(this).attr("name");
+            });
+  			$.post("",{'page':{{ Previous }}, 'checkID':checkID},
+    		    function(data,status){
+				    $("#ranklist").html(data);
+  			    });
+		});
+		$("#next_page").click(function(){
+		    var checkID = [];//定义一个空数组
+            $('input[type="checkbox"]:checked').each(function(i){//把所有被选中的复选框的值存入数组
+                checkID[i] =$(this).attr("name");
+            });
+  			$.post("",{'page':{{ Next }}, 'checkID':checkID},
+    		    function(data,status){
+				    $("#ranklist").html(data);
+  			    });
+		});
+	});
+</script>
