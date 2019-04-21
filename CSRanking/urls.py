@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'profile',views.profile,name='profile'),
 	url(r'follow',views.follow,name='follow'),
 	url(r'pro_edit',views.pro_edit,name='pro_edit'),
+	url(r'paper',views.paper,name='paper'),
 ]

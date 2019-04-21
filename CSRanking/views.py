@@ -277,14 +277,23 @@ def area(request):
 	return render(request, "area.html", context)
 	
 def paper(request):
-	title = request.Get.get('paper')
+	user = request.user
+	title = request.GET.get("title", "NONE")
 	try:
 		paper = Paper.objects.get(title=title)
 	except Paper.DoesNotExist:
-		return HttpResponse("This paper does not exist!")
-	note_lst = Note.objects.filter(paper=paper)
-	return render(request,'paper.html',{'paper':paper,'note_lst':note_lst})
-	
+		return HttpResponse("This Paper does not exist!")
+	authors = Scholar_Paper.objects.filter(paper_title=paper)
+	authors = [x.scholar_name for x in authors]
+	area = Conference_Area.objects.filter(conf_id=paper.conf_id)
+	area = area[0].area
+	context = {
+		"paper": paper,
+		"author_list": authors,
+		"area": area,
+	}
+	return render(request, "paper.html", context)
+
 def Login(request):	
 	if 'submit' in request.POST and request.POST.get('submit')=='signup':
 		username = request.POST.get('username')
