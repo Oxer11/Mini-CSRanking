@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load index %}
+
+{% block mainbody %}
+
+<style type="text/css">
+      @media (max-width: 768px) {
+      .row.switch-xs {
+      transform: rotate(180deg);
+      direction: rtl;
+      }
+
+      @media (max-width: 768px) {
+      .col-centered {
+      display:inline-block;
+      float: none;
+      text-align: left;
+      margin-right:-4px;
+      }
+      .row-centered {
+      text-align: center;
+      }
+      }
+
+      .row.switch-xs > [class^="col-"] {
+      transform: rotate(-180deg);
+      direction: ltr;
+      }
+      }
+
+      body {
+      font-family: Helvetica, Arial;
+      }
+
+      table td {
+      vertical-align: top;
+      }
+
+      .table-fit {
+      white-space: nowrap;
+      width: 5%;
+      }
+
+      td {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      }
+
+      a {
+      color : blue ;
+      }
+
+      .area_group_selector { cursor : pointer; }
+      .hovertip { cursor : pointer; }
+      input { cursor : pointer; }
+
+      /* latin-ext */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 400;
+      src: local('News Cycle'), local('NewsCycle'), url(https://fonts.gstatic.com/s/newscycle/v13/d03oiboZGiaNuMDvH253CgsYbbCjybiHxArTLjt7FRU.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 400;
+      src: local('News Cycle'), local('NewsCycle'), url(https://fonts.gstatic.com/s/newscycle/v13/9Xe8dq6pQDsPyVH2D3tMQgzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+      }
+      /* latin-ext */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 700;
+      src: local('News Cycle Bold'), local('NewsCycle-Bold'), url(https://fonts.gstatic.com/s/newscycle/v13/G28Ny31cr5orMqEQy6ljtzrEaqfC9P2pvLXik1Kbr9s.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 700;
+      src: local('News Cycle Bold'), local('NewsCycle-Bold'), url(https://fonts.gstatic.com/s/newscycle/v13/G28Ny31cr5orMqEQy6ljt2aVI6zN22yiurzcBKxPjFE.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+      }
+
+    </style>
+
+<div style="position:absolute;top:150px;left:250px;margin:0;z-index:888;float:left;width:60%;">
+
+    {% include "area-select.html" %}
+
+	<div id="ranklist">
+    <table style="float:right;width:50%">
+        <tr>
+            <th style="text-align:right;width:10px"> # </th>
+            <th> Institution </th>
+            <th style="text-align:right;width:50px"> # Pubs </th>
+            <th style="text-align:right;width:60px"> # Faculty </th>
+        </tr>
+        {% for ins in Ins_list %}
+        <tr>
+            <td align="right"> {{ forloop.counter }} </td>
+            <td>
+				<span class="hovertip"> <font color="blue">&#9658;</font></span>
+				<a href="/institution/?name={{ ins.0.name }}">{{ ins.0.name }}</a>
+				<div class="table-responsive" style="display:none;">
+			        <table class="table-sm" style="width:100%">
+			            <tbody>
+			                <tr style="width:100%">
+				                <td style="width:100%">
+				                    <table class="table-sm" style="width:100%;">
+										<tr>
+											<th>Faculty</th>
+											<th width="50px"># Pubs</th>
+										</tr>
+										{% for sch in ins.2 %}
+				                        <tr>
+				                            <td>
+					                            <a href="/scholar/?name={{ sch.name }}">{{ sch.name }}</a>
+												{% load static %}
+												<a href="{{ sch.homepage }}"><img src="{% static 'asset/house.png' %}"></a>
+												<a href="{{ sch.GoogleScholar }}"><img src="{% static 'asset/scholar.ico' %}" width="10px" height="10px"></a>
+												<a href="{{ sch.DBLP }}"><img src="{% static 'asset/dblp.png' %}"></a>
+				                            </td>
+											<td style="float:right" align="right">
+												<a href="{{ sch.DBLP }}">{{ sch.pub_cnt }}</a>
+											</td>
+				                        </tr>
+										{% endfor %}
+				  					</table>
+								</td>
+			      			</tr>
+			    		</tbody>
+			  		</table>
+				</div>
+			</td>
+            <td align="right"> {{ ins.0.pub_cnt}} </td>
+            <td align="right"> {{ ins.1 }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+	</div>
+</div>
+	{% load static %}
+	<script src="{% static 'highcharts.js' %}"></script>
+	<script src="{% static 'data.js' %}"></script>
+	<script src="{% static 'exporting.js' %}"></script>
+	<script src="{% static 'pub_chart.js' %}"></script>
+
+{% endblock %}

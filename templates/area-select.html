@@ -1,0 +1,1074 @@
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".hovertip").click(function(event){
+    $(this).nextAll(".table-responsive").toggle();
+  });
+});
+</script>
+<div id="area-select">
+	<table style="float:left">
+		<thead>
+		    <tr><td colspan="2"><small>&nbsp;</small></td></tr>
+		    <tr>
+		      <th colspan="2">
+			<p class="text-muted">AI
+			  [<a class="area_group_selector" id="ai_areas_off">off</a> | <a class="area_group_selector" id="ai_areas_on">on</a>]
+			</p>
+		      </th>
+		    </tr>
+		  </thead>
+        <tbody>
+        <tr>
+        	<td>
+			    <span class="hovertip" id="ai-widget"> <font color="blue">&#9658;</font></span>
+			    Artificial intelligence
+			    <div class="table-responsive" style="display:none;" id="ai-conferences">
+			        <table class="table-sm" style="width:100%">
+			            <tbody>
+			                <tr style="width:100%">
+				                <td style="width:100%">
+				                    <table class="table-sm" style="width:100%;">
+				                        <tr>
+				                            <td>
+					                            <a href="http://dblp.org/db/conf/aaai/">AAAI</a>
+				                            </td>
+				                        </tr>
+				                        <tr>
+				                            <td>
+					                            <a href="http://dblp.org/db/conf/ijcai/index.html">IJCAI</a>
+				      						</td>
+				    					</tr>
+				  					</table>
+								</td>
+			      			</tr>
+			    		</tbody>
+			  		</table>
+				</div>
+			</td>
+		    <td width="40px">
+				<input type="checkbox" class="parent" name="ai" id="ai" value="1.0"/>
+			</td>
+		</tr>
+        <tr>
+		      <td>
+			<span class="hovertip" id="vision-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Computer vision
+			<div class="table-responsive" style="display:none;" id="vision-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/cvpr/index.html">CVPR</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/eccv/index.html">ECCV</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/iccv/index.html">ICCV</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" class="parent" name="vision" id="vision" value="1.0"/>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td>
+			<span class="hovertip" id="mlmining-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Machine learning &amp; data mining
+			<div class="table-responsive" style="display:none;" id="mlmining-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/icml/index.html">ICML</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/kdd/index.html">KDD</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/nips/index.html">NeurIPS/NIPS</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="mlmining" id="mlmining" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="nlp-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Natural language processing
+			<div class="table-responsive" style="display:none;" id="nlp-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/acl/index.html">ACL</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/emnlp/index.html">EMNLP</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/naacl/index.html">NAACL</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="nlp" id="nlp" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="ir-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			The Web &amp; information retrieval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="table-responsive" style="display:none;" id="ir-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sigir/index.html">SIGIR</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/www/index.html">WWW</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="ir" id="ir" value="1.0"/>
+		      </td>
+		    </tr>
+
+		  </tbody>
+
+
+
+		  <thead>
+		    <tr><td colspan="2"><small>&nbsp;</small></td></tr>
+		    <tr>
+		      <th colspan="2">
+			<p class="text-muted">Systems
+			  [<a class="area_group_selector" id="systems_areas_off">off</a> | <a class="area_group_selector" id="systems_areas_on">on</a>]
+			</p>
+		      </th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="arch-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Computer architecture
+			<div class="table-responsive" style="display:none;" id="arch-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/asplos/index.html">ASPLOS</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/isca/index.html">ISCA</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/micro/index.html">MICRO</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td colspan="2">
+					<hr>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/hpca/index.html">HPCA</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="arch" id="arch" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="comm-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Computer networks
+			<div class="table-responsive" style="display:none;" id="comm-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sigcomm/index.html">SIGCOMM</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/nsdi/index.html">NSDI</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="comm" id="comm" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="sec-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Computer security
+			<div class="table-responsive" style="display:none;" id="sec-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/ccs/index.html">CCS</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sp/">IEEE S&amp;P ("Oakland")</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/uss/">USENIX Security</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td colspan="2">
+					<hr>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/ndss/">NDSS</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="sec" id="sec" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="mod-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Databases
+			<div class="table-responsive" style="display:none;" id="mod-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sigmod/">SIGMOD</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/vldb/">VLDB</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td colspan="2">
+					<hr>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/icde/">ICDE</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/pods/">PODS</a>
+				      </td>
+				    </tr>
+
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="mod" id="mod" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="da-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Design automation
+			<div class="table-responsive" style="display:none;" id="da-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/dac/">DAC</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/iccad/">ICCAD</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="da" id="da" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="bed-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Embedded &amp; real-time systems&nbsp;&nbsp;
+			<div class="table-responsive" style="display:none;" id="bed-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/emsoft/">EMSOFT</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/rtas/">RTAS</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/rtss/">RTSS</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="bed" id="bed" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="hpc-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			High-performance computing
+			<div class="table-responsive" style="display:none;" id="hpc-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/hpdc/">HPDC</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/ics/">ICS</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sc/">SC</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="hpc" id="hpc" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="mobile-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Mobile computing
+			<div class="table-responsive" style="display:none;" id="mobile-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/mobicom/">MobiCom</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/mobisys/">MobiSys</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sensys/">SenSys</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="mobile" id="mobile" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="metrics-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Measurement &amp; perf. analysis&nbsp;
+			<div class="table-responsive" style="display:none;" id="metrics-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/imc/">IMC</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sigmetrics/">SIGMETRICS</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="metrics" id="metrics" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="ops-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Operating systems
+			<div class="table-responsive" style="display:none;" id="ops-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/osdi/">OSDI</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sosp/">SOSP</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/eurosys/">EuroSys</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/fast/">FAST</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/usenix/">USENIX ATC</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="ops" id="ops" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="plan-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Programming languages
+			<div class="table-responsive" style="display:none;" id="plan-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/pldi/">PLDI</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/popl/">POPL</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/icfp/">ICFP</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/oopsla/">OOPSLA</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="plan" id="plan" value="1.0"/>
+		      </td>
+		    </tr>
+
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="soft-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Software engineering
+			<div class="table-responsive" style="display:none;" id="soft-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sigsoft/">FSE</a><br />
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/icse/">ICSE</a><br />
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/kbse/">ASE</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/issta/">ISSTA</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="soft" id="soft" value="1.0"/>
+		      </td>
+		    </tr>
+
+		  </tbody>
+
+		  <thead>
+		    <tr><td colspan="2"><small>&nbsp;</small></td></tr>
+		    <tr>
+		      <th colspan="2">
+			<p class="text-muted">Theory
+			  [<a class="area_group_selector" id="theory_areas_off">off</a> | <a class="area_group_selector" id="theory_areas_on">on</a>]
+			</p>
+		      </th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="act-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Algorithms &amp; complexity
+			<div class="table-responsive" style="display:none;" id="act-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/focs/">FOCS</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/soda/">SODA</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/stoc/">STOC</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="act" id="act" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="crypt-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Cryptography
+			<div class="table-responsive" style="display:none;" id="crypt-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/crypto/">CRYPTO</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/eurocrypt/">EuroCrypt</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="crypt" id="crypt" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="log-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Logic &amp; verification
+			<div class="table-responsive" style="display:none;" id="log-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/cav/">CAV</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/lics/">LICS</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="log" id="log" value="1.0"/>
+		      </td>
+		    </tr>
+		  </tbody>
+
+		  <thead>
+		    <tr><td colspan="2"><small>&nbsp;</small></td></tr>
+		    <tr>
+		      <th colspan="2">
+			<p class="text-muted">Interdisciplinary Areas
+			  [<a class="area_group_selector" id="other_areas_off">off</a> | <a class="area_group_selector" id="other_areas_on">on</a>]
+			</p>
+		      </th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="bio-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Comp. bio &amp; bioinformatics
+			<div class="table-responsive" style="display:none;" id="bio-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/ismb/">ISMB</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/recomb/">RECOMB</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="bio" id="bio" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="graph-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Computer graphics
+			<div class="table-responsive" style="display:none;" id="graph-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/siggraph/">SIGGRAPH</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/siggraph/">SIGGRAPH Asia</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="graph" id="graph" value="1.0"/>
+		      </td>
+		    </tr>
+
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="ecom-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Economics &amp; computation
+			<div class="table-responsive" style="display:none;" id="ecom-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/sigecom/">EC</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/wine/">WINE</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="ecom" id="ecom" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="chi-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Human-computer interaction
+			<div class="table-responsive" style="display:none;" id="chi-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/chi/">CHI</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/huc/">UbiComp</a> / <a href="http://dblp.org/db/conf/pervasive/">Pervasive</a> / <a href="http://dblp.org/db/journals/imwut/">IMWUT</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/uist/">UIST</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="chi" id="chi" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="robotics-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Robotics
+			<div class="table-responsive" style="display:none;" id="robotics-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/icra/">ICRA</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/iros/">IROS</a>
+				      </td>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/rss/">RSS</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="robotics" id="robotics" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="visualization-widget">
+			  <font color="blue">&#9658;</font>
+			</span>
+			Visualization
+			<div class="table-responsive" style="display:none;" id="visualization-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td style="width:100%">
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/journals/tvcg/">VIS</a>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+					<a href="http://dblp.org/db/conf/vr/">VR</a>
+				      </td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="visualization" id="visualization" value="1.0"/>
+		      </td>
+		    </tr>
+        </table>
+	</div>
