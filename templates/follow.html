@@ -24,6 +24,10 @@
 						<a class="active">
 							<i class="icon iconfont icon-jilu"></i>
 							Following
+							{% ifnotequal unchecked_schs 0 %}
+							<div class="news"><div class="unchecked">{{unchecked_schs}}</div></div>
+							{% else %}
+							{% endifnotequal %}
 						</a>
 					</li>
 					<li>
@@ -68,12 +72,24 @@
 				</div>
 				<div class="container">
 					<p style="font-size:25px;"><b>Scholar</b></p>
-					<p class="enum">
-					{% for s in sch %}
-						<a href="/scholar/?name={{s.name}}">{{s.name}}</a>
-					{% empty %}
-					{% endfor %}
-					</p><br>
+					{% ifnotequal unchecked_schs 0 %}
+						<p class="enum">
+						{% for s in sch %}
+							<a href="/scholar/?name={{s.0.name}}" style="margin-left:10px;margin-right:0px">{{s.0.name}}</a>
+							{% if s.1 %}
+								<span class="news" style=""><span class="unchecked"></span></span>
+							{% endif %}
+						{% endfor %}
+						</p>
+					{% else %}
+						<p class="enum">
+						{% for s in sch %}
+							<a href="/scholar/?name={{s.name}}">{{s.name}}</a>
+						{% empty %}
+						{% endfor %}
+						</p>
+					{% endifnotequal %}
+					<br>
 					<p style="font-size:25px;"><b>Institution</b></p>
 					<p class="enum">
 					{% for s in ins %}

@@ -24,6 +24,10 @@
 						{% endif %}
 							<i class="icon iconfont icon-jilu"></i>
 							Following
+							{% ifnotequal unchecked_schs 0 %}
+							<div class="news"><div class="unchecked">{{unchecked_schs}}</div></div>
+							{% else %}
+							{% endifnotequal %}
 						</a>
 					</li>
 					<li>

@@ -185,6 +185,7 @@ class User_Area(models.Model):
 class User_Scholar(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     sch = models.ForeignKey(Scholar, on_delete=models.CASCADE)
+    new_paper = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user + " " + self.sch

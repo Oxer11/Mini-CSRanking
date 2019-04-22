@@ -14,6 +14,8 @@ from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scho
 def addpaper(request):
     context = {'user':request.user}
     unchecked = len(Remark.objects.filter(note__author=request.user).filter(checked=False))
+    unchecked_schs = len(User_Scholar.objects.filter(user=request.user, new_paper=True))
+    context['unchecked_schs'] = unchecked_schs
     context['unchecked'] = unchecked
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -50,7 +52,11 @@ def addpaper(request):
                 ins = a.affiliation
                 ins.pub_cnt += 1
                 ins.save()
-                context['log'] = "Add Paper %s Successfully!" % (title)
+                followers = User_Scholar.objects.filter(sch=a)
+                for f in followers:
+                    f.new_paper = True
+                    f.save()
+            context['log'] = "Add Paper %s Successfully!" % (title)
         else:
             context['log'] = "Paper %s has already been added!" % (title)
     return render(request, 'addpaper.html', context)

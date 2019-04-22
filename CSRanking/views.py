@@ -119,7 +119,11 @@ def scholar(request):
 			else: print("Follow Type Error!")
 	Type = "Follow"
 	if request.user.is_authenticated:
-		if len(User_Scholar.objects.filter(user=user, sch=person))>=1: Type = "Unfollow"
+		t = User_Scholar.objects.filter(user=user, sch=person)
+		if len(t)>=1:
+			Type = "Unfollow"
+			t[0].new_paper = False
+			t[0].save()
 	areas = Scholar_Area.objects.filter(scholar_name=person)
 	areas = [x.area for x in areas]
 	paper_list = Scholar_Paper.objects.filter(scholar_name=person)
@@ -374,8 +378,11 @@ def profile(request):
 	if my:
 		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
 		ctx['unchecked'] = unchecked
+		unchecked_schs = len(User_Scholar.objects.filter(user=request.user, new_paper=True))
+		ctx['unchecked_schs'] = unchecked_schs
 	else:
 		ctx['unchecked'] = 0
+		ctx['unchecked_schs'] = 0
 	return render(request, 'profile.html', ctx)
 	
 @login_required
@@ -444,19 +451,27 @@ def follow(request):
 	conf = User_Conference.objects.filter(user=user)
 	confs = [s.conf for s in conf]
 	context = {
-		'user':user,
+		'user': user,
 		'sch': schs,
 		'ins': inss,
 		'area': areas,
 		'conf': confs,
-		'my':my,
+		'my': my,
 	}
 	if my:
 		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
 		context['unchecked'] = unchecked
+		unchecked_schs = User_Scholar.objects.filter(user=request.user, new_paper=True)
+		context['unchecked_schs'] = len(unchecked_schs)
+		if context['unchecked_schs'] != 0:
+			unchecked_sch = [s.sch for s in unchecked_schs]
+			schs = [(s, s in unchecked_sch) for s in schs]
+			context['sch'] = schs
+			print(schs)
 	else:
 		context['unchecked'] = 0
-	return render(request,'follow.html',context)
+		context['unchecked_schs'] = 0
+	return render(request, 'follow.html', context)
 	
 def mynote(request):
 	if 'name' in request.GET:
@@ -465,7 +480,7 @@ def mynote(request):
 			user = User.objects.get(username=name)
 		except User.DoesNotExist:
 			return HttpResponse("This user does not exist!")
-		if request.user.is_authenticated and request.user.username==name:
+		if request.user.is_authenticated and request.user.username == name:
 			my = True
 		else:
 			my = False
@@ -478,20 +493,23 @@ def mynote(request):
 			
 	note_lst = Note.objects.filter(author=user)
 	ctx = {
-		'note_lst':note_lst,
-		'my':my,
-		'user':user,
+		'note_lst': note_lst,
+		'my': my,
+		'user': user,
 	}
 	if my:
 		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
 		ctx['unchecked'] = unchecked
+		unchecked_schs = len(User_Scholar.objects.filter(user=request.user, new_paper=True))
+		ctx['unchecked_schs'] = unchecked_schs
 		news_lst = []
 		for note in note_lst:
 			news_lst.append(len(Remark.objects.filter(note=note).filter(checked=False)))
 		ctx['news_lst'] = news_lst
 	else:
 		ctx['unchecked'] = 0
-	return render(request,'mynote.html',ctx)
+		ctx['unchecked_schs'] = 0
+	return render(request, 'mynote.html', ctx)
 	
 def myremark(request):
 	if 'name' in request.GET:
@@ -500,7 +518,7 @@ def myremark(request):
 			user = User.objects.get(username=name)
 		except User.DoesNotExist:
 			return HttpResponse("This user does not exist!")
-		if request.user.is_authenticated and request.user.username==name:
+		if request.user.is_authenticated and request.user.username == name:
 			my = True
 		else:
 			my = False
@@ -513,21 +531,24 @@ def myremark(request):
 			
 	remark_lst = Remark.objects.filter(author=user)
 	ctx = {
-		'remark_lst':remark_lst,
-		'my':my,
-		'user':user,
+		'remark_lst': remark_lst,
+		'my': my,
+		'user': user,
 	}
 	if my:
 		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
 		ctx['unchecked'] = unchecked
+		unchecked_schs = len(User_Scholar.objects.filter(user=request.user, new_paper=True))
+		ctx['unchecked_schs'] = unchecked_schs
 	else:
 		ctx['unchecked'] = 0
-	return render(request,'myremark.html',ctx)
+		ctx['unchecked_schs'] = 0
+	return render(request, 'myremark.html', ctx)
 	
 @login_required
 def editnote(request):
 	user = request.user
-	if 'submit' in request.GET and request.GET.get('submit')=='save':
+	if 'submit' in request.GET and request.GET.get('submit') == 'save':
 		p = request.GET.get('paper')
 		p = urllib.parse.unquote(p).strip()
 		try:
