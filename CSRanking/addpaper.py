@@ -31,7 +31,7 @@ def addpaper(request):
             try:
                 a = Scholar.objects.get(name=i)
             except Scholar.DoesNotExist:
-                context['log'] = "Scholar %s Does Not Exist!"%(a)
+                context['log'] = "Scholar %s Does Not Exist!"%(i)
                 return render(request, 'addpaper.html', context)
             author.append(a)
         if request.user.profile.scholar not in author:
