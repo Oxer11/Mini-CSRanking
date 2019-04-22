@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css'>
+<title>CS Ranking</title>
+{% load static %}
+<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+<!--图标样式-->
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css'>
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'style_base.css' %}">
+</head>
+
+<body>
+<div id="particles-js"></div>
+<script src="{% static 'particles.js' %}"></script>
+<script src="{% static 'app.js' %}"></script>
+<script src="{% static 'input.js' %}"></script>
+<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%">
+<h2>Welcome to CSRanking, {{user.username}}!</h2>
+<h4>Are you one of the following scholars?</h4>
+<div class="basic_info" class="container-fluid" style="float:left;text-align:left;margin-right:0;margin-top:20px;width:70%;padding-top:30px;">
+	<a href="/qualify/?name={{user.username}}&sch_name=NONE"><p style="padding-top:9px;background-color:white;text-align:center;display:inline-block;position:fixed;top:200px;right:250px;width:120px;height:45px;border-radius:15px 15px 15px 15px;font-size:22px;color:#E86C8D;box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);">No I'm not</p></a>
+	{% for sch in sch_lst %} 
+	<div class="publication"><a href="/qualify/?name={{user.username}}&sch_name={{sch.name}}">
+		<h3 style="color:#E86C8D">{{sch.name}}</h3>
+		<p>{{sch.affiliation}}</p>
+	</a></div>
+	{% endfor %}
+</div> 
+</div>
+</body>
+
+</html>

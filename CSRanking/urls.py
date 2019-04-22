@@ -21,4 +21,5 @@ urlpatterns = [
 	url(r'addpaper', addpaper.addpaper, name='addpaper'),
 	url(r'^note/',views.note,name='note'),
 	url(r'editnote/',views.editnote,name='editnote'),	
+	url(r'qualify',views.qualify,name='qualify'),
 ]
