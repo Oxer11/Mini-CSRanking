@@ -1,6 +1,7 @@
 from django.conf.urls import url
 import CSRanking.views as views
 import CSRanking.ranklist as ranklist
+import CSRanking.addpaper as addpaper
 
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
@@ -15,8 +16,9 @@ urlpatterns = [
 	url(r'mynote',views.mynote,name='mynote'),
 	url(r'myremark',views.myremark,name='myremark'),
 	url(r'pro_edit',views.pro_edit,name='pro_edit'),
-	url(r'paper',views.paper,name='paper'),
+	url(r'^paper',views.paper,name='paper'),
 	url(r'ranklist', ranklist.ranklist, name='ranklist'),
+	url(r'addpaper', addpaper.addpaper, name='addpaper'),
 	url(r'^note/',views.note,name='note'),
 	url(r'editnote/',views.editnote,name='editnote'),	
 ]

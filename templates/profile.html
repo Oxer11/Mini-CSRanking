@@ -46,6 +46,16 @@
 							My Remark
 						</a>
 					</li>
+					<li>
+						{% if my %}
+						<a href="/addpaper/">
+						{% else %}
+						<a href="/addpaper/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-geren"></i>
+							Add Paper
+						</a>
+					</li>
 				</ul>
 			</div>
 			<div class="right">

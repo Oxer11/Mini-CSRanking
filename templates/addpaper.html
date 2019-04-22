@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load index %}
+{% load static %}
+
+{% block mainbody %}
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'pro_iconfont.css' %}">
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'pro_style.css' %}">
+
+<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
+		<div class="main w1200">
+			<div class="left">
+				<ul>
+					<li>
+						{% if my %}
+						<a href="/profile/">
+						{% else %}
+						<a href="/profile/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-geren"></i>
+							Profile
+						</a>
+					</li>
+					<li>
+						{% if my %}
+						<a href="/follow/">
+						{% else %}
+						<a href="/follow/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-jilu"></i>
+							Following
+						</a>
+					</li>
+					<li>
+						{% if my %}
+						<a href="/mynote/">
+						{% else %}
+						<a href="/mynote/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-wenda"></i>
+							My Note
+						</a>
+					</li>
+					<li>
+						{% if my %}
+						<a href="/myremark/">
+						{% else %}
+						<a href="/myremark/?name={{user.username}}">
+						{% endif %}
+							<i class="icon iconfont icon-pinglun"></i>
+							My Remark
+						</a>
+					</li>
+                    <li>
+						<a class="active">
+							<i class="icon iconfont icon-geren"></i>
+							Add Paper
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="right">
+				<div class="tap">
+					<span>Add Paper</span>
+				</div>
+				<div class="container">
+					<form method="post" action="/addpaper/" class="search_r" style="margin:30px;width:95%;">
+	<div style="margin-bottom:30px;">
+		<h2 style="text-align:center;"><b>{{user.username}}</b></h2>
+		<p><b>Title:</b>
+		<input type="text" name="title" placeholder="Title" required="required"/>
+		</p>
+		<p><b>Year:</b>
+		<input type="text" name="year" placeholder="Publish year" required="required"/>
+		</p>
+		<p><b>Conference:</b>
+		<input type="text" name="conf_id" placeholder="Abbreviation of the conference name" required="required"/>
+		</p>
+		<p><b>Hyperlink:</b>
+		<input type="text" name="href" placeholder="URL" required="required"/>
+		</p>
+		<p><b>Authors:</b>
+		<input type="text" name="authors" placeholder="Please separate authors with ','" required="required"/>
+		</p>
+		<button class="save" type="submit" name="submit" value="save">Save</button>
+	</div>
+	</form>
+				</div>
+			</div>
+		</div>
+</div>
+{% endblock %}
