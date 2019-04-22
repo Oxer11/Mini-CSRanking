@@ -8,11 +8,13 @@ from django.contrib.auth import *
 from django.contrib.auth.decorators import *
 # Create your views here.
 
-from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile, User_Scholar, User_Area, User_Institution, User_Conference
+from CSRanking.models import Scholar, Institution, Paper, Conference, Area, Scholar_Area, Conference_Area, Scholar_Paper, Profile, User_Scholar, User_Area, User_Institution, User_Conference, Remark
 
 @login_required
 def addpaper(request):
     context = {'user':request.user}
+    unchecked = len(Remark.objects.filter(note__author=request.user).filter(checked=False))
+    context['unchecked'] = unchecked
     if request.method == 'POST':
         title = request.POST.get('title')
         year = request.POST.get('year')
@@ -51,5 +53,4 @@ def addpaper(request):
                 context['log'] = "Add Paper %s Successfully!" % (title)
         else:
             context['log'] = "Paper %s has already been added!" % (title)
-
     return render(request, 'addpaper.html', context)

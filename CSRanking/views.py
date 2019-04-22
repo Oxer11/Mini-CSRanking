@@ -367,7 +367,16 @@ def profile(request):
 		else:
 			user = request.user
 			my = True
-	return render(request, 'profile.html', {'user':user,'my':my})
+	ctx = {
+		'user':user,
+		'my':my
+	}
+	if my:
+		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
+		ctx['unchecked'] = unchecked
+	else:
+		ctx['unchecked'] = 0
+	return render(request, 'profile.html', ctx)
 	
 @login_required
 def pro_edit(request):
@@ -442,6 +451,11 @@ def follow(request):
 		'conf': confs,
 		'my':my,
 	}
+	if my:
+		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
+		context['unchecked'] = unchecked
+	else:
+		context['unchecked'] = 0
 	return render(request,'follow.html',context)
 	
 def mynote(request):
@@ -468,6 +482,15 @@ def mynote(request):
 		'my':my,
 		'user':user,
 	}
+	if my:
+		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
+		ctx['unchecked'] = unchecked
+		news_lst = []
+		for note in note_lst:
+			news_lst.append(len(Remark.objects.filter(note=note).filter(checked=False)))
+		ctx['news_lst'] = news_lst
+	else:
+		ctx['unchecked'] = 0
 	return render(request,'mynote.html',ctx)
 	
 def myremark(request):
@@ -494,6 +517,11 @@ def myremark(request):
 		'my':my,
 		'user':user,
 	}
+	if my:
+		unchecked = len(Remark.objects.filter(note__author=user).filter(checked=False))
+		ctx['unchecked'] = unchecked
+	else:
+		ctx['unchecked'] = 0
 	return render(request,'myremark.html',ctx)
 	
 @login_required
@@ -526,7 +554,8 @@ def note(request):
 		note = Note.objects.get(title=title)
 	except Note.DoesNotExist:
 		return HttpResponse("This note does not exist!")
-	print(note.content)
+	if request.user.is_authenticated and request.user == note.author:
+		Remark.objects.filter(note=note).update(checked=True)
 	if 'submit' in request.GET:
 		if request.user.is_authenticated:
 			user = request.user

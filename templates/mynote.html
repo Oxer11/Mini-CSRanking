@@ -34,6 +34,10 @@
 						<a class="active">
 							<i class="icon iconfont icon-wenda"></i>
 							My Note
+							{% ifnotequal unchecked 0 %}
+							<div class="news"><div class="unchecked">{{unchecked}}</div></div>
+							{% else %}
+							{% endifnotequal %}
 						</a>
 					</li>
 					<li>
@@ -50,9 +54,9 @@
 						{% if my %}
 						<a href="/addpaper/">
 						{% else %}
-						<a href="/addpaper/?name={{user.username}}">
+						<a class="inactive">
 						{% endif %}
-							<i class="icon iconfont icon-geren"></i>
+							<i class="icon iconfont icon-fangzidichan"></i>
 							Add Paper
 						</a>
 					</li>
@@ -67,7 +71,15 @@
 					<div class="publication">
 						<div style="margin-top:10px;margin-bottom:10px;">
 							<p class="pub_year"> on {{n.date}}</p>
-							<h5><a href="/note/?note={{n.title|urlencode}}">{{n.title}}</a></h5>
+							<h5><a href="/note/?note={{n.title|urlencode}}">{{n.title}}
+							{% if news_lst %}
+							{% ifnotequal news_lst|index:forloop.counter0 0 %}
+							<div class="news"><div class="unchecked" style="bottom:2px;">{{news_lst|index:forloop.counter0}}</div></div>
+							{% else %}
+							{% endifnotequal %}
+							{% else %}
+							{% endif %}
+							</a></h5>
 							<p style="color:gray;">
 							{{ n.content|truncatewords:"50" }}......
 							</p>

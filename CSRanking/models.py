@@ -216,6 +216,7 @@ class Remark(models.Model):
     date = models.DateField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    checked = models.BooleanField(default=False)
 
     def __str__(self):
         return self.note+self.author

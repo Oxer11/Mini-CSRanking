@@ -34,6 +34,10 @@
 						{% endif %}
 							<i class="icon iconfont icon-wenda"></i>
 							My Note
+							{% ifnotequal unchecked 0 %}
+							<div class="news"><div class="unchecked">{{unchecked}}</div></div>
+							{% else %}
+							{% endifnotequal %}
 						</a>
 					</li>
 					<li>
@@ -50,9 +54,9 @@
 						{% if my %}
 						<a href="/addpaper/">
 						{% else %}
-						<a href="/addpaper/?name={{user.username}}">
+						<a class="inactive">
 						{% endif %}
-							<i class="icon iconfont icon-geren"></i>
+							<i class="icon iconfont icon-fangzidichan"></i>
 							Add Paper
 						</a>
 					</li>
