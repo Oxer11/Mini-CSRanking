@@ -3,15 +3,24 @@
 
 {% block mainbody %}
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
-	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:60%;min-height:50%;">
-		<span style="width:100%">
-			<h2 style="display:inline;text-align:center;margin-bottom:20px;"><b>{{scholar.name}}</b></h2>
-			<a type="submit" id="follow_button" style="float:right" data-title="{{ Type }}"></a>
-		</span>
-		<p><a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
-		<p><a href="{{scholar.homepage}}">Homepage</a></p>
-		<p class="enum"><a href="{{scholar.DBLP}}">DBLP</a><a href="{{scholar.GoogleScholar}}">GoogleScholar</a></p>
-		<p>Number of Publications: {{scholar.pub_cnt}}</p>
+	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:65%;min-height:45%;padding:30px">
+		<div style="width:100%;min-height:130px;display:block">
+			{% load static %}
+			<img style="display:inline-block;float:left" src="{% static 'asset/avatar_scholar_128.png' %}">
+			<div style="display:inline-block;width:500px;">
+				<h3 style="text-align:center;margin-bottom:20px;"><b>{{scholar.name}}</b></h3>
+				<p style="text-align:center;font-size:18px;"><a href="/institution/?name={{scholar.affiliation}}">{{scholar.affiliation}}</a></p>
+				<div style="width:130px;margin:auto;">
+				{% load static %}
+					<span style="margin:5px"><a href="{{ scholar.homepage }}"><img src="{% static 'asset/home-icon.jpg' %}" width="30px" height="30px"></a></span>
+					<span style="margin:5px"><a href="{{ scholar.GoogleScholar }}"><img src="{% static 'asset/scholar.ico' %}" width="30px" height="30px"></a></span>
+					<span style="margin:5px"><a href="{{ scholar.DBLP }}"><img src="{% static 'asset/dblp-logo.png' %}" width="30px" height="30px"></a></span>
+				</div>
+			</div>
+			<a type="submit" id="follow_button" style="display:inline-block;float:right" data-title="{{ Type }}"></a>
+		</div>
+		<br>
+		<div style="margin:5px;">
 		<p><b>Areas:</b></p>
 		<p class="enum">
 		{% for a in areas %}
@@ -20,9 +29,10 @@
 			None
 		{% endfor %}
 		</p>
+		</div>
 	</div>
 
-	<div id="container" style="float:right; width: 35%; height: 40%; margin-top: 20px"></div>
+	<div id="container" style="float:right; width: 30%; height: 35%; margin-top: 20px"></div>
 	<table id="datatable" style="display:none">
 		<thead>
 			<tr>
@@ -39,16 +49,20 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	<div class="basic_info" class="container-fluid" style="float:left;text-align:left;margin-right:0;margin-top:20px;margin-bottom:20px;width:60%;">
-		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Publication:</b></h2>
+	<div class="basic_info" class="container-fluid" style="float:left;text-align:left;margin-right:0;margin-top:20px;margin-bottom:20px;width:65%;">
+		<h3 style="display:inline-block;margin-top:10px;margin-bottom:30px;margin-left:10px;"><b>Publications</b></h3>
 		{% for p in paper_list %}
-		<div class="publication">
+		<div class="publication" >
 			<div style="margin-top:10px;margin-bottom:10px;">
 			<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
-			<h5><a href="{{p.href}}">{{p.title}}</a></h5>
+			<h5><a href="{{p.href}}" style="color:#0047b3">{{p.title}}</a></h5>
 			<p class="enum">
 			{% for sch in author_list|index:forloop.counter0 %}
-				<a href="/scholar/?name={{ sch.name }}">{{sch.name}}</a>
+				{% ifequal sch.name scholar.name%}
+				<a href="/scholar/?name={{ sch.name }}" style="font-family:Tahoma;font-weight:600;">{{sch.name}}</a>
+				{% else %}
+				<a href="/scholar/?name={{ sch.name }}" style="font-family:Tahoma">{{sch.name}}</a>
+				{% endifequal %}
 			{% empty %}
 				None
 			{% endfor %}
@@ -57,8 +71,8 @@
 		</div>
 		{% endfor %}
     </div>
-	<div id="coauthor" style="float:right;margin-right:20px;width:30%">
-		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Co-authors:</b></h2>
+	<div id="coauthor" style="float:right;margin-right:20px;width:27%">
+		<h4 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Co-authors</b></h4>
   		<ul id="coauthor-ul">
 			{% for s in co_authors %}
     		<li id="coauthor-li" >
@@ -66,8 +80,7 @@
 				<a href="/scholar/?name={{ s.name }}">
       			<img src="{% static 'avatar_scholar.png' %}" id="coauthor-img">
       			<h3 id="coauthor-h3">{{ s.name }}</h3>
-      			<p id="coauthor-p">{{ s.affiliation }}</p>
-				<p id="coauthor-p" style="float:right">Pub: {{ s.pub_cnt }}</p>
+      			<p id="coauthor-p">{{ s.affiliation }}<span id="coauthor-p" style="float:right">Pub: {{ s.pub_cnt }}</span></p>
 				</a>
     		</li>
 			{% endfor %}

@@ -10,7 +10,7 @@
 }
 
 #coauthor-h3 {
-  font: bold 17px/1.5 Helvetica, Verdana, sans-serif;
+  font: bold 16px/1.5 sans-serif, Verdana, Helvetica;
 }
 
 #coauthor-img {
@@ -19,7 +19,7 @@
 }
 
 #coauthor-p {
-  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+  font: 500 14px/1.5 Georgia, Times New Roman, serif;
 }
 
 #coauthor-li {

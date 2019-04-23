@@ -6,7 +6,7 @@ var chart = Highcharts.chart('container', {
 		type: 'column'
 	},
 	title: {
-		text: 'Number of Publications'
+		text: '# Pubs'
 		// 该功能依赖 data.js 模块，详见https://www.hcharts.cn/docs/data-modules
 	},
 	yAxis: {
