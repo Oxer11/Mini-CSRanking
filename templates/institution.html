@@ -55,7 +55,7 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 			<p><b>Recent Publications:</b></p>
 			<ul style="margin-left:8px;">
 			{% for p in paper_list|index:forloop.counter0 %}
-				<li style="margin-top:5px;font-size:15px;"><a href="{{p.href}}" style="color:#0047b3;font-weight:600;">{{p.title}}</a></li>
+				<li style="margin-top:5px;font-size:15px;"><a href="/paper/?title={{p.title}}" style="color:#0047b3;font-weight:600;">{{p.title}}</a></li>
 			{% empty %}
 				<p>No Recent Publication</p>
 			{% endfor %}
