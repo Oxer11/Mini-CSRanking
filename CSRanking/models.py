@@ -7,7 +7,7 @@ from django.dispatch import receiver
 class Institution(models.Model):
     name = models.CharField(primary_key=True, max_length=30)
     homepage = models.URLField(blank=True, null=True)
-    pub_cnt =models.IntegerField()
+    pub_cnt = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -24,7 +24,7 @@ class Scholar(models.Model):
     DBLP = models.URLField(blank=True, null=True)
     GoogleScholar = models.URLField(blank=True, null=True)
     affiliation = models.ForeignKey(Institution, on_delete=models.CASCADE)
-    pub_cnt = models.IntegerField()
+    pub_cnt = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

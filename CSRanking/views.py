@@ -129,7 +129,7 @@ def scholar(request):
 	paper_list = Scholar_Paper.objects.filter(scholar_name=person)
 	paper_list = [x.paper_title for x in paper_list]
 	pub_year_cnt = []
-	for i in range(2010, 2020):
+	for i in range(2015, 2020):
 		pub_year_cnt.append((i, len(Scholar_Paper.objects.filter(scholar_name=person, paper_title__year=i))))
 	author_list = []
 	co_authors = []

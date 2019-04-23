@@ -1,10 +1,10 @@
 # -*-coding:utf-8-*-
 import xml.sax
 
-YEAR_THRESHOLD = 2010
-datas=set()
+YEAR_THRESHOLD = 2015
+datas = set()
 #OUT = open("paper.csv","wb")
-OUT = open("paper_author.asv","wb")
+OUT = open("paper_author.csv","wb")
 dict = []
 book_title = {}
 Final_data = []
@@ -70,6 +70,7 @@ if __name__ == "__main__":
     parser.parse("dblp2.xml")
 
     print(len(dict))
+    cnt = 0
     for item in dict:
         if item['year'] >= YEAR_THRESHOLD:
             if 'title' not in item.keys(): continue
@@ -78,11 +79,15 @@ if __name__ == "__main__":
             '''
             STR = item['title'] + "***" + str(item['year']) + "***" + item["ee"] + "***" + item["booktitle"] + "\n"
             OUT.write(STR.encode("utf-8"))
+            
             '''
+            #'''
             for i in item['author']:
                 STR = item['title'] + "***" + i + "\n"
                 OUT.write(STR.encode("utf-8"))
+                cnt += 1
+            #'''
             book_title[item['booktitle']] = 1
 
     print([k for k in book_title])
-
+    print(cnt)
