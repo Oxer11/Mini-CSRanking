@@ -20,8 +20,10 @@ def Add_Conference():
         conf_list.append(line.strip().split(","))
     for conf in conf_list:
         name, abbr= conf[0], conf[1]
-        for year in range(2010, 2020):
-            Conference.objects.get_or_create(name=name, abbr=abbr, year=year, )
+        for year in range(2015, 2020):
+            Conference.objects.get_or_create(name=name, abbr=abbr, year=year,
+                                             DBLP="https://dblp.uni-trier.de/db/conf/%s/%s%d.html" % (abbr.lower(), abbr.lower(), year),
+                                             Href="https://www.google.com.hk/search?q=%s%d" % (abbr, year))
     print("Add_Conference Complete!")
 
 def Add_Conference_Area():
@@ -42,6 +44,7 @@ def Add_Institution():
     for line in f:
         line = line.decode("utf-8")
         institutions.append(line.strip().split(","))
+    print(len(institutions))
     for institution in institutions:
         Institution.objects.get_or_create(name=institution[0], )
     print("Add_Institution Complete!")
@@ -52,7 +55,8 @@ def Add_Scholar():
     for line in f:
         line = line.decode("utf-8")
         scholars.append(line.strip().split(","))
-    #scholars = scholars[0:1000]
+    print(len(scholars))
+    #scholars = scholars[0:100]
     cnt = 0
     for scholar in scholars:
         cnt += 1
@@ -71,7 +75,7 @@ def Add_Paper():
         line = line.decode("utf-8")
         papers.append(line.strip().split("***"))
     print(len(papers))
-    #papers = papers[0:5000]
+    #papers = papers[0:100]
     cnt = 0
     for paper in papers:
         cnt += 1
@@ -90,7 +94,7 @@ def Add_Paper_Author():
         line = line.decode("utf-8")
         paper_authors.append(line.strip().split("***"))
     print(len(paper_authors))
-    paper_authors = paper_authors[48000:-1]
+    paper_authors = paper_authors[90000:]
     cnt = 0
     for item in paper_authors:
         cnt += 1
@@ -137,7 +141,7 @@ def Add_Institution_homepage():
             ins[1] = "http://" + ins[1]
         a.homepage = ins[1]
         a.save()
-        print(a.name, a.homepage)
+        #print(a.name, a.homepage)
     print("Add_Institution_homepage Complete!")
 
 def Add_DBLP():
@@ -154,15 +158,13 @@ def Add_DBLP():
         else:
             last_name = name[1]
             first_name = name[0].replace(".", "=").replace(" ", "_")
-        #print(last_name, first_name)
         if last_name[0] >= "0" and last_name[0] <= "9":
             name = sch.name.strip().rsplit(' ', 2)
             last_name = name[1] + "_" + name[2]
             first_name = name[0].replace(".", "=").replace(" ", "_")
-        #print(name)
         sch.DBLP = "https://dblp.uni-trier.de/pers/hd/" + last_name[0].lower() + "/" + last_name + ":" + first_name
-        #print(sch.name, sch.DBLP)
         sch.save()
+    print("Add Scholar DBLP Complete!")
 
 def Add_pub():
     Scholar.objects.all().update(pub_cnt=0)
@@ -178,7 +180,6 @@ def Add_pub():
         ins = sch.affiliation
         ins.pub_cnt += sch.pub_cnt
         ins.save()
-        #print(sch.name, sch.pub_cnt, ins.name, ins.pub_cnt)
     print("Add Publication Complete!")
 
 if __name__ == "__main__":
@@ -188,8 +189,8 @@ if __name__ == "__main__":
     #Add_Institution()
     #Add_Scholar()
     #Add_Paper()
-    #Add_Paper_Author()
-    #Add_Scholar_Area()
-    #Add_Institution_homepage()
-    #Add_DBLP()
+    Add_Paper_Author()
+    Add_Scholar_Area()
+    Add_Institution_homepage()
+    Add_DBLP()
     Add_pub()
