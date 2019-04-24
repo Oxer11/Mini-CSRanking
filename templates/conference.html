@@ -14,8 +14,8 @@ author_list是一个列表，第i个元素是Scholar类构成的列表，表示�
 
 {% block mainbody %} 
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
-	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;">
-		<h2 style="text-align:center;margin-bottom:20px;"><b>{{conf.abbr}}{{conf.year}}</b></h2>
+	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;padding:20px 30px;">
+		<h3 style="text-align:center;margin-bottom:20px;"><b>{{conf.abbr}} {{conf.year}}</b></h3>
 		<p>{{conf.name}}</p>
 		<p class="enum"><a href="{{scholar.Href}}">Homepage</a><a href="{{scholar.DBLP}}">DBLP</a></p>
 		<p class="enum"><b>Areas:</b>
@@ -27,12 +27,13 @@ author_list是一个列表，第i个元素是Scholar类构成的列表，表示�
 		</p>
 		<a type="submit" id="follow_button" style="float:right" data-title="{{ Type }}"></a>
 	</div>
-	<div class="basic_info" class="container-fluid" style="float:right;margin-right:0;margin-top:20px;text-align:left;width:70%;">
-		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Publication:</b></h2>
+	<div class="basic_info" class="container-fluid" style="float:right;margin-right:0;margin-top:20px;text-align:left;width:70%;padding:20px 30px;">
+		<h3 style="display:inline-block;margin-bottom:20px;margin-left:10px;"><b>Publications</b></h3>
 		{% for p in paper_list %}
 		<div class="publication">
 			<div style="margin-top:10px;margin-bottom:10px;">
-			<h4><a href="{{p.href}}">{{p.title}}</a></h4>
+			<h5><a href="/paper/?title={{p.title|urlencode}}" style="color:#0047b3">{{p.title}}</a></h5>
+			<div style="margin-left:10px;width:100%;">
 			<p class="enum">
 			{% for au in author_list|index:forloop.counter0 %}
 				<a href="/scholar/?name={{ au.name }}">{{ au.name }}</a>
@@ -40,6 +41,7 @@ author_list是一个列表，第i个元素是Scholar类构成的列表，表示�
 				None
 			{% endfor %}
 			</p>
+			</div>
 			</div>
 		</div>
 		{% endfor %}
