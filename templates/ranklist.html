@@ -88,7 +88,7 @@
       }
     </style>
 
-<div style="position:absolute;top:150px;left:250px;margin:0;z-index:888;float:left;width:60%;">
+<div style="position:absolute;top:150px;left:200px;margin:0;z-index:888;float:left;width:70%;font-size:15px;">
 
     {% include "area-select.html" %}
 	<style>
@@ -218,11 +218,11 @@
 		background: rgba(0,63,71,.7);
 	}
 	</style>
-	<ul id="rank_button">
+	<ul id="rank_button" style="float:left;">
   		<li id="rank_button_li"><a href="#" class="round green">Rank
 			<span class="round">Select Ranking Areas.</span></a></li>
 	</ul>
-	<div id="ranklist" style="display:relative;">
+	<div id="ranklist" style="float:right;width:60%;padding-top:15px;position:relative;">
         {% include "rank.html" %}
 	</div>
 </div>
@@ -235,6 +235,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
   $("body").on("click",".hovertip",function(event){
+    var a = $(this).children("font").html();
+    if (a == "\u25ba") $(this).children("font").html("&#9660;");
+    else $(this).children("font").html("&#9658;");
     $(this).nextAll(".table-responsive").toggle();
   });
 });
@@ -285,7 +288,7 @@ $(document).ready(function(){
 	$("#rank_button").click(function(){
 		var checkID = [];//定义一个空数组
         $('input[type="checkbox"]:checked').each(function(i){//把所有被选中的复选框的值存入数组
-            checkID[i] =$(this).attr("name");
+            checkID[i] = $(this).attr("name");
         });
 	    $.post("", {'checkID':checkID},
     		function(data,status){

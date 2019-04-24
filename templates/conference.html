@@ -17,16 +17,15 @@ author_list是一个列表，第i个元素是Scholar类构成的列表，表示�
 	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;padding:20px 30px;">
 		<h3 style="text-align:center;margin-bottom:20px;"><b>{{conf.abbr}} {{conf.year}}</b></h3>
 		<p style="font-size:15px;text-align:center;">{{conf.name}}</p>
-		<br>
-		<div style="width:130px;margin:auto;text-align:center;">
+		<div style="width:60px;margin:auto;float:right;">
 		{% load static %}
-		<span style="margin:5px"><a href="{{ conf.Href }}"><img src="{% static 'asset/home-icon.jpg' %}" width="30px" height="30px"></a></span>
-		<span style="margin:5px"><a href="{{ conf.DBLP }}"><img src="{% static 'asset/dblp-logo.png' %}" width="30px" height="30px"></a></span>
+		<span style="margin:2.5px"><a href="{{ conf.Href }}"><img src="{% static 'asset/home-icon.jpg' %}" width="20px" height="20px"></a></span>
+		<span style="margin:2.5px"><a href="{{ conf.DBLP }}"><img src="{% static 'asset/dblp-logo.png' %}" width="20px" height="20px"></a></span>
 		</div>
 		<br>
 		<p class="enum"><b>Area:</b>
 		{% for a in area_list %}
-			<a href="/area/?name={{a.name}}">{{a.name}}</a>
+			<a href="/area/?name={{a.name|urlencode}}">{{a.name}}</a>
 		{% empty %}
 			None
 		{% endfor %}

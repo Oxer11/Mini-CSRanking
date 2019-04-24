@@ -57,7 +57,7 @@ def ranklist(request):
 	else:
 		pagenum = 1
 		checkID = dict.values()
-	ins_list = paginate(pagenum, Institution.objects.all(), 10)
+	ins_list = paginate(pagenum, Institution.objects.all(), 20)
 	index = ins_list.start_index()
 	Ins_list = []
 	for ins in ins_list:

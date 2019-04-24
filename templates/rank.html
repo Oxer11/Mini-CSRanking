@@ -1,18 +1,18 @@
 <div>
-<table style="float:right;width:60%">
-        <tr>
-            <th style="text-align:right;width:10px"> # </th>
+<table style="float:right;width:90%;margin-bottom:20px;">
+        <tr style="font-size:18px">
+            <th style="text-align:center;width:10px"> # </th>
             <th> Institution </th>
-            <th style="text-align:right;width:50px"> # Pubs </th>
-            <th style="text-align:right;width:60px"> # Faculty </th>
+            <th style="text-align:right;width:70px"> # Pubs </th>
+            <th style="text-align:right;width:70px"> # FACs </th>
         </tr>
         {% for ins in Ins_list %}
         <tr>
-            <td align="right"> {{ ins.3 }} </td>
+            <td align="center"> {{ ins.3 }} </td>
             <td>
 				<span class="hovertip"> <font color="blue">&#9658;</font></span>
-				<a href="/institution/?name={{ ins.0.name }}">{{ ins.0.name }}</a>
-				<div class="table-responsive" style="display:none;">
+				<a href="/institution/?name={{ ins.0.name }}" style="font-size:17px;">{{ ins.0.name }}</a>
+				<div class="table-responsive" style="display:none;font-size:14px;">
 			        <table class="table-sm" style="width:100%">
 			            <tbody>
 			                <tr style="width:100%">
@@ -20,7 +20,7 @@
 				                    <table class="table-sm" style="width:100%;">
 										<tr>
 											<th>Faculty</th>
-											<th width="50px"># Pubs</th>
+											<th width="58px"># Pubs</th>
 										</tr>
 										{% for sch in ins.2 %}
 				                        <tr>
@@ -53,9 +53,9 @@
     </table>
     {% load static %}
     <link rel="stylesheet" media="screen" type="text/css" href="{% static 'new_pagi.css' %}">
-
-<div class="pagination-wrapper" style="position:fixed;left:90%;">
-  <svg id="pre_page" class="btn btn--prev" height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+<div style="float:right">
+<div class="pagination-wrapper" style="position:absolute;top:100%;left:50%;">
+  <svg id="pre_page" class="btn btn--prev" height="60" viewBox="0 0 24 24" width="60" xmlns="http://www.w3.org/2000/svg">
     <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/>
     <path d="M0-.5h24v24H0z" fill="none"/>
   </svg>
@@ -70,10 +70,11 @@
     <div class="little-dot  little-dot--last"></div>
   </div>
 
-  <svg id="next_page" class="btn btn--next" height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+  <svg id="next_page" class="btn btn--next" height="60" viewBox="0 0 24 24" width="60" xmlns="http://www.w3.org/2000/svg">
     <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/>
     <path d="M0-.25h24v24H0z" fill="none"/>
   </svg>
+</div>
 </div>
 </div>
 <script>
