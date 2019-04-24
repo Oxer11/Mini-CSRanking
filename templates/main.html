@@ -5,9 +5,9 @@
 	{% if type %}
 	<div class="container-fluid search_r">
 		{% ifequal type "scholar" %}
-			{%for sch in out_lst %}
-				<div>
-					<h2><a href="/scholar/?name={{ sch.name|urlencode }}" class="sch_name">{{sch.name}}</a></h2>
+			{% for sch in out_lst %}
+				<div style="text-align:center;">
+					<h3><a href="/scholar/?name={{ sch.name|urlencode }}" class="sch_name"><b>{{sch.name}}</b></a></h3>
 					<p><a href="/institution/?name={{sch.affiliation.name|urlencode}}" class="sch_aff">{{sch.affiliation}}</a></p>
 					<p><a href="{{ sch.homepage }}" class="sch_url">Homepage</a></p>
 					<p class="enum"><a href="{{sch.DBLP}}">DBLP</a><a href="{{sch.GoogleScholar}}">Google Scholar</a></p>
