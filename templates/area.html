@@ -14,35 +14,51 @@ paper_list是一个列表，第i个元素是第i位老师的近年论文（不�
 
 {% block mainbody %} 
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
-	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:50%;">
-		<h2 style="text-align:center;margin-bottom:20px;"><b>{{area.name}}</b></h2>
-		<p>Direction: {{area.direction}}</p>
-		<a type="submit" id="follow_button" style="float:right" data-title="{{ Type }}"></a>
+	<div class="basic_info" class="container-fluid" style="float:left;position:fixed;margin-left:0;margin-top:20px;width:25%;min-height:30%;">
+		<h3 style="text-align:center;margin-bottom:20px;"><b>{{area.name}}</b></h3>
+        <br>
+		<div style="float:left;width:50%;height:40px;margin-left:10px;vertical-align:middle">
+			<p style="text-align:center;margin-top:10px;margin-bottom:0;"><b>Direction</b>: {{area.direction}}</p>
+		</div>
+		<a type="submit" id="follow_button" style="float:right;margin-right:10px" data-title="{{ Type }}"></a>
 	</div>
-	<div class="basic_info" class="container-fluid" style="float:right;margin-right:0;margin-top:20px;text-align:left;width:70%;">
-		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Conferences:</b></h2>
+	<div class="basic_info" class="container-fluid" style="float:right;margin-right:0;margin-top:20px;text-align:left;width:70%;padding:20px 30px;">
+		<h3 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Conferences:</b></h3>
 		{% for conf in conf_list %}
 		<div class="publication">
-			<div style="margin-top:10px;margin-bottom:10px;">
+			<div style="margin-top:20px;margin-bottom:20px;text-align:center;">
 			<h4><b><a href="/conference/?name={{conf.abbr}}&year={{conf.year}}">{{conf.abbr}} {{conf.year}}</a></b></h4>
 			<p>{{conf.name}}</p>
-			<p class="enum"><a href="{{conf.Href}}">Homepage</a><a href="{{conf.DBLP}}">DBLP</a></p>
+			<div style="width:130px;margin:auto;text-align:center;">
+			{% load static %}
+			<span style="margin:5px"><a href="{{ conf.Href }}"><img src="{% static 'asset/home-icon.jpg' %}" width="30px" height="30px"></a></span>
+			<span style="margin:5px"><a href="https://en.wikipedia.org/wiki/{{ conf.abbr }}{{ conf.year }}"><img src="{% static 'asset/favicon.ico' %}" width="30px" height="30px"></a></span>
+			<span style="margin:5px"><a href="{{ conf.DBLP }}"><img src="{% static 'asset/dblp-logo.png' %}" width="30px" height="30px"></a></span>
+			</div>
 			</div>
 		</div>
 		{% endfor %}
     </div>
-	<div class="basic_info" class="container-fluid" style="float:right;margin-right:0;margin-top:30px;text-align:left;width:70%;">
-		<h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Scholars</b></h2>
+	<div class="basic_info" class="container-fluid" style="float:right;text-align:left;margin-right:0;margin-top:10px;width:70%;">
+		<h3 style="display:inline-block;margin-top:8px;margin-bottom:20px;margin-left:10px;"><b>Scholars</b></h3>
 		{% for s in scholar_list %}
-		<div class="publication" style="margin-left:30px;">
+		<div class="publication">
 			<div style="margin-top:10px;margin-bottom:10px;">
-			<h4><b><a href="/scholar/?name={{ s.name }}">{{s.name}}</a></b></h4>
-			<p><a href="/institution/?name={{s.affiliation}}">{{s.affiliation}}</a></p>
-			<p class="enum"><a href="{{s.homepage}}">Homepage</a><a href="{{s.DBLP}}">DBLP</a><a href="{{s.GoogleScholar}}">GoogleScholar</a></p>
-			<p><b>Publications:</b></p>
-			<ul>
+			<div style="display:inline-block;width:100%;">
+				<h4 style="text-align:center;margin-bottom:20px;"><a href="/scholar/?name={{s.name}}"><b>{{s.name}}</b></a></h4>
+				<p style="text-align:center;"><a href="/institution/?name={{s.affiliation}}">{{s.affiliation}}</a></p>
+				<div style="width:130px;margin:auto;float:right">
+				{% load static %}
+					<span style="margin:5px"><a href="{{ s.homepage }}"><img src="{% static 'asset/home-icon.jpg' %}" width="20px" height="20px"></a></span>
+					<span style="margin:5px"><a href="{{ s.GoogleScholar }}"><img src="{% static 'asset/scholar.ico' %}" width="20px" height="20px"></a></span>
+					<span style="margin:5px"><a href="{{ s.DBLP }}"><img src="{% static 'asset/dblp-logo.png' %}" width="20px" height="20px"></a></span>
+				</div>
+			</div>
+			<p><b>Total Publications: {{s.pub_cnt}}</b></p>
+			<p><b>Recent Publications:</b></p>
+			<ul style="margin-left:8px;">
 			{% for p in paper_list|index:forloop.counter0 %}
-				<li style="margin-top:5px;font-size:15px;"><a href="{{p.href}}">{{p.title}}</a></li>
+				<li style="margin-top:5px;font-size:15px;"><a href="/paper/?title={{p.title}}" style="color:#0047b3;font-weight:600;">{{p.title}}</a></li>
 			{% empty %}
 				<p>No Recent Publication</p>
 			{% endfor %}
