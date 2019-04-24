@@ -134,10 +134,10 @@ a{
 	display:block;
 	z-index:5;
 	position:relative;
-	width:60%;
+	width:50%;
 	height:100%;
 	float:left;
-	margin:200px;
+	margin:330px;
 	margin-top:150px;
 	margin-bottom:20px;
 	padding:0px;
@@ -153,6 +153,7 @@ a{
 		margin-bottom:20px;
 		background-color:#FFFAFA;
 		border-radius:5px 5px 5px 5px;
+		text-align:center;
 	}
 	.search_r div h3 a{
 		color:#E86C8D;

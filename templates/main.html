@@ -1,17 +1,29 @@
 {% extends "base.html" %}
 {% load index %}
+{% load static %}
 
 {% block mainbody %}
 	{% if type %}
 	<div class="container-fluid search_r">
 		{% ifequal type "scholar" %}
 			{% for sch in out_lst %}
-				<div style="text-align:center;">
+				<div>
+					<span style="display:inline-block;width:130px;margin:auto;position:absolute;right:10px;">
+						<span style="margin:5px"><a href="{{ sch.homepage }}"><img src="{% static 'asset/home-icon.jpg' %}" width="25px" height="25px"></a></span>
+						<span style="margin:5px"><a href="{{ sch.GoogleScholar }}"><img src="{% static 'asset/scholar.ico' %}" width="25px" height="25px"></a></span>
+						<span style="margin:5px"><a href="{{ sch.DBLP }}"><img src="{% static 'asset/dblp-logo.png' %}" width="25px" height="25px"></a></span>
+					</span>
 					<h3><a href="/scholar/?name={{ sch.name|urlencode }}" class="sch_name"><b>{{sch.name}}</b></a></h3>
 					<p><a href="/institution/?name={{sch.affiliation.name|urlencode}}" class="sch_aff">{{sch.affiliation}}</a></p>
-					<p><a href="{{ sch.homepage }}" class="sch_url">Homepage</a></p>
-					<p class="enum"><a href="{{sch.DBLP}}">DBLP</a><a href="{{sch.GoogleScholar}}">Google Scholar</a></p>
-					<p>Number of Publications: {{sch.pub_cnt}} </p>
+					<p style="text-align:left;"><b>Areas:</b></p>
+					<p class="enum" style="text-align:left;">
+					{% for a in area_lst|index:forloop.counter0 %}
+					<a href="/area/?name={{a.name}}">{{a.name}}</a>
+					{% empty %}
+					None
+					{% endfor %}
+					</p>
+					<p style="text-align:left;"><b>Number of Publications:</b> {{sch.pub_cnt}} </p>
 				</div>
 			{% empty %}
 				<div><h2>No scholars found.</h2></div>
@@ -19,7 +31,7 @@
 		{% endifequal %}
 		{% ifequal type "paper" %}
 			{% for p in out_lst %}
-				<div>
+				<div style="text-align:left;">
 					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr|urlencode}}&year={{p.year|urlencode}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
 					<h3><a href="/paper/?title={{p.title|urlencode}}">{{p.title}}</a></h3>
 					<p class="enum">
@@ -37,8 +49,12 @@
 		{% ifequal type "institution" %}
 			{% for ins in out_lst %}
 				<div>
-					<h2><a href="/institution/?name={{ins.name|urlencode}}">{{ins.name}}</a></h2>
-					<p><a href="{{ins.homepage}}">Homepage</a></p>
+					<h3><a href="/institution/?name={{ins.name|urlencode}}" class="sch_name"><b>{{ins.name}}</b></a></h3>
+					<span style="display:inline-block;width:130px;margin:auto;margin-bottom:10px;">
+						<span style="margin:5px"><a href="{{ ins.homepage }}"><img src="{% static 'asset/home-icon.jpg' %}" width="30px" height="30px"></a></span>
+						<span style="margin:5px"><a href="https://en.wikipedia.org/wiki/{{ ins.name }}"><img src="{% static 'asset/favicon.ico' %}" width="30px" height="30px"></a></span>
+						<span style="margin:5px"><a href="https://www.google.com.hk/search?q={{ ins.name }}"><img src="{% static 'asset/google-icon.png' %}" width="30px" height="30px"></a></span>
+					</span>
 					<p>Number of Publications: {{ins.pub_cnt}}</p>
 				</div>
 			{% empty %}
@@ -48,9 +64,12 @@
 		{% ifequal type "conference" %}
 			{% for conf in out_lst %}
 				<div>
-					<h2><a href="/conference/?name={{conf.abbr|urlencode}}&year={{conf.year|urlencode}}">{{conf.abbr}} {{conf.year}}</a></h2>
+					<h3><a href="/conference/?name={{conf.abbr|urlencode}}&year={{conf.year|urlencode}}"><b>{{conf.abbr}} {{conf.year}}</b></a></h3>
 					<p>{{conf.name}}</p>
-					<p class="enum"><a href="{{conf.Href}}">Homepage</a><a href="{{conf.DBLP}}">DBLP</a></p>
+					<span style="display:inline-block;width:130px;margin:auto;margin-bottom:10px;">
+						<span style="margin:5px"><a href="{{ conf.Href }}"><img src="{% static 'asset/home-icon.jpg' %}" width="30px" height="30px"></a></span>
+						<span style="margin:5px"><a href="{{ conf.DBLP }}"><img src="{% static 'asset/dblp-logo.png' %}" width="30px" height="30px"></a></span>
+					</span>
 				</div>
 			{% empty %}
 				<div><h2>No conferences found.</h2></div>	
@@ -59,7 +78,7 @@
 		{% ifequal type "area" %}
 			{% for a in out_lst %}
 				<div>
-					<h2><a href="/area/?name={{a.name|urlencode}}">{{a.name}}</a></h2>
+					<h3><a href="/area/?name={{a.name|urlencode}}"><b>{{a.name}}</b></a></h3>
 					<p>Direction: {{a.direction}}<p>
 				</div>
 			{% empty %}
