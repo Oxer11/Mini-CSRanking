@@ -71,6 +71,12 @@ def main(request):
 			if type == 'scholar':
 				sch_lst = paginate(pagenum, Scholar.objects.filter(name__contains=key), 10)
 				ctx['out_lst'] = sch_lst
+				area_lst = []
+				for sch in sch_lst:
+					areas = Scholar_Area.objects.filter(scholar_name=sch)
+					areas = [x.area for x in areas]
+					area_lst.append(areas)
+				ctx['area_lst'] = area_lst
 			elif type == 'paper':
 				paper_lst = paginate(pagenum, Paper.objects.filter(title__contains=key), 20)
 				ctx['out_lst'] = paper_lst
