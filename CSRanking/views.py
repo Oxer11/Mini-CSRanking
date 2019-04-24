@@ -265,19 +265,30 @@ def area(request):
 			Type = "Unfollow"
 	conf_list = Conference_Area.objects.filter(area=area)
 	conf_list = [c.conf_id for c in conf_list]
+	conf_paper_list = []
+	pub_on_conf = {}
+	for conf in conf_list:
+		papers = Paper.objects.filter(conf_id=conf)
+		if conf.abbr not in pub_on_conf:
+			pub_on_conf[conf.abbr] = [0, 0, 0, 0, 0]
+		pub_on_conf[conf.abbr][conf.year - 2015] = len(papers)
+		if len(papers) >= 5: papers = papers[0:5]
+		conf_paper_list.append(papers)
 	scholar_list = Scholar_Area.objects.filter(area=area)
 	scholar_list = [s.scholar_name for s in scholar_list][0:5]
 	paper_list = []
 	for scholar in scholar_list:
 		papers = Scholar_Paper.objects.filter(scholar_name=scholar)
 		papers = [x.paper_title for x in papers]
-		if len(papers)>=5: papers = papers[0:5]
+		if len(papers) >= 5: papers = papers[0:5]
 		paper_list.append(papers)
 	context = {
 		"area": area,
 		"conf_list": conf_list,
 		"scholar_list": scholar_list,
 		"paper_list": paper_list,
+		"pub_on_conf": pub_on_conf,
+		"conf_paper_list": conf_paper_list,
 		"Type": Type,
 	}
 	return render(request, "area.html", context)
