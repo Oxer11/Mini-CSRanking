@@ -85,6 +85,7 @@
 				<div><h2>No areas found.</h2></div>
 			{% endfor %}
 		{% endifequal %}
+	{% ifnotequal out_lst.paginator.num_pages 1 %}
 	<!-- Start Pagination -->
 		<ul class="pagination">
 			{% if out_lst.has_previous %}
@@ -107,6 +108,7 @@
 		</ul>
 	<!-- End Pagination -->
 	</div>
+	{% endifnotequal %}
 	{% else %}
 	{% endif %}
 {% endblock %}

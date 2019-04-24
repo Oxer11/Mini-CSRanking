@@ -1,7 +1,7 @@
 .pagination {
   position: absolute;
   left: 50%;
-  top: 103%;
+  top: 102%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   margin: 0;
