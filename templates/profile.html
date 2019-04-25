@@ -87,7 +87,7 @@
 					Undefined
 					{% endifnotequal %}
 					</h6>
-					<p>Gender:
+					<p><b>Gender</b>:
 					{% ifnotequal user.profile.gender None %}
 							{% ifequal user.profile.gender 'M' %}
 							Male
@@ -98,8 +98,8 @@
 					Undefined
 					{% endifnotequal %}
 					</p>
-					<p>Email:{{user.email}}</p>
-					<p>Institution:
+					<p><b>Email</b>:{{user.email}}</p>
+					<p><b>Institution</b>:
 					{% ifnotequal user.profile.institution None %}
 					{{user.profile.institution}}
 					{% else %}
@@ -109,7 +109,7 @@
 					</p>
 					<p>
 					{% ifnotequal user.profile.scholar None %}
-					Scholar:<a href="/scholar/?name={{user.profile.scholar.name|urlencode}}">{{user.profile.scholar.name}}</a>
+						<b>Scholar</b>:<a href="/scholar/?name={{user.profile.scholar.name|urlencode}}">{{user.profile.scholar.name}}</a>
 					{% else %}
 					{% endifnotequal %}
 					</p>
