@@ -24,7 +24,7 @@
 		<p><b>Areas:</b></p>
 		<p class="enum">
 		{% for a in areas %}
-			<a href="/area/?name={{a.name}}">{{a.name}}</a>
+			<a href="/area/?name={{a.name | urlencode}}">{{a.name}}</a>
 		{% empty %}
 			None
 		{% endfor %}
