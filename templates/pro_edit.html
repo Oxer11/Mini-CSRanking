@@ -5,10 +5,10 @@
 {% block mainbody %} 
 <div class="container-fluid">
 	<form method="post" action="/pro_edit/" class="search_r">
-	<div style="margin-bottom:30px;">
+	<div style="margin-bottom:30px;text-align:left;">
 		<h2 style="text-align:center;"><b>{{user.username}}</b></h2>
 		<p><b>Identity:</b>
-		<span class="cntr" style="display:inline-block;position:absolute;top:42px;left:65px;">
+		<span class="cntr" style="display:inline-block;position:absolute;top:44px;left:69px;">
 			<label for="opt8" class="radio">
 				<input type="radio" name="identity" id="opt8" class="hidden" value="P"/>
 				<span class="label"></span><b>Professor</b>
@@ -20,7 +20,7 @@
 		</span>
 		</p>
 		<p><b>Gender:</b></p>
-		<span class="cntr" style="display:inline-block;position:absolute;top:78px;left:65px;">
+		<span class="cntr" style="display:inline-block;position:absolute;top:80px;left:67px;">
 			<label for="opt6" class="radio">
 				<input type="radio" name="gender" id="opt6" class="hidden" value="M"/>
 				<span class="label"></span><b>Male</b>
@@ -39,7 +39,7 @@
 		</p>
 		<p><b>Institution:</b>
 		{% ifnotequal user.profile.institution None %}
-		<input type="text" name="intitution" placeholder="{{user.profile.institution}}"/>
+		<input type="text" name="institution" placeholder="{{user.profile.institution}}"/>
 		{% else %}
 		<input type="text" name="institution" placeholder="Undefined"/>
 		{% endifnotequal %}
@@ -52,7 +52,7 @@
 		<p style="position:absolute;color:gray;left:18px;bottom:48px;"><img src="{% static 'error.png' %}" alt='' style="height:15px;width:15px;display:inlinr-block;margin-right:5px;">{{ error }}</p>
 		{% else %}
 		{% endif %}
-		<button class="save" type="submit" name="submit" value="save">Save</button>
+		<button class="save" type="submit" name="submit" value="save" style="left:270px;">Save</button>
 	</div>
 	</form>
 </div>

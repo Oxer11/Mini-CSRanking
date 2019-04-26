@@ -433,6 +433,7 @@ def pro_edit(request):
 			user.email = email
 		
 		institution = request.POST.get('institution')
+		print(institution)
 		if institution.strip()!='':
 			user.profile.institution = institution
 		
