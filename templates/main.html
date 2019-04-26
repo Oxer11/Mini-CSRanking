@@ -33,7 +33,8 @@
 			{% for p in out_lst %}
 				<div style="text-align:left;">
 					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr|urlencode}}&year={{p.year|urlencode}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
-					<h3><a href="/paper/?title={{p.title|urlencode}}">{{p.title}}</a></h3>
+					<h5 ><a href="/paper/?title={{p.title|urlencode}}"style="color:#E86C8D">{{p.title}}</a></h5>
+					<br>
 					<p class="enum">
 					{% for sch in author_lst|index:forloop.counter0 %}
 						<a href="/scholar/?name={{ sch.name|urlencode }}">{{sch.name}}</a>
@@ -55,7 +56,7 @@
 						<span style="margin:5px"><a href="https://en.wikipedia.org/wiki/{{ ins.name }}"><img src="{% static 'asset/favicon.ico' %}" width="30px" height="30px"></a></span>
 						<span style="margin:5px"><a href="https://www.google.com.hk/search?q={{ ins.name }}"><img src="{% static 'asset/google-icon.png' %}" width="30px" height="30px"></a></span>
 					</span>
-					<p>Number of Publications: {{ins.pub_cnt}}</p>
+					<p><b>Total Publications</b>: {{ins.pub_cnt}}</p>
 				</div>
 			{% empty %}
 				<div><h2>No institutions found.</h2></div>	
@@ -79,6 +80,7 @@
 			{% for a in out_lst %}
 				<div>
 					<h3><a href="/area/?name={{a.name|urlencode}}"><b>{{a.name}}</b></a></h3>
+					<br>
 					<p>Direction: {{a.direction}}<p>
 				</div>
 			{% empty %}
