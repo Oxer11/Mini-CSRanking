@@ -5,19 +5,20 @@
 {% block mainbody %}
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
 	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:60%;min-height:50%;">
-		<center><h2>{{ note.title }}</h2></center>
-		<center><p style="color:gray;font-size:13px;">by <a href="/profile/?name={{note.author}}" style="color:gray;">{{note.author}}</a> on {{note.date}}</p></center>
-		<p style="color:gray;font-size:13px;"><b>Paper</b>: <a href="/paper/?title={{note.paper.title|urlencode}}" style="color:gray;font-size:13px;">{{note.paper.title}}</a></p>
-        <p style="white-space:pre-wrap;">{{note.content}}</p>
+        <h2>{{ note.title }}</h2>
+        <p style="color:gray;font-size:13px;">by <a href="/profile/?name={{note.author}}" style="color:gray;">{{note.author}}</a> on {{note.date}}</p>
+		<p style="color:gray;font-size:13px;">Paper:<a href="/paper/?title={{note.paper.title|urlencode}}" style="color:gray;font-size:13px;">{{note.paper.title}}</a></p>
+        <p style="white-space:pre-wrap;word-wrap:break-word;">{{note.content}}</p>
 	</div>
 	<div class="basic_info" class="container-fluid" style="float:left;margin-left:0;margin-top:20px;width:60%;min-height:50%;">
         <h2 style="display:inline-block;margin-bottom:25px;margin-left:10px;"><b>Remarks:</b></h2>
 		{% for r in remark_lst %}
 		<div class="publication">
 			<div style="margin-top:10px;margin-bottom:10px;">
-			<center><p style="font-size:15px;"><a href="/profile/?name={{r.author.username|urlencode}}"> {{ r.author.username }}</a>
-				</br>{{r.date}}</p></center>
-			<p style="white-space:pre-wrap;">{{ r.content }}</p>
+			<p style="font-size:15px;"><a href="/profile/?name={{r.author.username|urlencode}}"> {{ r.author.username }}</a></br>{{r.date}}</p>
+			<p style="word-wrap:break-word;">
+			{{ r.content }}
+			</p>
 			</div>
 		</div>
 		{% empty %}

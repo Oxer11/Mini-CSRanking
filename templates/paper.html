@@ -30,8 +30,8 @@
 			<div style="margin-top:10px;margin-bottom:10px;">
 				<p class="pub_year"><a href="/profile/?name={{n.author.username|urlencode}}"><b> {{ n.author.username }}</b></a> on {{n.date}}</p>
 			<h5><a href="/note/?note={{n.title|urlencode}}">{{n.title}}</a></h5>
-			<p style="color:gray;">
-			{{ n.content|truncatewords:"50" }}......
+			<p style="color:gray;word-wrap:break-word;">
+			{{ n.content|truncatewords:"20" }}......
 			</p>
 			</div>
 		</div>
