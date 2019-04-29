@@ -100,7 +100,7 @@
 					<p style="font-size:25px;"><b>Conference</b></p>
 					<p class="enum">
 					{% for s in conf %}
-						<a href="/conference/?name={{s.name}}">{{s.abbr}} {{s.year}}</a>
+						<a href="/conference/?name={{s.abbr|urlencode}}&year={{s.year|urlencode}}">{{s.abbr}} {{s.year}}</a>
 					{% empty %}
 					{% endfor %}
 					</p><br>

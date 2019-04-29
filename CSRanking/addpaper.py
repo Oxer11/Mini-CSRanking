@@ -41,7 +41,7 @@ def addpaper(request):
         if request.user.profile.scholar not in author:
             context['log'] = "You can only add your own paper!"
             return render(request, 'addpaper.html', context)
-        p = Paper.objects.get_or_create(title=title, year=year, href=href, conf_id=conf)
+        p = Paper.objects.get_or_create(title=title, conf_id__year=year, href=href, conf_id=conf)
         if p[1]:
             area = Conference_Area.objects.get(conf_id=conf).area
             for a in author:

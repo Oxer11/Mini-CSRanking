@@ -136,7 +136,7 @@ def scholar(request):
 	paper_list = [x.paper_title for x in paper_list]
 	pub_year_cnt = []
 	for i in range(2015, 2020):
-		pub_year_cnt.append((i, len(Scholar_Paper.objects.filter(scholar_name=person, paper_title__year=i))))
+		pub_year_cnt.append((i, len(Scholar_Paper.objects.filter(scholar_name=person, paper_title__conf_id__year=i))))
 	author_list = []
 	co_authors = []
 	for paper in paper_list:
@@ -587,10 +587,10 @@ def editnote(request):
 		return render(request,'editnote.html',{'paper':paper})
 		
 def note(request):
-	title = request.GET.get('note')
-	title = urllib.parse.unquote(title).strip()
+	id = request.GET.get('note')
+	id = urllib.parse.unquote(id).strip()
 	try:
-		note = Note.objects.get(title=title)
+		note = Note.objects.get(id=id)
 	except Note.DoesNotExist:
 		return HttpResponse("This note does not exist!")
 	if request.user.is_authenticated and request.user == note.author:
@@ -600,7 +600,7 @@ def note(request):
 			user = request.user
 			content = request.GET.get('content')
 			Remark.objects.create(content=content,author=user,note=note)
-			return redirect('/note/?note=%s' % (title))
+			return redirect('/note/?note=%s' % (id))
 		else:
 			return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 	else:

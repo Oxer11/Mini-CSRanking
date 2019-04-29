@@ -32,7 +32,7 @@
 		{% ifequal type "paper" %}
 			{% for p in out_lst %}
 				<div style="text-align:left;">
-					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr|urlencode}}&year={{p.year|urlencode}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
+					<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr|urlencode}}&year={{p.conf_id.year|urlencode}}">{{p.conf_id.abbr}} {{p.conf_id.year}}</a></p>
 					<h5 ><a href="/paper/?title={{p.title|urlencode}}"style="color:#E86C8D">{{p.title}}</a></h5>
 					<br>
 					<p class="enum">

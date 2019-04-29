@@ -78,18 +78,17 @@ class Conference(models.Model):
 
 class Paper(models.Model):
     title = models.CharField(max_length=100)
-    year = models.PositiveIntegerField()
     href = models.URLField(max_length=500)
     conf_id = models.ForeignKey(Conference, on_delete=models.CASCADE)
 
     def __str__(self):
-        return u"%s %s%d"%(self.title, self.conf_id.abbr, self.year)
+        return u"%s %s%d"%(self.title, self.conf_id.abbr, self.conf_id.year)
 
     class Meta:
         db_table = 'paper'
         verbose_name = '论文信息'
         verbose_name_plural = '论文信息'
-        ordering = ['-year']
+        ordering = ['-conf_id__year']
 
 class Area(models.Model):
     name = models.CharField(max_length=50)

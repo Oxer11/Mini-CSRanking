@@ -74,7 +74,7 @@
 					{% for r in remark_lst %}
 					<div class="publication">
 						<div style="margin-top:10px;margin-bottom:10px;">
-							<p style="font-size:15px;">on <a href="/note/?note={{r.note.title|urlencode}}">{{r.note.title}}</a><br/>{{r.date}}</p>
+							<p style="font-size:15px;">on <a href="/note/?note={{r.note.id|urlencode}}">{{r.note.title}}</a><br/>{{r.date}}</p>
 							<p style="word-wrap:break-word;">
 							{{ r.content }}
 							</p>

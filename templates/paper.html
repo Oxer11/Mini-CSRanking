@@ -6,7 +6,7 @@
 	<div style="position:absolute;top:150px;left:50px;margin:0;z-index:888;float:left;width:90%;">
 	<div class="basic_info" class="container-fluid" style="float:left;margin-left:80px;margin-top:20px;width:65%;min-height:50%;padding:20px 30px;">
 		<h4><a href="{{paper.href}}" style="color:#0047b3">{{paper.title}}</a></h4>
-		<p style="float:right"><a href="/conference/?name={{paper.conf_id.abbr}}&year={{paper.year}}" style="font-weight:550">{{paper.conf_id.abbr}} {{paper.year}}</a></p>
+		<p style="float:right"><a href="/conference/?name={{paper.conf_id.abbr}}&year={{paper.conf_id.year}}" style="font-weight:550">{{paper.conf_id.abbr}} {{paper.conf_id.year}}</a></p>
 		<br>
 		<div style="width:100%;margin-left:10px;">
 		<p>
@@ -29,7 +29,7 @@
 		<div class="publication">
 			<div style="margin-top:10px;margin-bottom:10px;">
 				<p class="pub_year"><a href="/profile/?name={{n.author.username|urlencode}}"><b> {{ n.author.username }}</b></a> on {{n.date}}</p>
-			<h5><a href="/note/?note={{n.title|urlencode}}">{{n.title}}</a></h5>
+			<h5><a href="/note/?note={{n.id|urlencode}}">{{n.title}}</a></h5>
 			<p style="color:gray;word-wrap:break-word;">
 			{{ n.content|truncatewords:"20" }}......
 			</p>

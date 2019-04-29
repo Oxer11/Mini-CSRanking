@@ -75,7 +75,7 @@
 					<div class="publication">
 						<div style="margin-top:10px;margin-bottom:10px;">
 							<p class="pub_year"> on {{n.date}}</p>
-							<h5><a href="/note/?note={{n.title|urlencode}}">{{n.title}}
+							<h5><a href="/note/?note={{n.id|urlencode}}">{{n.title}}
 							{% if news_lst %}
 							{% ifnotequal news_lst|index:forloop.counter0 0 %}
 							<div class="news"><div class="unchecked" style="bottom:2px;">{{news_lst|index:forloop.counter0}}</div></div>

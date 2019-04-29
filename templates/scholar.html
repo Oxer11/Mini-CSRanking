@@ -54,7 +54,7 @@
 		{% for p in paper_list %}
 		<div class="publication" >
 			<div style="margin-top:10px;margin-bottom:10px;">
-			<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.year}}">{{p.conf_id.abbr}} {{p.year}}</a></p>
+			<p class="pub_year"><a href="/conference/?name={{p.conf_id.abbr}}&year={{p.conf_id.year}}">{{p.conf_id.abbr}} {{p.conf_id.year}}</a></p>
 			<h5><a href="/paper/?title={{p.title}}" style="color:#0047b3">{{p.title}}</a></h5>
 			<p class="enum">
 			{% for sch in author_list|index:forloop.counter0 %}
