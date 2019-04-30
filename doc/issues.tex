@@ -1,0 +1,13 @@
+%This file contains the LaTeX code of my laboratory report for my Database course.
+%Author: 周芯怡/Xinyi Zhou <17307130354@fudan.edu.cn>
+%Author: 张作柏/Zuobai Zhang <17300240035@fudan.edu.cn>
+
+\section{技术难点}
+
+本节主要列举一下我们在完成项目过程中遇到的问题和所涉及的技术难点。
+
+\begin{enumerate}
+\item {\bf 字符编码}：因为在url中显示的字符会进行url编码，前后端交互时如果不进行编码和解码就会出现问题。比如当url参数中带有\&时，就必须在前端的变量后加上|urlencode；前端发送给后端的字符串，有时也需要用urllib.parse.unquote()进行解码
+\end{enumerate}
+
+

@@ -1,0 +1,191 @@
+%This file contains the LaTeX code of my laboratory report for my Digital Logic & Computer Design course.
+%Author: 张作柏/Zuobai Zhang <17300240035@fudan.edu.cn>
+
+\section{设计细节}
+
+\subsection{排行榜}
+
+\subsection{信息主页}
+
+\subsection{用户信息}
+
+\subsubsection{用户个人中心}
+\noindent
+{\bf Profile} 显示用户的基本信息。涉及的SQL语句是：
+\begin{lstlisting}[language=SQL]
+select username, email, scholar, gender, identity, institution
+from Profile
+where username=:name;
+\end{lstlisting}
+{\bf Edit Profile} 提供用户修改个人信息的途径。涉及的SQL语句是：
+\begin{lstlisting}[language=SQL]
+update Profile
+set identity=:identity, gender=:gender, email=:email, institution=:ins,password=:pw
+where username=:name;
+\end{lstlisting}
+{\bf Follow}
+\begin{itemize}
+\item 显示用户关注的学者、会议、领域及机构。涉及的SQL语句有：
+\begin{lstlisting}[language=SQL]
+select sch
+from User_Scholar
+where user=:user;
+select ins
+from User_Institution
+where user=:user;
+select area
+from User_Area
+where user=:user;
+select conf
+from User_Conference
+where user=:user;
+\end{lstlisting}
+\item 当有关注的学者发表新的论文时，会在此页面上显示提醒。涉及的SQL语句有：
+\begin{lstlisting}[language=SQL]
+select sch
+from User_Scholar
+where user=:request.user and new_paper=True;
+\end{lstlisting}
+\end{itemize}
+{\bf My Note}
+\begin{itemize}
+\item 显示用户写过的所有论文笔记。涉及的SQL语句是：
+\begin{lstlisting}[language=SQL]
+select title, content, date
+from Note
+where author=:user;
+\end{lstlisting}
+\item 当有笔记被其他用户评论时，会在此页面上显示新消息的数量。涉及的SQL语句是：\\
+统计总消息数
+\begin{lstlisting}[language=SQL]
+select count(*)
+from Remark, Note
+where Remark.note=Note.nid and Note.author=:user and checked=False;
+\end{lstlisting}
+统计每篇笔记消息数
+\begin{lstlisting}[language=SQL]
+select count(*)
+from Remark
+where note=:note and checked=False;
+\end{lstlisting}
+\end{itemize}
+{\bf My Remark} 显示用户写过的所有评论
+\begin{lstlisting}[language=SQL]
+select content, date
+from Remark
+where author=:user;
+\end{lstlisting}
+{\bf Add Paper} 为已经认证过的用户提供添加新论文的途径。用户可以填写论文的标题、年份、会议、超链接及作者名单并提交。当用户已经通过了认证、填写的会议和学者都已经在数据库中存在并且用户是作者之一时，论文才可以添加成功。所涉及的主要SQL语句是：
+\begin{itemize}
+\item 更新Paper
+\begin{lstlisting}[language=SQL]
+insert into Paper(title, conf_id, href)
+select :title, cid, :href
+from Conference
+where abbr=:abbr and year=:year;
+\end{lstlisting}
+\item 更新Schoalr\_Paper
+\begin{lstlisting}[language=SQL]
+insert into Scholar_Paper(scholar_name, paper_title)
+values(:name, :pid);
+\end{lstlisting}
+\item 更新Scholar\_Area
+\begin{lstlisting}[language=SQL]
+insert into Scholar_Area(scholar_name, area)
+select :name, area
+from Conference_Area
+where conf_id=:conf;
+\end{lstlisting}
+\item 更新User\_Scholar，使得关注学者的用户收到提醒
+\begin{lstlisting}[language=SQL]
+update User_Scholar
+set new_paper=True
+where sch=:a;
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{用户登录注册}
+
+我们实现了用户的登入、登出和注册功能，另外添加了身份认证。登入登出主要依赖Django自带的用户验证系统完成，比较简单，在此略去。
+\noindent
+{\bf 注册} 用户输入用户名邮箱和密码，经验证没有重名后即可注册成功
+\begin{itemize}
+\item 检查是否有重名
+\begin{lstlisting}[language=SQL]
+select conut(*)
+from Profile
+where username=:username;
+\end{lstlisting}
+\item 创建新用户
+\begin{lstlisting}[language=SQL]
+insert into Profile(username, email, password)
+values(:username, :email, :password);
+\end{lstlisting}
+\end{itemize}
+{\bf 认证} 注册成功后，系统会筛选姓名包含用户名的学者，让用户选择自己是否是其中之一；经过认证的用户拥有添加论文的额外权限
+\begin{itemize}
+\item 筛选姓名相似的学者
+\begin{lstlisting}[language=SQL]
+select name, affiliation
+from Scholar
+where name like “%:username%”;
+\end{lstlisting}
+\item 认证后，更新用户信息
+\begin{lstlisting}[language=SQL]
+update Profile
+set scholar=:name, institution=:affiliation
+where username=:username;
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{论文及笔记}
+
+我们为每篇论文制作了单独的主页，展示论文信息以及这篇论文的所有笔记，登陆后可以添加笔记；点击笔记进入笔记主页，展示了笔记信息和相关评论。同样，登陆后可以添加评论。
+\noindent
+{\bf 论文主页} 展示论文信息及笔记
+\begin{itemize}
+\item 筛选信息
+\begin{lstlisting}[language=SQL]
+select scholar_name
+from Scholar_Paper
+where paper_title=:pid;
+select area
+from Conference_Area, Paper
+where pid=:pid and Paper.conf_id=Conference_Area.conf_id;
+\end{lstlisting}
+\item 筛选笔记
+\begin{lstlisting}[language=SQL]
+select title, content
+from Note
+where paper=:pid;
+\end{lstlisting}
+\item 添加笔记
+\begin{lstlisting}[language=SQL]
+insert into Note(title, content, author, paper)
+values(:title, :content, :user, :paper);
+\end{lstlisting}
+\end{itemize}
+{\bf 笔记主页} 显示笔记、评论，及添加评论
+\begin{itemize}
+\item 筛选笔记信息及评论
+\begin{lstlisting}[language=SQL]
+select Note.title, content, date, Paper.title
+from Note, Paper
+where Note.paper=Paper.pid and Note.nid=:nid;
+select title, content, author, date
+from Remark
+where note=:nid
+order by date desc;
+\end{lstlisting}
+\item 如果笔记作者是当前登录作者，笔记的所有评论设置为已读
+\begin{lstlisting}[language=SQL]
+update Remark
+set checked=True
+where note=:nid;
+\end{lstlisting}
+\item 添加评论
+\begin{lstlisting}[language=SQL]
+insert into Remark(content, author, note)
+values(:content, :user, :note);
+\end{lstlisting}
+\end{itemize}

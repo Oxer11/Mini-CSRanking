@@ -1,0 +1,61 @@
+%This file contains the LaTeX code of my laboratory report for my Database course.
+%Author: 周芯怡/Xinyi Zhou <17307130354@fudan.edu.cn>
+%Author: 张作柏/Zuobai Zhang <17300240035@fudan.edu.cn>
+
+\section{概览}
+
+本项目的所有源代码公开于https://github.com/Oxer11/Mini-CSRanking。
+
+\subsection{项目要求}
+
+本项目需要我们设计一个数据库应用，采用客户端/服务器的结构，具体要求如下：
+\begin{itemize}
+\item 有完整的前后端架构（前端界面+后台数据库）
+\item 有用户注册登录系统
+\item 内容有实际意义且完整
+\item 支持前端对数据的增删查改操作
+\end{itemize}
+
+\subsection{设计动机}
+
+这个项目的idea是受CS Rankings\footnote{http://csrankings.org}这个网站的启发。这个网站根据发表论文的数量对所有的学校进行了排名，这为学校提供了较为客观的评价指标。同时，在学校下方，还可以看到近年发表论文数量较多的学者，可以直接进入学者的主页，这也为不少出国党的同学提供了便利，可以更方便的选择自己中意的导师。
+
+然而，这个网站还有一些小小的问题，就是对检索功能的支持还不够流畅。它无法直接按老师或学校的名字来检索，而是需要在排行榜上进行寻找，这是很费时的一件事。相比之下，GoogleScholar的检索功能就更加友好，可以直接检索学者或论文。并且， GoogleScholar可以浏览到学者近年来发表的论文的详细信息，可以说是一个较为全面的学术网站。
+
+同时，若我们想了解某个领域的知名学者或顶级会议，仍缺乏比较合理的手段。虽然DBLP中提供了按会议检索的功能，但是没有根据定量的指标指出某领域的知名学者。
+
+我们的应用旨在开发一个更全面的学术网站：结合三者的长处，选取其中核心功能，并增加一些个性化的设计与美观的可视化界面。
+
+\subsection{技术栈}
+
+\begin{table}[h]
+\begin{tabular}{ll}
+{\bf 开发语言}   & JavaScript / HTML / CSS / Python / SQLite \\
+{\bf 浏览器环境} & Chrome / Firefox / Safari \\
+{\bf 第三方库}   & jQuery / Bootstrap                             
+\end{tabular}
+\end{table}
+
+\subsection{工作流程}
+
+我们两人在上学期的ICS课程中已经合作过一次，所以也就延续了上学期的“不分工”策略。所谓“不分工”，是指不明确区分前后端开发，而是两人共同开发，遇到具体任务时在分清两人的工作。之所以不区分前后端，一是因为项目较小，区分前后端会影响两人的交互性，导致开发效率降低；二是因为前后端的工作量差异较大，不便分工。实践证明，“不分工”策略是成功的，两人不仅顺利地完成了PJ，且两人分得的工作量与工作难度也都较为平均。我们的具体分工如下：
+
+\noindent
+{\bf 周芯怡}：
+\begin{itemize}
+\item 搜索功能前端页面的搭建与链接
+\item 用户登录/注册功能
+\item 用户个人中心的前后端设计
+\item 评论消息提醒的功能设计
+\item 网站的美化与运行测试
+\end{itemize}
+{\bf 张作柏}：
+\begin{itemize}
+\item 数据的搜集与处理
+\item 搜索功能关系模式的设计与后端搭建
+\item 使用外部元素，美化前端
+\item Ranklist的前后端设计
+\item 新论文的添加与消息提醒功能
+\end{itemize}
+
+

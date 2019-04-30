@@ -1,0 +1,56 @@
+%This file contains the LaTeX code of my laboratory report for my Database course.
+%Author: 周芯怡/Xinyi Zhou <17307130354@fudan.edu.cn>
+%Author: 张作柏/Zuobai Zhang <17300240035@fudan.edu.cn>
+
+\section{数据集获取与导入}
+
+数据量大是本项目的特征之一，单是数据库中的论文数量就达到了5万的数量，而论文作者关系更是达到了20万的级别，而获取这些数据并导入数据库，着实花费了不少精力，因此本节将重点介绍数据集的获取过程，以及根据关系模式导入数据的流程。
+
+本节所介绍的所有代码与文件均包含在DataProcess文件夹下，独立于整个项目。
+
+\subsection{CS Rankings开源数据}
+
+因为CS Rankings本身是开源项目，其数据集也是公开的\footnote{https://github.com/emeryberger/CSrankings}，所以我们的一部分数据直接使用了这些开源数据，以减少工作量。
+
+这一类数据主要包括csrankings.csv和institution.csv两个文件。csrankings.csv包含了学者姓名、所在学校、学者主页和ScholarID；institution.csv包含了学校的全称。其中学者与所在学校之间的关系，如果自己获取的话会比较麻烦。因为要到相应的学校网站上去爬取老师的数据，而这类通用性较强的爬虫是比较难做的，因此我们选择直接使用CS Rankings已经整理好的开源数据。
+
+\subsection{DBLP开源数据集解析}
+
+众所周知，DBLP因其便利的开源数据集而闻名，许多数据挖掘相关的研究也是在DBLP的数据集上展开的，所以我们在此就使用了DBLP的开源数据集\footnote{http://dblp.uni-trier.de/xml/}，来获取论文信息与作者信息。
+
+但是因为DBLP的数据集是xml格式，所以无法直接使用的，需要先对其进行解析。解析的代码在parser.py中，作用是将XML格式的DBLP数据集，转换为便于我们处理的paper.csv和paper\_author.csv文件。
+
+解析的过程我们参考了https://blog.csdn.net/shuaishuai3409/article/details/54316214一文。我们调用了Python标准库中的SAX解析器进行解析，其原理是在解析XML的过程中，会触发事先由用户定义的事件。我们要做的工作就是重新定义一个xml.sax.ContentHandler的类，其中包含三种事件：
+\begin{enumerate}
+\item 元素开始事件startElement：遇到开始标签时触发，此时可将类中的变量清零，并记录当前标签的类别。
+\item 内容处理事件characters：处理一个标签中的内容，将标签中的内容保存到局部变量中。
+\item 元素结束事件endElement：遇到结束标签时触发，将局部变量中的内容保存到全局的字典中。
+\end{enumerate}
+需要注意的是，在处理时要区分父标签和子标签，即在父标签结束时才将局部变量清零，子标签结束时则只需要更新局部变量的属性。
+
+因为DBLP的数据集实在太大，所以我们只取了近五年中发表在部分顶会上的论文。
+
+具体解析过程，请参见parser.py。
+
+\subsection{爬虫获取数据}
+
+除去以上两个数据来源，还有一部分数据是由我们自己爬取的，例如institution\_homepage.csv，其中包含了每所学校的主页网址。
+
+爬虫的原理是，通过一个Python脚本，不断地对某些URL发送request，接受返回的html代码，并通过分析处理获取需要的内容。为了获取每所学校的首页，我们可以在Google上搜索“CS 学校名字”，一般搜索结果的第一项就是该校计算机系的首页，因此核心思路就是：利用request向Google发送搜索请求，然后从返回的第一个搜索结果中解析出学校首页的URL。
+\begin{enumerate}
+\item Google提供了比较简洁的搜索URL接口：\\
+https://www.google.com.hk/search?q=<keyword>\&num=1\\
+表示设置搜索关键词为<keyword>，返回结果数量为1。利用Python的requests库进行访问，并通过.text属性获取html内容。
+\item 对html代码的解析，我们可以先利用request获取一份html代码，并保存在本地后用浏览器打开，在调试器中找到我们想要的元素的标签。之后，我们使用了Python的BeautifulSoup库，这里我们可以很便捷地通过find方法根据标签类型和标签id找到相应元素，然后通过正则表达式进行字符串的匹配和处理。
+\end{enumerate}
+
+需要注意的是，Google的反爬虫机制做的相当智能，我们必须通过减慢访问速度和切换UserAgent来避免出现人机验证界面。
+
+具体爬虫过程，请参见scraper.py。
+
+\subsection{数据导入}
+
+因为调试阶段需要多次重写数据库，而数据的导入工作又十分繁琐，所以我们自己写了一个脚本专门用于导入数据。
+
+所有已经预处理好的数据，都在DataProcess目录下的.csv文件中。我们的任务就是从.csv文件中，按表中格式解析数据，并通过get\_or\_create方法创建新数据。这里之所以使用get\_or\_create而非create，主要是因为一次性导入全部数据耗时较长，有时我们需要多次运行脚本，而这样就有重复导入数据的情况出现，通过get\_or\_create就可以避免因为插入重复元组而报错的问题。
+

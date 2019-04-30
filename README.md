@@ -7,7 +7,7 @@ Mini-CS Ranking for Database 2019 Spring @ Fudan University, by [**Xinyi Zhou**]
 
 ## What's This
 
-This is the mid-term project for our database course. In this project, we are required to develop a DB-based application in a practical scenario. Here are the detailed [requirements](doc/project01.pdf) and our [reports](doc/report.pdf). 
+This is the mid-term project for our database course. In this project, we are required to develop a DB-based application in a practical scenario. Here are the detailed [requirements](doc/project01.pdf) and our [report](doc/report.pdf). 
 
 Mini-CS Ranking is a Web application for ranking computer science departments according to their research output in selective venues, which is inspired by the open-source website [CSRankings: Computer Science Rankings](http://csrankings.org/#/index?all). It also supports some handy functions of [GoogleScholar](<https://scholar.google.com/>) and [DBLP](<https://dblp.uni-trier.de/>), such as search for papers/scholars by keywords and scan papers on specific conferences or in certain areas.
 
