@@ -1,11 +1,294 @@
-%This file contains the LaTeX code of my laboratory report for my Digital Logic & Computer Design course.
+%This file contains the LaTeX code of my laboratory report for my Database course.
+%Author: 周芯怡/Xinyi Zhou <17307130354@fudan.edu.cn>
 %Author: 张作柏/Zuobai Zhang <17300240035@fudan.edu.cn>
 
 \section{设计细节}
 
+本节主要介绍各个页面的设计细节，包括其中的涉及的难点与SQL语句。在实际的设计中，借助Django提供的便利的接口和Python对列表、字典等数据结构的支持，我们并不需要直接使用SQL语句进行查询，这样在一定程度上可以提高效率。但为了将查询功能展示的更清晰，我们还是将所涉及的SQL语句列在这里。
+
+\subsection{信息检索}
+
+\subsubsection{论文主页}
+我们为每篇论文设计了单独的主页，其中包括的功能有显示论文作者、所属会议、所属领域：
+\begin{itemize}
+\item 作者：
+\begin{lstlisting}[language=SQL]
+select scholar_name
+from Scholar_Paper
+where paper_title = :pid;
+\end{lstlisting}
+\item 所属领域：
+\begin{lstlisting}[language=SQL]
+select area
+from Conference_Area, Paper
+where pid = :pid and Paper.conf_id = Conference_Area.conf_id;
+\end{lstlisting}
+\item 所属会议：因为会议是论文的一个属性，所以无需使用select语句筛选。
+\begin{lstlisting}[language=SQL]
+select conf_id
+from Paper
+where pid = :pid;
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{学者主页}
+\label{sec:scholar}
+在每位学者的主页中，我们实现了如下功能：
+\begin{itemize}
+\item 显示所属学校、DBLP、GoogleScholar、Homepage等信息.
+\begin{lstlisting}[language=SQL]
+select nameaffiliation, DBLP, GoogleScholar, homepage
+from Scholar
+where name = :sid;
+\end{lstlisting}
+\item 列举其发表的所有论文，按时间顺序降序排序，使用如下SQL语句进行查询，查询出的表记作Papers。
+\begin{lstlisting}[language=SQL]
+select P.title, P.href, P.conf_id
+from Scholar_Paper as SP, Paper as P， Conference as C
+where SP.scholar_name = :sid and SP.paper_title = P.pid and P.conf_id = C.cid
+order by C.year DESC;
+\end{lstlisting}
+\item 显示其所属领域
+\begin{lstlisting}[language=SQL]
+select distinct name
+from Area as A, Conference_Area as CA, Papers as P
+where CA.conf_id = P.conf_id and CA.area = A.name;
+\end{lstlisting}
+\item 显示与其合作过的学者
+\begin{lstlisting}[language=SQL]
+select distinct A.name
+from Scholar_Paper as A, Scholar_Paper as B
+where A.paper_title = B.paper_title and B.scholar_name = :sid;
+\end{lstlisting}
+\item 显示其近五年中每年发表的论文数量
+\begin{lstlisting}[language=SQL]
+select C.year, count(*)
+from Scholar_Paper as SP, Paper as P, Conference as C
+where SP.scholar_name = :sid and SP.paper_title = P.pid and P.conf_id = C.cid
+group by C.year;
+\end{lstlisting}
+\item 关注功能
+\begin{lstlisting}[language=SQL]
+insert into User_Scholar(user, sch, new_paper)
+values(:user, :sid, False);
+\end{lstlisting}
+\item 取消关注功能
+\begin{lstlisting}[language=SQL]
+delete from User_Scholar
+where user = :user and sch = :sid;
+\end{lstlisting}
+\end{itemize}
+注：在导入学者数据时，可以预先将学者的pub\_cnt计算导入。因为论文的增加和删除数量非常少，pub\_cnt很少变化，所以我们可以预先将其计算好存储起来。计算使用的SQL语句如下：
+\begin{lstlisting}[language=SQL]
+update Scholar
+set pub_cnt = (
+select count(*)
+from Scholar_Paper as SP
+where SP.scholar_name = Scholar.name
+);
+\end{lstlisting}
+
+\subsubsection{学校主页}
+\label{sec:institution}
+在每所学校的主页中，我们实现了如下功能：
+\begin{itemize}
+\item 检索该校的所有学者，按发表论文数降序排序。
+\begin{lstlisting}[language=SQL]
+select name
+from Scholar
+where affiliation = :ins
+order by pub_cnt DESC;
+\end{lstlisting}
+\item 显示学者的基本信息。查询语句同~\ref{sec:scholar}节。
+\item 显示学者所属的领域。查询语句同~\ref{sec:scholar}节。
+\item 显示学者最近发表的几篇论文，若查询结果数目大于5，则仅取前5项。查询语句同~\ref{sec:scholar}节。
+\item 统计每个领域中发表论文的数量
+\begin{lstlisting}[language=SQL]
+select CA.area, count(*)
+from Paper as P, Conference as C, Conference_Area as CA
+where P.conf_id = C.cid and CA.conf_id = C.id
+group by CA.area;
+\end{lstlisting}
+\item 关注功能
+\begin{lstlisting}[language=SQL]
+insert into User_Institution(user, ins)
+values(:user, :ins);
+\end{lstlisting}
+\item 取消关注功能
+\begin{lstlisting}[language=SQL]
+delete from User_Institution
+where user = :user and ins = :ins;
+\end{lstlisting}
+\end{itemize}
+注：学校的pub\_cnt不是指发表的论文数，而是每人每篇论文统计一次。也就是说，假如一篇论文中有两位来自A校的作者，那么A校的pub\_cnt会增加2。之所以这样设置，是因为考虑到每位作者对论文都有其贡献，假如A校的5位学者和B校的1位学者合著了一篇论文，那么如果说该论文对A、B校的pub\_cnt贡献都为1，未免对A校有失公平，因为A校在论文的发表中明显贡献会更大，按论文人次统计很好的解决了这一问题。
+
+与学者的pub\_cnt类似，学校的pub\_cnt也可以在最初计算后存储。该操作涉及的SQL语句为：
+\begin{lstlisting}[language=SQL]
+update Insititution
+set pub_cnt = (
+select sum(S.pub_cnt)
+from Scholar as S
+where S.affiliation = Insitution.name
+);
+\end{lstlisting}
+
+\subsubsection{领域主页}
+在每个领域的主页中，我们实现了如下功能：
+\begin{itemize}
+\item 筛选该领域中的顶会
+\begin{lstlisting}[language=SQL]
+select conf_id
+from Conference_Area
+where area = :area;
+\end{lstlisting}
+\item 列举每个顶会的几篇论文
+\begin{lstlisting}[language=SQL]
+select title, href
+from Paper
+where conf_id = :cid;
+\end{lstlisting}
+\item 筛选该领域最顶尖的学者，取pub\_cnt最高的五位
+\begin{lstlisting}[language=SQL]
+select name, homepage, DBLP, GoogleScholar, affiliation, pub_cnt
+from Scholar as S
+where exists (
+select *
+from Scholar_Papae as SP, Paper as P, Conference as C, Conference_Area as CA
+where SP.scholar_name = S.name and SP.paper_title = P.pid and P.conf_id = C.cid and CA.conf_id = C.cid and CA.area = :area
+)
+order by pub_cnt DESC;
+\end{lstlisting}
+\item 显示这些学者的相关信息，查询语句同~\ref{sec:institution}节。
+\item 统计每个顶会每年的论文发表量
+\begin{lstlisting}[language=SQL]
+select cid, count(*)
+from Conference as C, Paper as P
+where P.conf_id = C.cid
+group by cid
+\end{lstlisting}
+\item 关注功能
+\begin{lstlisting}[language=SQL]
+insert into User_Area(user, area)
+values(:user, :area);
+\end{lstlisting}
+\item 取消关注功能
+\begin{lstlisting}[language=SQL]
+delete from User_Area
+where user = :user and area = :area;
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{会议主页}
+在每个领域的主页中，我们实现了如下功能：
+\begin{itemize}
+\item 列举会议基本信息
+\begin{lstlisting}[language=SQL]
+select name, abbr, year, DBLP, Href
+from Conference
+where cid = :cid;
+\end{lstlisting}
+\item 列举论文列表
+\begin{lstlisting}[language=SQL]
+select pid, title, href
+from Paper
+where conf_id = :cid;
+\end{lstlisting}
+\item 关注功能
+\begin{lstlisting}[language=SQL]
+insert into User_Conference(user, conf)
+values(:user, :cid);
+\end{lstlisting}
+\item 取消关注功能
+\begin{lstlisting}[language=SQL]
+delete from User_Conference
+where user = :user and conf = :cid;
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{检索页面}
+
+我们设计了一个搜索框，用于检索相关信息，涉及到的功能有：
+
+{\bf 检索学者} 按照关键词检索学者，按pub\_cnt降序排序：
+\begin{lstlisting}[language=SQL]
+select name, homepage, DBLP, GoogleScholar, affiliation, pub_cnt
+from Scholar
+where name like '%<key>%'
+order by pub_cnt DESC;
+\end{lstlisting}
+
+{\bf 检索论文}
+\begin{lstlisting}[language=SQL]
+select title, href, conf_id
+from Paper
+where title like '%<key>%';
+\end{lstlisting}
+
+{\bf 检索学校}
+\begin{lstlisting}[language=SQL]
+select name, homepage, pub_cnt
+from Institution
+where name like '%<key>%'
+order by pub_cnt DESC;
+\end{lstlisting}
+
+{\bf 检索会议}
+\begin{lstlisting}[language=SQL]
+select name, abbr, year, DBLP, Href
+from Conference
+where name like '%<key>%' or abbr like '%<key>%';
+\end{lstlisting}
+
+{\bf 检索领域}
+\begin{lstlisting}[language=SQL]
+select name, direction
+from Area
+where name like '%<key>%';
+\end{lstlisting}
+
+
 \subsection{排行榜}
 
-\subsection{信息主页}
+在ranklist.html中，我们对所有的学校进行了排名，根据其pub\_cnt，涉及的功能与SQL语句如下：
+\begin{itemize}
+\item 对所有学校按pub\_cnt降序排名
+\begin{lstlisting}[language=SQL]
+select name, homepage, pub_cnt
+from Institution
+order by pub_cnt DESC;
+\end{lstlisting}
+\item 统计各所学校的教职工人数
+\begin{lstlisting}[language=SQL]
+select I.name, count(*)
+from Institution as I, Scholar as S
+where I.name = S.affiliation
+group by I.name;
+\end{lstlisting}
+\item 根据所选领域，筛选出每所学校相应的老师
+\begin{lstlisting}[language=SQL]
+select I.name, S.name
+from Institution as I, Scholar as S
+where I.name = S.affiliation and exists (
+select *
+from Scholar_Paper as SP, Paper as P, Conference_Area as CA
+where SP.scholar_name = S.name and SP.paper_title = P.pid and P.conf_id = CA.conf_id and CA.area in :area_list
+)
+group by I.name;
+\end{lstlisting}
+\end{itemize}
+注：受查询效率所限，我们没有实现按领域排名的功能，实际上这个功能的查询语句可以如下表示：
+\begin{lstlisting}[language=SQL]
+with Result(ins, cnt) as (
+select I.name, count(*)
+from Institution as I, Scholar as S, Scholar_Paper as SP, Paper as P, Conferece_Area as CA
+where I.name = S.affiliation and S.name = SP.scholar_name and SP.paper_title = P.pid and P.conf_id = CA.conf_id and CA.area in :area_list
+group by I.name
+)
+select I.name, R.cnt
+from Institution as I, Result as R
+where I.name = R.ins
+order by R.cnt DESC;
+\end{lstlisting}
 
 \subsection{用户信息}
 
@@ -102,11 +385,27 @@ update User_Scholar
 set new_paper=True
 where sch=:a;
 \end{lstlisting}
+\item 更新论文作者的pub\_cnt
+\begin{lstlisting}[language=SQL]
+update Scholar
+set pub_cnt = pub_cnt + 1
+where name = :name;
+\end{lstlisting}
+\item 更新论文作者所属学校的pub\_cnt，对于每个论文作者，
+\begin{lstlisting}[language=SQL]
+update Insititution
+set pub_cnt = pub_cnt + (
+select count(*)
+from Scholar
+where Scholar.affiliation = Insitution.name and Scholar.name in :name_list
+);
+\end{lstlisting}
 \end{itemize}
 
 \subsubsection{用户登录注册}
 
 我们实现了用户的登入、登出和注册功能，另外添加了身份认证。登入登出主要依赖Django自带的用户验证系统完成，比较简单，在此略去。
+
 \noindent
 {\bf 注册} 用户输入用户名邮箱和密码，经验证没有重名后即可注册成功
 \begin{itemize}
@@ -141,18 +440,10 @@ where username=:username;
 \subsubsection{论文及笔记}
 
 我们为每篇论文制作了单独的主页，展示论文信息以及这篇论文的所有笔记，登陆后可以添加笔记；点击笔记进入笔记主页，展示了笔记信息和相关评论。同样，登陆后可以添加评论。
+
 \noindent
 {\bf 论文主页} 展示论文信息及笔记
 \begin{itemize}
-\item 筛选信息
-\begin{lstlisting}[language=SQL]
-select scholar_name
-from Scholar_Paper
-where paper_title=:pid;
-select area
-from Conference_Area, Paper
-where pid=:pid and Paper.conf_id=Conference_Area.conf_id;
-\end{lstlisting}
 \item 筛选笔记
 \begin{lstlisting}[language=SQL]
 select title, content

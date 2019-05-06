@@ -67,6 +67,7 @@ Thus, it comes to the conclusion that Mini-CS Ranking is a mini-combination of C
 
 The website is built with some elegant components and we illustrate some as follow:
 
+- The lovely Mini-CS Ranking logo is created using [DesignEvo](<https://www.designevo.com/>), a free online logo maker. Thousands of templates make it possible to bring to life a compelling, unique logo for you in minutes. 
 - The impressive background of Mini-CS Ranking is from [particle.js](<https://github.com/VincentGarreau/particles.js>), a lightweight JavaScript library for creating particles, which I had intended to apply to my personal website but failed due to its unfitness as a blog background :unamused:.
 - The beautiful charts at pages of scholar/institutions are made by [Highcharts](<https://www.highcharts.com.cn/>), which facilitate the visualization process of data. Intrigued by its exquisiteness, I am eager to share this pragmatic tool with you and highly recommend you to exploit and make extensive use of it :heart_eyes:. 
 - Other small components can be obtained from [Free Frontend](<https://freefrontend.com/>). It provides a large volume of html components, which relieves our pain of frontend design :blush:.
