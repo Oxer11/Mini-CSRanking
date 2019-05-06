@@ -4,12 +4,12 @@
 
 \section{设计细节}
 
-本节主要介绍各个页面的设计细节，包括其中的涉及的难点与SQL语句。在实际的设计中，借助Django提供的便利的接口和Python对列表、字典等数据结构的支持，我们并不需要直接使用SQL语句进行查询，这样在一定程度上可以提高效率。但为了将查询功能展示的更清晰，我们还是将所涉及的SQL语句列在这里。
+本节主要介绍各个页面的设计细节，包括其中涉及的难点与SQL语句。在实际的设计中，借助Django提供的便利的接口和Python对列表、字典等数据结构的支持，我们没有直接使用SQL语句进行查询以提高效率。但为了将查询功能展示得更清晰，我们还是列出所涉及的SQL语句。
 
 \subsection{信息检索}
 
 \subsubsection{论文主页}
-我们为每篇论文设计了单独的主页，其中包括的功能有显示论文作者、所属会议、所属领域：
+我们为每篇论文设计了单独的主页，功能有显示论文作者、所属会议、所属领域：
 \begin{itemize}
 \item 作者：
 \begin{lstlisting}[language=SQL]
@@ -35,13 +35,13 @@ where pid = :pid;
 \label{sec:scholar}
 在每位学者的主页中，我们实现了如下功能：
 \begin{itemize}
-\item 显示所属学校、DBLP、GoogleScholar、Homepage等信息.
+\item 显示所属学校、DBLP、GoogleScholar、Homepage等信息
 \begin{lstlisting}[language=SQL]
 select nameaffiliation, DBLP, GoogleScholar, homepage
 from Scholar
 where name = :sid;
 \end{lstlisting}
-\item 列举其发表的所有论文，按时间顺序降序排序，使用如下SQL语句进行查询，查询出的表记作Papers。
+\item 列举其发表的所有论文，按时间顺序降序排序，使用如下SQL语句进行查询，查询出的表记作Papers
 \begin{lstlisting}[language=SQL]
 select P.title, P.href, P.conf_id
 from Scholar_Paper as SP, Paper as P， Conference as C
@@ -92,15 +92,15 @@ where SP.scholar_name = Scholar.name
 \label{sec:institution}
 在每所学校的主页中，我们实现了如下功能：
 \begin{itemize}
-\item 检索该校的所有学者，按发表论文数降序排序。
+\item 检索该校的所有学者，按发表论文数降序排序
 \begin{lstlisting}[language=SQL]
 select name
 from Scholar
 where affiliation = :ins
 order by pub_cnt DESC;
 \end{lstlisting}
-\item 显示学者的基本信息。查询语句同~\ref{sec:scholar}节。
-\item 显示学者所属的领域。查询语句同~\ref{sec:scholar}节。
+\item 显示学者的基本信息。查询语句同~\ref{sec:scholar}节
+\item 显示学者所属的领域。查询语句同~\ref{sec:scholar}节
 \item 显示学者最近发表的几篇论文，若查询结果数目大于5，则仅取前5项。查询语句同~\ref{sec:scholar}节。
 \item 统计每个领域中发表论文的数量
 \begin{lstlisting}[language=SQL]
@@ -158,7 +158,7 @@ where SP.scholar_name = S.name and SP.paper_title = P.pid and P.conf_id = C.cid 
 )
 order by pub_cnt DESC;
 \end{lstlisting}
-\item 显示这些学者的相关信息，查询语句同~\ref{sec:institution}节。
+\item 显示这些学者的相关信息，查询语句同~\ref{sec:institution}节
 \item 统计每个顶会每年的论文发表量
 \begin{lstlisting}[language=SQL]
 select cid, count(*)
@@ -249,7 +249,7 @@ where name like '%<key>%';
 
 \subsection{排行榜}
 
-在ranklist.html中，我们对所有的学校进行了排名，根据其pub\_cnt，涉及的功能与SQL语句如下：
+在ranklist.html中，我们对所有学校根据其pub\_cnt进行了排名，涉及的功能与SQL语句如下：
 \begin{itemize}
 \item 对所有学校按pub\_cnt降序排名
 \begin{lstlisting}[language=SQL]
@@ -468,7 +468,7 @@ from Remark
 where note=:nid
 order by date desc;
 \end{lstlisting}
-\item 如果笔记作者是当前登录作者，笔记的所有评论设置为已读
+\item 如果笔记作者是当前登录用户，笔记的所有评论设置为已读
 \begin{lstlisting}[language=SQL]
 update Remark
 set checked=True
