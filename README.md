@@ -1,7 +1,7 @@
 # Mini-CS Ranking
 ![homepage](README.asset/homepage.png)
 
-Mini-CS Ranking for Database 2019 Spring @ Fudan University, by [**Xinyi Zhou**](<https://github.com/veghen>) and [**Zuobai Zhang**](<https://oxer11.github.io/>)
+Mini-CS Ranking for *Database* 2019 Spring @ Fudan University, by [**Xinyi Zhou**](<https://github.com/veghen>) and [**Zuobai Zhang**](<https://oxer11.github.io/>)
 
 
 
