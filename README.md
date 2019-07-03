@@ -1,7 +1,7 @@
 # Mini-CS Ranking
 ![homepage](README.asset/homepage.png)
 
-Mini-CS Ranking for *Database* 2019 Spring @ Fudan University, by [**Xinyi Zhou**](<https://github.com/veghen>) and [**Zuobai Zhang**](<https://oxer11.github.io/>)
+Mini-CS Ranking for *Introduction to Database* 2019 Spring @ Fudan University, by [**Xinyi Zhou**](<https://github.com/veghen>) and [**Zuobai Zhang**](<https://oxer11.github.io/>)
 
 
 
@@ -80,5 +80,5 @@ The website is built with some elegant components and we illustrate some as foll
 - Thanks to the teaching assistants for revising our work.
 - Thanks to the creative developers of [CSRankings](<https://github.com/emeryberger/CSrankings>) for presenting such an inspired website.
 - Thanks to my thoughtful collaborator for warm encouragement and support! Without your help, it would be impossible for me to complete this fantastic project.
-- Thanks to the future user of this website and all your suggestions are welcomed!
+- Thanks to the future users of this website and all your suggestions are welcomed!
 
